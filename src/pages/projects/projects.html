@@ -1,0 +1,31 @@
+<!--
+  Generated template for the ProjectsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Projects</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div *ngIf="!loggedIn">
+    <p>Public Projects..</p>
+  </div>
+  <!-- show a list of projects -->
+  <ion-list *ngIf="loggedIn">
+    <ion-item *ngFor="let project of projects" (click)="itemSelected(project)">
+      <ion-thumbnail item-start>
+        <img src="{{ project.thumbnail }}">
+      </ion-thumbnail>
+      <h2>{{ project.name }}</h2>
+      <p>{{ project.description }}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
