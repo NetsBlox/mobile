@@ -3,7 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { ProjectsPage } from '../projects/projects';
 import * as axios from 'axios';
 import * as sha512 from 'js-sha512';
-import * as common from '../../common';
+import $ from 'jquery';
+import common from '../../common';
 
 
 @IonicPage()
@@ -24,13 +25,14 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    this.loggedIn = state.loggedIn || false;
+    console.log(common);
+    this.loggedIn = common.loggedIn || false;
   }
 
   logout() {
     // TODO implement logout
-    state.loggedIn = false;
-    this.loggedIn = false
+    common.loggedIn = false;
+    // this.loggedIn = false
     return;
   }
 
@@ -45,12 +47,13 @@ export class LoginPage {
       return;
     }
 
-    // TODO dummy login for now
-    state.loggedIn = true;
-    this.navCtrl.push(ProjectsPage)
-    return;
+    // dummy login
+    // common.loggedIn = true;
+    // this.navCtrl.push(ProjectsPage)
+    // return;
 
-    return axios({
+    // TODO use axios, fetch or sth lighter
+    return $.ajax({
       url: common.SERVER_ADDRESS + '/api/?SESSIONGLUE=.sc1m16',
         method: 'POST',
         data: JSON.stringify({
@@ -66,28 +69,33 @@ export class LoginPage {
             // SESSIONGLUE: '.sc1m16',
             Accept: '*/*',
         },
-        crossDomain: true,
-        statusCode: {
-            403: function(xhr) {
-                // login failed
-                alert(xhr.responseText);
-            }
-        },
-        success: () => {
-            console.log('logged in');
-        },
-        fail: err => {
-            console.log('failed to log in', err);
-        }
+        crossDomain: true
     })
+    // return axios({
+    //   url: common.SERVER_ADDRESS + '/api/?SESSIONGLUE=.sc1m16',
+    //     method: 'POST',
+    //     data: JSON.stringify({
+    //         __h: sha512(this.password),
+    //         __u: this.username,
+    //         remember: true
+    //     }),
+    //     contentType: 'application/json; charset=utf-8',
+    //     withCredentials: true,
+    //     headers: {
+    //         // SESSIONGLUE: '.sc1m16',
+    //         Accept: '*/*',
+    //     },
+    //   })
       .then(resp => {
         console.log('login succeeded from then');
+        common.loggedIn = true;
         this.navCtrl.push(ProjectsPage)
       })
       .catch(e => {
+        console.log(e);
         let alert = this.alertCtrl.create({
           title:'Login Failed', 
-          subTitle: e,
+          subTitle: e.responseText,
           buttons:['OK']
         });
         alert.present();

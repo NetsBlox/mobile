@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
+import { ProjectPage } from '../project/project';
 import { LoadingController } from 'ionic-angular';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import * as state from '../../common';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import common from '../../common';
+import Q from 'q';
+import * as axios from 'axios';
+import ta from 'time-ago';
 
 /**
  * Generated class for the ProjectsPage page.
@@ -18,21 +22,11 @@ import * as state from '../../common';
 export class ProjectsPage {
   projects: any[];
   loggedIn:boolean = false; // TODO authentication should be handled in form of a middleware
+  projectStructure:object = common.getProjectStructure();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
     this.projects = [];
-    let defaultProject = {
-      name: 'Project Name',
-      description: 'description',
-      thumbnail: 'url'
-    };
-
-    for(let i=0; i<10; i++){
-      let proj = Object.assign({}, defaultProject);
-      proj.name = proj.name + i
-      this.projects.push(proj);
-    }
-    console.log(this.projects);
+    this.projects.push(this.projectStructure);
   }
 
   ionViewDidLoad() {
@@ -40,14 +34,32 @@ export class ProjectsPage {
   }
 
   ionViewWillEnter() {
-    this.loggedIn = state.loggedIn;
+    console.log('ionViewWillEnter ProjectsPage');
+    this.loggedIn = common.loggedIn;
+    if (this.loggedIn) this.loadUserProjects();
   }
 
   itemSelected(project) {
-    alert(project);
+    this.navCtrl.push(ProjectPage, {project});
+  }
+
+  generateFakeProject() {
+    let projects = [];
+    let deferred = Q.defer();
+    setTimeout(() => {
+      for(let i=0; i<10; i++){
+        let proj = Object.assign({}, this.projectStructure);
+        proj.name = proj.name + i
+        projects.push(proj);
+      }
+      this.projects = projects;
+      deferred.resolve(projects);
+    }, 3000)
+    return deferred.promise;
   }
 
   loadProjects() {
+    // TODO display loading
     return axios({
       url: 'https://jsonplaceholder.typicode.com/posts'
     })
@@ -61,6 +73,28 @@ export class ProjectsPage {
           buttons:['OK']
         });
         alert.present();
+      })
+  }
+
+  loadUserProjects() {
+    console.log('loading projects');
+    axios({
+      url: common.SERVER_ADDRESS + '/api/getProjectList?format=json',
+      method: 'GET',
+      withCredentials: true,
+    })
+      .then(resp => {
+        console.log('received user projects', resp.data);
+        let projects = resp.data.map(proj => {
+          return {
+            name: proj.ProjectName,
+            description: proj.Notes,
+            thumbnail: proj.Thumbnail,
+            updatedAt: new Date(proj.Updated),
+            updatedAtRelative: ta().ago(new Date(proj.Updated))
+          };
+        });
+        this.projects = projects;
       })
   }
 }

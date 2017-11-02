@@ -18,6 +18,7 @@ export class ProjectPage {
   project:object = common.getProjectStructure();
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    console.log(this.project);
     this.project = this.navParams.get('project');
     let url = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`
     this.project.url = url;
