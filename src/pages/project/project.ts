@@ -1,13 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import common from '../../common';
-
-/**
- * Generated class for the ProjectPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -27,6 +20,15 @@ export class ProjectPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProjectPage');
+  }
+
+  openProject() {
+    let alert = this.alertCtrl.create({
+      title:'Coming soon', 
+      subTitle:'not implemented yet',
+      buttons:["I can't wait"]
+    });
+    alert.present();
   }
 
 }
