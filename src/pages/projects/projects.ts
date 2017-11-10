@@ -7,13 +7,6 @@ import Q from 'q';
 import * as axios from 'axios';
 import ta from 'time-ago';
 
-/**
- * Generated class for the ProjectsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-projects',
