@@ -32,7 +32,7 @@ export class ProjectPage {
     });
     alert.present();
     // this.navCtrl.push(EditorPage);
-    const browser = this.iab.create(`/assets/netsblox-client/netsblox-dev.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`);
+    const browser = this.iab.create(`/assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`);
   }
 
 }
