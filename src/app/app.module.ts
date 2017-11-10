@@ -8,10 +8,12 @@ import { ContactPage } from '../pages/contact/contact';
 import { ProjectsPage } from '../pages/projects/projects';
 import { ProjectPage } from '../pages/project/project';
 import { LoginPage } from '../pages/login/login';
+import { EditorPage } from '../pages/editor/editor';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
@@ -22,6 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ProjectsPage,
     ProjectPage,
     LoginPage,
+    EditorPage,
     HomePage,
     TabsPage
   ],
@@ -37,11 +40,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ProjectsPage,
     ProjectPage,
     LoginPage,
+    EditorPage,
     HomePage,
     TabsPage
   ],
   providers: [
     StatusBar,
+    InAppBrowser,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
