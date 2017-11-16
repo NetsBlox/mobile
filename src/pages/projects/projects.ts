@@ -8,6 +8,10 @@ import $ from 'jquery';
 import { HTTP } from '@ionic-native/http'
 import ta from 'time-ago';
 
+interface Cache {
+  projects: any[];
+};
+
 @IonicPage()
 @Component({
   selector: 'page-projects',
@@ -15,7 +19,7 @@ import ta from 'time-ago';
 })
 export class ProjectsPage {
   projects: any[];
-  cache:object = {};
+  cache:Cache = {projects: undefined};
   state:State = common.state; // TODO authentication should be handled in form of a middleware
   projectStructure:Project = common.getProjectStructure();
 
