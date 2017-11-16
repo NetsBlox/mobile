@@ -14,6 +14,12 @@
 
 
 <ion-content padding>
+  <ion-searchbar placeholder="Filter Items with Cancel" 
+    showCancelButton color="danger"
+    (ionInput)="filterItems($event)"
+    (ionCancel)="loadUserProjects($event)">
+  </ion-searchbar>
+
 
   <div *ngIf="!state.loggedIn">
     <p>Public Projects..</p>

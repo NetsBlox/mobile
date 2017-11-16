@@ -104,4 +104,15 @@ export class ProjectsPage {
       })
       .catch(console.error);
   }
+
+  filterItems(ev: any) {
+    this.loadUserProjects();
+    let val = ev.target.value;
+    if (val && val.trim() !== '') {
+      this.projects = this.projects.filter(project => {
+        return project.name.toLowerCase().includes(val.toLowerCase());
+      });
+    }
+  }
+
 }
