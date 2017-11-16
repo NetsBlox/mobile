@@ -4,7 +4,8 @@ import { LoadingController } from 'ionic-angular';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import common from '../../common';
 import Q from 'q';
-import * as axios from 'axios';
+import $ from 'jquery';
+import { HTTP } from '@ionic-native/http'
 import ta from 'time-ago';
 
 @IonicPage()
@@ -17,7 +18,7 @@ export class ProjectsPage {
   loggedIn:boolean = false; // TODO authentication should be handled in form of a middleware
   projectStructure:object = common.getProjectStructure();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: HTTP) {
     this.projects = [];
     this.projects.push(this.projectStructure);
   }
@@ -53,7 +54,7 @@ export class ProjectsPage {
 
   loadProjects() {
     // TODO display loading
-    return axios({
+    return $.ajax({
       url: 'https://jsonplaceholder.typicode.com/posts'
     })
       .then(resp => {
@@ -71,14 +72,18 @@ export class ProjectsPage {
 
   loadUserProjects() {
     console.log('loading projects');
-    axios({
-      url: common.SERVER_ADDRESS + '/api/getProjectList?format=json',
+    let url = common.SERVER_ADDRESS + '/api/getProjectList?format=json';
+    $.ajax({
+      url, 
       method: 'GET',
-      withCredentials: true,
+      xhrFields: {
+          withCredentials: true
+      },
+      crossDomain: true
     })
       .then(resp => {
-        console.log('received user projects', resp.data);
-        let projects = resp.data.map(proj => {
+        console.log('received user projects', resp);
+        let projects = resp.map(proj => {
           return {
             name: proj.ProjectName,
             description: proj.Notes,
