@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Project } from '../../types';
 import common from '../../common';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { EditorPage } from '../editor/editor';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,7 @@ export class ProjectPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private iab: InAppBrowser) {
     let project = this.navParams.get('project');
     if (project) this.project = project;
-    let url = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`
+    let url = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
     this.project.url = url;
     console.log('the project', this.project);
   }
@@ -34,9 +35,25 @@ export class ProjectPage {
     alert.present();
     // this.navCtrl.push(EditorPage);
     let target = '_self';
-    let url = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`
-    let options = {};
+    let url = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
+    let options: InAppBrowserOptions = {
+      hardwareback : 'yes',
+      toolbar : 'yes', //iOS only 
+    };
     this.iab.create(url, target, options);
   }
 
+  openProject2() {
+    let url = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
+    window.location.href = url;
+  }
+
+  openProject3() {
+    // no need for localsnap?
+    window.location.href = this.project.url;
+  }
+
+  openProject4() {
+    this.navCtrl.push(EditorPage, {project: this.project})
+  }
 }
