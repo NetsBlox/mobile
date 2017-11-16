@@ -30,7 +30,7 @@ export class ProjectsPage {
   ionViewWillEnter() {
     console.log('ionViewWillEnter ProjectsPage');
     this.loggedIn = common.loggedIn;
-    if (this.loggedIn) this.loadUserProjects();
+    this.loadUserProjects();
   }
 
   itemSelected(project) {
@@ -83,6 +83,7 @@ export class ProjectsPage {
     })
       .then(resp => {
         console.log('received user projects', resp);
+        this.loggedIn = true;
         let projects = resp.map(proj => {
           return {
             name: proj.ProjectName,
@@ -94,5 +95,6 @@ export class ProjectsPage {
         });
         this.projects = projects;
       })
+      .catch(console.error);
   }
 }

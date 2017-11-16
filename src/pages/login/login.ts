@@ -85,7 +85,4 @@ export class LoginPage {
       })
   }
 
-  loadProjects() {
-  }
-
 }
