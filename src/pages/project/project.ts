@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { EditorPage } from '../editor/editor';
+import { Project } from '../../types';
 import common from '../../common';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -9,8 +10,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
   selector: 'page-project',
   templateUrl: 'project.html',
 })
+
 export class ProjectPage {
-  project:object = common.getProjectStructure();
+  project:Project = common.getProjectStructure();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private iab: InAppBrowser) {
     let project = this.navParams.get('project');

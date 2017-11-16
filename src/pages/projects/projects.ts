@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ProjectPage } from '../project/project';
-import { LoadingController } from 'ionic-angular';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import common from '../../common';
+import { Project } from '../../types';
 import Q from 'q';
 import $ from 'jquery';
 import { HTTP } from '@ionic-native/http'
@@ -16,7 +16,7 @@ import ta from 'time-ago';
 export class ProjectsPage {
   projects: any[];
   loggedIn:boolean = false; // TODO authentication should be handled in form of a middleware
-  projectStructure:object = common.getProjectStructure();
+  projectStructure:Project = common.getProjectStructure();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: HTTP) {
     this.projects = [];
@@ -42,7 +42,7 @@ export class ProjectsPage {
     let deferred = Q.defer();
     setTimeout(() => {
       for(let i=0; i<10; i++){
-        let proj = Object.assign({}, this.projectStructure);
+        let proj = <Project> Object.assign({}, this.projectStructure);
         proj.name = proj.name + i
         projects.push(proj);
       }
