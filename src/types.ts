@@ -5,3 +5,7 @@ export interface Project {
     updatedAt: Date;
     thumbnail: string;
 };
+
+export interface State {
+    loggedIn: boolean;
+};

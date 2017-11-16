@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ProjectPage } from '../project/project';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import common from '../../common';
-import { Project } from '../../types';
+import { Project, State } from '../../types';
 import Q from 'q';
 import $ from 'jquery';
 import { HTTP } from '@ionic-native/http'
@@ -15,7 +15,7 @@ import ta from 'time-ago';
 })
 export class ProjectsPage {
   projects: any[];
-  loggedIn:boolean = false; // TODO authentication should be handled in form of a middleware
+  state:State = common.state; // TODO authentication should be handled in form of a middleware
   projectStructure:Project = common.getProjectStructure();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: HTTP) {
@@ -29,7 +29,6 @@ export class ProjectsPage {
 
   ionViewWillEnter() {
     console.log('ionViewWillEnter ProjectsPage');
-    this.loggedIn = common.loggedIn;
     this.loadUserProjects();
   }
 
@@ -83,7 +82,7 @@ export class ProjectsPage {
     })
       .then(resp => {
         console.log('received user projects', resp);
-        this.loggedIn = true;
+        this.state.loggedIn = true;
         let projects = resp.map(proj => {
           return {
             name: proj.ProjectName,

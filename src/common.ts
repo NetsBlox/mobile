@@ -1,8 +1,10 @@
-import { Project } from './types';
+import { Project, State } from './types';
 import $ from 'jquery';
 
 const SERVER_ADDRESS = 'http://netsblox.tk:3000';
-const loggedIn = false;
+let state:State = {
+    loggedIn: false,
+};
 
 function getProjectStructure() {
     let project:Project;
@@ -27,16 +29,16 @@ function checkLoggedIn() {
         },
         crossDomain: true
     }).then( resp => {
-        loggedIn = true;
+        state.loggedIn = true;
         return resp; }).catch( e => {
-        loggedIn = false;
+        state.loggedIn = false;
         throw e;
     })
 }
 
 export default {
     SERVER_ADDRESS,
-    loggedIn,
     checkLoggedIn,
     getProjectStructure,
+    state,
 };

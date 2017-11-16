@@ -4,6 +4,7 @@ import { ProjectsPage } from '../projects/projects';
 import * as sha512 from 'js-sha512';
 import $ from 'jquery';
 import common from '../../common';
+import { State } from '../../types';
 
 
 @IonicPage()
@@ -14,7 +15,7 @@ import common from '../../common';
 export class LoginPage {
   username:string = '';
   password:string = '';
-  loggedIn:boolean = false;
+  state:State = common.state;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
@@ -25,12 +26,11 @@ export class LoginPage {
 
   ionViewWillEnter() {
     console.log(common);
-    this.loggedIn = common.loggedIn || false;
   }
 
   logout() {
     // TODO implement logout
-    common.loggedIn = false;
+    this.state.loggedIn = false;
     // this.loggedIn = false
     return;
   }
@@ -47,7 +47,7 @@ export class LoginPage {
     }
 
     // dummy login
-    // common.loggedIn = true;
+    // this.state.loggedIn = true;
     // this.navCtrl.push(ProjectsPage)
     // return;
 
@@ -71,7 +71,7 @@ export class LoginPage {
     })
       .then(resp => {
         console.log('login succeeded from then');
-        common.loggedIn = true;
+        this.state.loggedIn = true;
         this.navCtrl.push(ProjectsPage)
       })
       .catch(e => {

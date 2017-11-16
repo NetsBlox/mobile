@@ -15,11 +15,11 @@
 
 <ion-content padding>
 
-  <div *ngIf="!loggedIn">
+  <div *ngIf="!state.loggedIn">
     <p>Public Projects..</p>
   </div>
   <!-- show a list of projects -->
-  <ion-list *ngIf="loggedIn">
+  <ion-list *ngIf="state.loggedIn">
     <ion-item *ngFor="let project of projects" (click)="itemSelected(project)">
       <ion-thumbnail item-start>
         <img src="{{ project.thumbnail }}">
