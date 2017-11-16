@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { EditorPage } from '../editor/editor';
 import { Project } from '../../types';
 import common from '../../common';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -34,7 +33,10 @@ export class ProjectPage {
     });
     alert.present();
     // this.navCtrl.push(EditorPage);
-    const browser = this.iab.create(`/assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`);
+    let target = '_self';
+    let url = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`
+    let options = {};
+    this.iab.create(url, target, options);
   }
 
 }
