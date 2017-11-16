@@ -15,6 +15,7 @@ import ta from 'time-ago';
 })
 export class ProjectsPage {
   projects: any[];
+  cache:object = {};
   state:State = common.state; // TODO authentication should be handled in form of a middleware
   projectStructure:Project = common.getProjectStructure();
 
@@ -29,7 +30,7 @@ export class ProjectsPage {
 
   ionViewWillEnter() {
     console.log('ionViewWillEnter ProjectsPage');
-    this.loadUserProjects();
+    if (!this.cache.projects) this.loadUserProjects();
   }
 
   itemSelected(project) {
@@ -69,8 +70,14 @@ export class ProjectsPage {
       })
   }
 
+  // loads the projects from cache or request the server for projects
   loadUserProjects() {
     console.log('loading projects');
+    if (this.cache.projects) {
+      console.log('loading projects from cache');
+      this.projects = [...this.cache.projects];
+      return;
+    }
     let url = common.SERVER_ADDRESS + '/api/getProjectList?format=json';
     $.ajax({
       url, 
@@ -92,7 +99,8 @@ export class ProjectsPage {
             updatedAtRelative: ta().ago(new Date(proj.Updated))
           };
         });
-        this.projects = projects;
+        this.cache.projects = projects;  
+        this.projects = [...projects];
       })
       .catch(console.error);
   }
