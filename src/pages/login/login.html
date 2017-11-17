@@ -9,6 +9,7 @@
 
 <ion-content padding>
   <div *ngIf="state.loggedIn">
+    <p>Logged in as {{ state.username }}</p>
     <button ion-button color="default" [navPush]="LoginPage" (click)="logout()" block>Logout</button>
   </div>
   <div *ngIf="!state.loggedIn">

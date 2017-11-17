@@ -25,7 +25,7 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    console.log(common);
+    common.checkLoggedIn();
   }
 
   logout() {
@@ -76,6 +76,7 @@ export class LoginPage {
       .then(resp => {
         console.log('login succeeded from then');
         this.state.loggedIn = true;
+        common.getUser();
         this.navCtrl.push(ProjectsPage)
       })
       .catch(e => {

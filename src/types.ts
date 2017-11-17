@@ -8,4 +8,6 @@ export interface Project {
 
 export interface State {
     loggedIn: boolean;
+    username: string;
+    email: string;
 };
