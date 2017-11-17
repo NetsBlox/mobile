@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,8 +12,7 @@
     <button ion-button color="default" [navPush]="LoginPage" (click)="logout()" block>Logout</button>
   </div>
   <div *ngIf="!state.loggedIn">
-    <ion-list>
-
+    <div>
       <ion-item>
         <ion-label floating>Username</ion-label>
         <ion-input type="text" [(ngModel)]="username" value=""></ion-input>
@@ -23,8 +22,8 @@
         <ion-label floating>Password</ion-label>
         <ion-input type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
+    </div>
 
-    </ion-list>
     <div padding>
       <button ion-button color="secondary" (click)="login()" block>Login</button>
     </div>
