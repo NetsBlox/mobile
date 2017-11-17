@@ -29,10 +29,14 @@ export class LoginPage {
   }
 
   logout() {
-    // TODO implement logout
-    this.state.loggedIn = false;
-    // this.loggedIn = false
-    return;
+    $.ajax({
+      method: 'POST',
+      url: common.SERVER_ADDRESS + '/api/logout',
+    })
+      .then(resp => {
+        this.state.loggedIn = false;
+      })
+      .catch(console.error);
   }
 
   login() {
