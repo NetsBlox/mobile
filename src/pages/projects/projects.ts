@@ -5,7 +5,6 @@ import common from '../../common';
 import { Project, State } from '../../types';
 import Q from 'q';
 import $ from 'jquery';
-import { HTTP } from '@ionic-native/http'
 import ta from 'time-ago';
 
 interface Cache {
@@ -23,7 +22,8 @@ export class ProjectsPage {
   state:State = common.state; // TODO authentication should be handled in form of a middleware
   projectStructure:Project = common.getProjectStructure();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: HTTP) {
+  // TODO use native cordova http module for fetching
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
     this.projects = [];
     this.projects.push(this.projectStructure);
   }
