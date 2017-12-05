@@ -1,12 +1,15 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>editor</ion-title>
+    <ion-title>{{ project.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
-<ion-content padding>
-<h3>load project here</h3>
+<ion-content>
+  <!-- TODO fix the unsafe url -->
+  <!-- <iframe id="editor" name="editor" src="{{ project.url | safe }}"></iframe> -->
+  <iframe id="editor" name="editor" src="/assets/netsblox-client/index.html?action=private&amp;ProjectName=Database"></iframe>
+  <button ion-button color="light" center (click)="setFullscreen(true)">FS</button>
+  <button ion-button color="light" center (click)="">Manage Room</button>
 </ion-content>
