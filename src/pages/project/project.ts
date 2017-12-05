@@ -15,10 +15,13 @@ export class ProjectPage {
   project:Project = common.getProjectStructure();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private iab: InAppBrowser) {
+    // setup project
     let project = this.navParams.get('project');
     if (project) this.project = project;
-    let url = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
-    this.project.url = url;
+    let externalUrl = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
+    let internalUrl = `/assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
+    this.project.url = internalUrl;
+    this.project.externalUrl = externalUrl;
     console.log('the project', this.project);
   }
 
@@ -35,22 +38,20 @@ export class ProjectPage {
     alert.present();
     // this.navCtrl.push(EditorPage);
     let target = '_self';
-    let url = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
     let options: InAppBrowserOptions = {
       hardwareback : 'yes',
       toolbar : 'yes', //iOS only 
     };
-    this.iab.create(url, target, options);
+    this.iab.create(this.project.url, target, options);
   }
 
   openProject2() {
-    let url = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
-    window.location.href = url;
+    window.location.href = this.project.url;
   }
 
   openProject3() {
     // no need for localsnap?
-    window.location.href = this.project.url;
+    window.location.href = this.project.externalUrl;
   }
 
   openProject4() {
