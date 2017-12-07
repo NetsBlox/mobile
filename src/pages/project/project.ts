@@ -19,7 +19,7 @@ export class ProjectPage {
     let project = this.navParams.get('project');
     if (project) this.project = project;
     let externalUrl = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
-    let internalUrl = `/assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
+    let internalUrl = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
     this.project.url = internalUrl;
     this.project.externalUrl = externalUrl;
     console.log('the project', this.project);
