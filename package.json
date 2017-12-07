@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
-    "sign-android": "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks platforms/android/build/outputs/apk/android-release-unsigned.apk my-alias && zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk",
+    "sign-android": "rm -i android.apk; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks platforms/android/build/outputs/apk/android-release-unsigned.apk my-alias && zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk",
     "build": "ionic-app-scripts build; cd netsblox && npm run postinstall && cd .. && node ./bin/build-nb-client-js.js && node ./bin/build-nb-client-html.js;",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
