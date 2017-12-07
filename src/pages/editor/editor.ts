@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Project } from '../../types';
 import common from '../../common';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+
 
 @IonicPage()
 @Component({
@@ -11,7 +13,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class EditorPage {
   project:Project = common.getProjectStructure();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private statusBar: StatusBar) {
     let project = this.navParams.get('project');
     if (project) {
       this.project = project;
