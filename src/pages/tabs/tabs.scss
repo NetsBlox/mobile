@@ -1,0 +1,15 @@
+page-tabs {
+  .focusMode {
+
+    .tabbar {
+      display: none;
+    }
+
+    .scroll-content {
+      // TODO there should be a better way..
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+  }
+}

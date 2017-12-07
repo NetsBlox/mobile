@@ -5,7 +5,10 @@ const SERVER_ADDRESS = 'http://netsblox.tk:3000';
 let state:State = {
   loggedIn: false,
   username: '',
-  email: ''
+  email: '',
+  view: {
+    focusMode: false,
+  }
 };
 
 function getProjectStructure() {

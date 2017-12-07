@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header *ngIf="!state.view.focusMode">
 
   <ion-navbar>
     <ion-title>{{ project.name }}</ion-title>
@@ -10,6 +10,15 @@
   <!-- TODO fix the unsafe url -->
   <!-- <iframe id="editor" name="editor" src="{{ project.url | safe }}"></iframe> -->
   <iframe id="editor" name="editor" src="assets/netsblox-client/index.html?action=private&amp;ProjectName=Database"></iframe>
-  <button ion-button color="light" center (click)="setFullscreen(true)">FS</button>
-  <button ion-button color="light" center>Manage Room</button>
+  <ion-fab bottom right >
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="setFullscreen()"><ion-icon name="ion-arrow-expand"></ion-icon></button>
+      <button ion-fab (click)="setFocusMode()">FM</button>
+      <button ion-fab>MR</button>
+    </ion-fab-list>
+    <ion-fab-list side="left">
+      <button ion-fab>Button</button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

@@ -7,8 +7,15 @@ export interface Project {
     thumbnail: string;
 };
 
+export interface View {
+    focusMode: boolean;
+}
+
 export interface State {
+    // TODO move under user
     loggedIn: boolean;
     username: string;
     email: string;
+    view: View;
 };
+

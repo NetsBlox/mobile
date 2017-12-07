@@ -14,6 +14,7 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HTTP } from '@ionic-native/http';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -49,6 +50,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   providers: [
     StatusBar,
+    ScreenOrientation,
     InAppBrowser,
     HTTP,
     SplashScreen,
