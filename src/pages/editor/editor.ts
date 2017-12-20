@@ -5,6 +5,7 @@ import { State } from '../../types';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { RoomManagerPage } from '../room-manager/room-manager';
 
 
 
@@ -36,11 +37,13 @@ export class EditorPage {
         }
       }
     );
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditorPage');
     console.log(this.screenOrientation.type);
+    this.getEditorWindow();
   }
 
   // gets the editor context
@@ -57,7 +60,7 @@ export class EditorPage {
   }
 
   getNbMorph() {
-    return this.getEditorWindow().world.children[0];
+    return this.getWorld().children[0];
   }
   // helper
   applyOnEditor(fn, arg1, arg2) {
@@ -83,6 +86,10 @@ export class EditorPage {
       tabEl.className = tabEl.className.replace('focusMode', '');
     }
     this.state.view.focusMode = status;
+  }
+
+  openRoom() {
+    this.navCtrl.push(RoomManagerPage, {});
   }
 
 
