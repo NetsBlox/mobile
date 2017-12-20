@@ -9,4 +9,10 @@
 
 <ion-content padding>
 
+  <ion-list>
+    <button ion-item *ngFor="let role of roles">
+      {{ role.name }}
+    </button>
+  </ion-list>
+
 </ion-content>
