@@ -10,6 +10,7 @@ import { ProjectsPage } from '../pages/projects/projects';
 import { ProjectPage } from '../pages/project/project';
 import { LoginPage } from '../pages/login/login';
 import { EditorPage } from '../pages/editor/editor';
+import { RoomManagerPage } from '../pages/room-manager/room-manager';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -29,6 +30,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ProjectPage,
     LoginPage,
     EditorPage,
+    RoomManagerPage,
     HomePage,
     TabsPage
   ],
@@ -45,6 +47,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ProjectPage,
     LoginPage,
     EditorPage,
+    RoomManagerPage,
     HomePage,
     TabsPage
   ],
