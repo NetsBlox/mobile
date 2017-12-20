@@ -2,6 +2,7 @@ import { Project, State } from './types';
 import $ from 'jquery';
 
 const SERVER_ADDRESS = 'http://netsblox.tk:3000';
+let snap: any;
 let state:State = {
   loggedIn: false,
   username: '',
@@ -63,4 +64,5 @@ export default {
   getUser,
   getProjectStructure,
   state,
+  snap,
 };

@@ -45,10 +45,11 @@ export class EditorPage {
 
   // gets the editor context
   getEditorWindow() {
-    // TODO cache? 
+    if (common.snap) return common.snap;
     let iframe: any;
     iframe = document.querySelector('iframe#editor');
-    return iframe.contentWindow;
+    common.snap = iframe.contentWindow;
+    return common.snap;
   }
 
   getWorld() {
