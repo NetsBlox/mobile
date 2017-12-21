@@ -43,20 +43,18 @@ export class EditorPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditorPage');
     console.log(this.screenOrientation.type);
-    this.getEditorWindow();
+    this.updateSnapHandle();
   }
 
   // gets the editor context
-  getEditorWindow() {
-    if (common.snap) return common.snap;
+  updateSnapHandle() {
     let iframe: any;
     iframe = document.querySelector('iframe#editor');
     common.snap = iframe.contentWindow;
-    return common.snap;
   }
 
   getWorld() {
-    return this.getEditorWindow().world;
+    return common.snap.world;
   }
 
   getNbMorph() {
@@ -64,7 +62,7 @@ export class EditorPage {
   }
   // helper
   applyOnEditor(fn, arg1, arg2) {
-    const context = this.getEditorWindow();
+    const context = common.snap;
     let args = Array.prototype.slice.call(arguments, 1);
     return fn.apply(context, args);
   }
