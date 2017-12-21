@@ -9,27 +9,80 @@ import common from '../../common';
 })
 export class RoomManagerPage {
   roles: any;
-  room: any;
+  friends: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.roles = [{name: 'loading', occupants: [{}] ];
-    this.updateRoles();
+    this.roles = [{name: 'loading', occupants: []}];
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomManagerPage');
+    this.updateRoles();
+    this.updateFriendList();
   }
 
   getRoom() {
-    console.log('snap world', common.snap.world);
     return common.snap.world.children[0].room;
   }
 
+  // updates roles inplace
   updateRoles() {
+    let roles = this.getRoom().getRoles();
+    console.log('roles', roles);
+    this.roles = roles;
+  }
+
+  updateFriendList() {
+    console.log('updating the friend list');
+    this.friends = [];
+    let handleError =(err, lbl) => {};
+    let friendsCb = friends => {
+      // TODO search find pick the friend if there are any
+      friends.unshift('myself');
+      console.log('friendlist', friends);
+      this.friends = friends;
+    };
+    common.snap.SnapCloud.getFriendList(friendsCb, handleError);
+  }
+
+  // invite a friend to a role
+  inviteGuest(username, roleName) {
+    const room = this.getRoom();
+    // FIXME temp workaround to invite guests w/o selecting a role
+    if (!roleName) {
+      let theRole = this.roles.find(role => role.users.length === 0);
+      if (theRole) {
+        roleName = theRole.name;
+      } else {
+        console.error('no role selected, cant invite guests');
+        return;
+      }
+    }
+    // TODO don't expose if is not the owner or a collaborator
+    if (room.isOwner() || room.isCollaborator()) {
+      room.inviteGuest(username, roleName);
+    } else {
+      // not allowed to do this
+      console.error('you are not allowed to invite guests');
+    }
+  }
+
+  // move to a role
+  moveToRole(roleName) {
+    this.getRoom().moveToRole(roleName);
+  }
+
+  evictUser(user, roleName) {
     let room = this.getRoom();
-    console.log('room', room);
-    console.log('RoomMorph', Object.keys(common.snap.RoomMorph.prototype));
-    this.roles = room.getRoles();
+    let sucCb = () => {
+      console.log('evicted', user.username);
+    };
+    let errCb =(err, lbl) => {
+      console.error(err, lbl);
+    };
+    common.snap.SnapCloud.evictUser( sucCb, errCb,
+      [user.uuid, roleName, room.ownerId, room.name]
+    );
   }
 
 }

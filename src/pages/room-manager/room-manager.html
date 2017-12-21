@@ -9,9 +9,25 @@
 
 <ion-content padding>
 
+  <button (click)="updateRoles()">update</button>
+  <p>room view</p>
   <ion-list>
-    <button ion-item *ngFor="let role of roles">
-      {{ role.name }}
+    <div *ngFor="let role of roles">
+      <ion-list-header (click)="moveToRole(role.name)">
+        Role: {{ role.name }}
+      </ion-list-header>
+      <p>Current users:</p>
+      <ion-item *ngFor="let user of role.users" (click)="evictUser(user, role.name)">
+        {{ user.username }}
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <button (click)="updateFriendList()">update</button>
+  <p>friends list</p>
+  <ion-list>
+    <button ion-item *ngFor="let friend of friends" (click)="inviteGuest(friend)">
+      {{ friend }}
     </button>
   </ion-list>
 
