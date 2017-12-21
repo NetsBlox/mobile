@@ -4,6 +4,7 @@
 
 ## Installation Tips
 
+- Globally install ionic and coroda `npm i -g ionic cordova`
 - Setup NetsBlox as a submodule: 
     - add `git submodule add https://github.com/NetsBlox/netsblox` 
     - update the submodule to pull its submodules `git submodule update --init --recursive` 
