@@ -9,7 +9,7 @@
     - add `git submodule add https://github.com/NetsBlox/netsblox` 
     - update the submodule to pull its submodules `git submodule update --init --recursive` 
     - install netsblox depndecies to allow buliding dist file `cd netsblox && npm i; cd ../`
-- Symlink netsblox's client directory to www/assets/netsblox-client
+- Create a relative symlink from netsblox's client directory to www/assets/netsblox-client `ln -s ../../netsblox/src/client www/assets/netsblox-client`
 
 ## Environment Variables
 Set the environment variables below to configure your deployment.
