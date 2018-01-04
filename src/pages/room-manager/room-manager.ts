@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import common from '../../common';
 
 @IonicPage()
@@ -11,7 +13,7 @@ export class RoomManagerPage {
   roles: any;
   friends: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
     this.roles = [{name: 'loading', occupants: []}];
   }
 
@@ -73,6 +75,7 @@ export class RoomManagerPage {
   }
 
   evictUser(user, roleName) {
+    // TODO warn/confirm
     let room = this.getRoom();
     let sucCb = () => {
       console.log('evicted', user.username);
@@ -83,6 +86,46 @@ export class RoomManagerPage {
     common.snap.SnapCloud.evictUser( sucCb, errCb,
       [user.uuid, roleName, room.ownerId, room.name]
     );
+  }
+
+  presentActions(role) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Choose an action',
+      buttons: [
+        {
+          text: 'Evict User',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'exit' : null,
+          handler: () => {
+            // TODO find the user, through the role? 
+            let user = role.users.find(uName => uName !== 'myself');
+            this.evictUser(user, role.name);
+            console.log('Destructive clicked');
+          }
+        },{
+          text: 'Move To',
+          icon: !this.platform.is('ios') ? 'move' : null,
+          handler: () => {
+            this.moveToRole(role.name);
+            console.log('moving to');
+          }
+        },{
+          text: 'Invite Guest',
+          icon: !this.platform.is('ios') ? 'add' : null,
+          handler: () => {
+            console.log('invite guest clicked. open modal list');
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
 }
