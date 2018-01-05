@@ -10,7 +10,7 @@ const SERVER_URL = process.env.SERVER_URL,
 
 if (!SERVER_URL) throw new Error('set the SERVER_URL');
 
-const indexTpl = dot.template(fse.readFileSync(CLIENT_ADDRESS + 'netsblox.dot', 'UTF8'));
+const indexTpl = dot.template(fse.readFileSync(CLIENT_ADDRESS + 'index.dot', 'UTF8'));
 indexMetadata = {
     baseUrl: SERVER_URL,
 };

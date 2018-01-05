@@ -5,14 +5,14 @@
 const isDevEnv = process.env.ENV !== 'production';
 var fs = require('fs'),
     path = require('path'),
-    srcPath = 'netsblox/src/client';
+    srcPath = 'netsblox/src/browser';
 
 const listOverrides = () => ['src/netsblox-overrides/main.js'],
     overrides = listOverrides();
 
 
 // Get the given js files
-var devHtml = fs.readFileSync(path.join(srcPath, 'netsblox-dev.html'), 'utf8'),
+var devHtml = fs.readFileSync(path.join(srcPath, 'index.dev.html'), 'utf8'),
     re = /text\/javascript" src="(.*)">/,
     match = devHtml.match(re),
     srcFiles = [];
@@ -50,5 +50,5 @@ if (isDevEnv) { // don't minify in dev
     console.log('compression ratio:', 1-(final_code.length/src.length));
 }
 
-fs.writeFileSync(path.join(srcPath, 'dist', 'netsblox-build.js'), final_code);
+fs.writeFileSync(path.join(srcPath, 'dist', 'app.min.js'), final_code);
 /* eslint-enable no-console */

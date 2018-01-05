@@ -5,11 +5,13 @@
 ## Installation Tips
 
 - Globally install ionic and coroda `npm i -g ionic cordova`
+- Clone the repo `git clone --recursive REPO_URL_HERE netsblox-mobile && cd netsblox-mobile && git pull --recurse-submodules`
 - Setup NetsBlox as a submodule: 
-    - add `git submodule add https://github.com/NetsBlox/netsblox` 
+    - ~add `git submodule add https://github.com/NetsBlox/netsblox`~
     - update the submodule to pull its submodules `git submodule update --init --recursive` 
     - install netsblox depndecies to allow buliding dist file `cd netsblox && npm i; cd ../`
-- Create a relative symlink from netsblox's client directory to www/assets/netsblox-client `ln -s ../../netsblox/src/client www/assets/netsblox-client`
+- Setup NetsBlox's browser by going to src/browser and running `git submodule update --init --recursive`
+- Create a relative symlink from netsblox's browser directory to www/assets/netsblox-client `ln -s ../../netsblox/src/browser www/assets/netsblox-client`
 
 ## Environment Variables
 Set the environment variables below to configure your deployment.
