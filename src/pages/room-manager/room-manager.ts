@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 import common from '../../common';
 
 @IonicPage()
@@ -13,7 +14,7 @@ export class RoomManagerPage {
   roles: any;
   friends: any;
 
-  constructor(public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private alertCtrl: AlertController, public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
     this.roles = [{name: 'loading', occupants: []}];
   }
 
@@ -37,11 +38,13 @@ export class RoomManagerPage {
   updateFriendList() {
     console.log('updating the friend list');
     this.friends = [];
-    let handleError =(err, lbl) => {};
+    let handleError =(err, lbl) => {
+      console.error(err);
+    };
     let friendsCb = friends => {
       // TODO search find pick the friend if there are any
       friends.unshift('myself');
-      console.log('friendlist', friends);
+      console.log('friendlist:', friends);
       this.friends = friends;
     };
     common.snap.SnapCloud.getFriendList(friendsCb, handleError);
@@ -71,7 +74,28 @@ export class RoomManagerPage {
 
   // move to a role
   moveToRole(roleName) {
-    this.getRoom().moveToRole(roleName);
+    let alert = this.alertCtrl.create({
+      title: 'Confirm',
+      message: `Move to role ${roleName}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Move',
+          handler: () => {
+            this.getRoom().moveToRole(roleName);
+            // FIXME moving to role is an async task
+            this.updateRoles();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   evictUser(user, roleName) {
@@ -79,13 +103,33 @@ export class RoomManagerPage {
     let room = this.getRoom();
     let sucCb = () => {
       console.log('evicted', user.username);
+      this.updateRoles();
     };
     let errCb =(err, lbl) => {
       console.error(err, lbl);
     };
-    common.snap.SnapCloud.evictUser( sucCb, errCb,
-      [user.uuid, roleName, room.ownerId, room.name]
-    );
+    let alert = this.alertCtrl.create({
+      title: 'Confirm',
+      message: `Are you sure you want to evict ${user.username}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Eviction canceled');
+          }
+        },
+        {
+          text: 'Evict',
+          handler: () => {
+            common.snap.SnapCloud.evictUser( sucCb, errCb,
+              [user.uuid, roleName, room.ownerId, room.name]
+            );
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   presentActions(role) {
@@ -114,6 +158,8 @@ export class RoomManagerPage {
           icon: !this.platform.is('ios') ? 'add' : null,
           handler: () => {
             console.log('invite guest clicked. open modal list');
+            // TODO present a list of users and invite the one
+            this.inviteGuest(this.friends[0], role.name);
           }
         },{
           text: 'Cancel',
