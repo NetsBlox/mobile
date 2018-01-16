@@ -44,6 +44,17 @@ export class EditorPage {
     console.log('ionViewDidLoad EditorPage');
     console.log(this.screenOrientation.type);
     this.updateSnapHandle();
+    // TODO an event listener for when the project is loaded
+  }
+
+  ionViewWillEnter() {
+    this.setFocusMode(true);
+    this.setDesktopViewport(true);
+  }
+
+  ionViewWillLeave() {
+    this.setFocusMode(false);
+    this.setDesktopViewport(false);
   }
 
   // gets the editor context
@@ -84,6 +95,15 @@ export class EditorPage {
       tabEl.className = tabEl.className.replace('focusMode', '');
     }
     this.state.view.focusMode = status;
+  }
+
+  setDesktopViewport(status) {
+    let vpEl:any = document.querySelector('meta[name="viewport"]');
+    if (status) {
+      vpEl.content = 'width=980';
+    } else {
+      vpEl.content = 'viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    }
   }
 
   openRoom() {
