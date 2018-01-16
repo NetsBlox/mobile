@@ -13,6 +13,15 @@
 - Setup NetsBlox's browser by going to src/browser and running `git submodule update --init --recursive`
 - Create a relative symlink from netsblox's browser directory to www/assets/netsblox-client `ln -s ../../netsblox/src/browser www/assets/netsblox-client`
 
+### Platform Support Tips
+In order for android webview to support the `viewport` tag you need to update the file `CordovaLib/src/org/apache/cordova/engine/SystemWebViewEngine.java` by adding 
+```
+settings.setUseWideViewPort(true);
+settings.setLoadWithOverviewMode(true);
+settings.setSupportZoom(true);
+```
+more information available at [cordova viewport fix](https://fetch-info.blogspot.com/2015/06/include-viewport-settings-in-cordova-if.html)
+
 ## Environment Variables
 Set the environment variables below to configure your deployment.
 - `SERVER_URL` to set the main server's url
