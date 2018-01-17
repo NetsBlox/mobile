@@ -44,7 +44,49 @@ export class EditorPage {
     console.log('ionViewDidLoad EditorPage');
     console.log(this.screenOrientation.type);
     this.updateSnapHandle();
-    // TODO an event listener for when the project is loaded
+    // TODO an event listener for when the project is loaded. attach event dispatchers
+    // call onProjectLoaded when the project is loaded 
+    let editor = this;
+    this.raceForIt(() => {
+      return common.snap.SnapActions !== undefined;
+    }, 50, 5000)
+      .then(stat => {
+      let SnapActions = common.snap.SnapActions;
+      let onOpenProject = common.snap.SnapActions.onOpenProject;
+      common.snap.SnapActions.onOpenProject = function(str) {
+        onOpenProject.apply(SnapActions, arguments);
+        editor.onProjectLoaded();
+      }
+    })
+      .catch(console.error)
+
+  }
+
+  // really?! FIXME
+  // promisifiying race conditions!
+  raceForIt(fn, delay=50, timeout=10000) {
+    let counter = 0;
+    return new Promise((resolve, reject) => {
+      let myTimeout = setTimeout(() => {
+        reject('timedout');
+        clearInterval(interval);
+      }, timeout)
+      let interval = setInterval(() => {
+        counter++;
+        if (fn()) {
+          clearInterval(interval);
+          clearTimeout(myTimeout)
+          console.log(`finished with #${counter} tries or ${counter * delay}ms wait`);
+          resolve();
+        }
+      }, delay);
+      // or accept failure
+    })
+  }
+
+  onProjectLoaded() {
+    // dispatch a dom event? 
+    console.log('project loaded');
   }
 
   ionViewWillEnter() {
