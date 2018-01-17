@@ -32,11 +32,18 @@
   <button ion-button color="secondary" (click)="updateRoles()">Update Roles</button>
   <button ion-button color="secondary" (click)="updateFriendList()">Update Friends List</button>
 
-  <p>Friends List</p>
-  <ion-list>
-    <ion-item *ngFor="let friend of friends" (click)="inviteGuest(friend)">
-      {{ friend }}
-    </ion-item>
-  </ion-list>
+  <div *ngIf="!!invitingTo">
+    <p>Who do you want to invite to role "{{ invitingTo }}"?</p>
+    <ion-searchbar
+      (ionInput)="filterFriends($event)"
+      showCancelButton color="danger"
+      (ionCancel)="updateFriendList($event)">
+    </ion-searchbar>
+    <ion-list>
+      <ion-item *ngFor="let friend of friends" (click)="inviteGuest(friend, invitingTo)">
+        {{ friend }}
+      </ion-item>
+    </ion-list>
+  </div>
 
-</ion-content>
+    </ion-content>

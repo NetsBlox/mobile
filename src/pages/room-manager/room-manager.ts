@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import common from '../../common';
 
 @IonicPage()
@@ -13,8 +14,10 @@ import common from '../../common';
 export class RoomManagerPage {
   roles: any;
   friends: any;
+  cache: any = {friends: []};
+  invitingTo: string; // if set, shows the friendlist and invites to the specified role
 
-  constructor(private alertCtrl: AlertController, public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public toastCtrl: ToastController, private alertCtrl: AlertController, public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
     this.roles = [{name: 'loading', occupants: []}];
   }
 
@@ -24,6 +27,24 @@ export class RoomManagerPage {
     this.updateFriendList();
   }
 
+  ionViewWillLeave() {
+    this.invitingTo = undefined;
+  }
+
+  showToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      position: 'bottom'
+    });
+
+    toast.present(toast);
+  }
+
+  getIde() {
+    return common.snap.world.children[0];
+  }
+
   getRoom() {
     return common.snap.world.children[0].room;
   }
@@ -31,10 +52,11 @@ export class RoomManagerPage {
   // updates roles inplace
   updateRoles() {
     let roles = this.getRoom().getRoles();
-    console.log('roles', roles);
+    console.log('updating roles', roles);
     this.roles = roles;
   }
 
+  // FIXME not working reliably 
   updateFriendList() {
     console.log('updating the friend list');
     this.friends = [];
@@ -46,6 +68,7 @@ export class RoomManagerPage {
       friends.unshift('myself');
       console.log('friendlist:', friends);
       this.friends = friends;
+      this.cache.friends = [...friends];
     };
     common.snap.SnapCloud.getFriendList(friendsCb, handleError);
   }
@@ -65,11 +88,13 @@ export class RoomManagerPage {
     }
     // TODO don't expose if is not the owner or a collaborator
     if (room.isOwner() || room.isCollaborator()) {
+      this.showToast(`Inviting user ${username} to role ${roleName}`);
       room.inviteGuest(username, roleName);
     } else {
       // not allowed to do this
       console.error('you are not allowed to invite guests');
     }
+    this.invitingTo = undefined; // reset invitingTo // hide the prompt
   }
 
   // move to a role
@@ -133,6 +158,7 @@ export class RoomManagerPage {
   }
 
   presentActions(role) {
+    this.invitingTo = undefined;
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Choose an action',
       buttons: [
@@ -151,15 +177,15 @@ export class RoomManagerPage {
           icon: !this.platform.is('ios') ? 'move' : null,
           handler: () => {
             this.moveToRole(role.name);
-            console.log('moving to');
+            console.log('moving to role', role.name);
           }
         },{
           text: 'Invite Guest',
           icon: !this.platform.is('ios') ? 'add' : null,
           handler: () => {
-            console.log('invite guest clicked. open modal list');
-            // TODO present a list of users and invite the one
-            this.inviteGuest(this.friends[0], role.name);
+            // ask/update the friends list and show a list of users to select from
+            this.updateFriendList();
+            this.invitingTo = role.name;
           }
         },{
           text: 'Cancel',
@@ -172,6 +198,17 @@ export class RoomManagerPage {
       ]
     });
     actionSheet.present();
+  }
+
+  // searches through a cached list of friends
+  filterFriends(ev) {
+    this.friends = [...this.cache.friends]
+    let val = ev.target.value;
+    if (val && val.trim() !== '') {
+      this.friends = this.friends.filter(friend => {
+        return friend.toLowerCase().includes(val.toLowerCase());
+      });
+    }
   }
 
 }
