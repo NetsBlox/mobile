@@ -44,7 +44,6 @@ export class EditorPage {
     console.log('ionViewDidLoad EditorPage');
     console.log(this.screenOrientation.type);
     this.updateSnapHandle();
-    // TODO an event listener for when the project is loaded. attach event dispatchers
     // call onProjectLoaded when the project is loaded 
     let editor = this;
     this.raceForIt(() => {
@@ -58,7 +57,7 @@ export class EditorPage {
         editor.onProjectLoaded();
       }
     })
-      .catch(console.error)
+      .catch(console.error);
 
   }
 
@@ -86,6 +85,8 @@ export class EditorPage {
 
   onProjectLoaded() {
     // dispatch a dom event? 
+    let iframe = this.getSnapFrame();
+    iframe.dispatchEvent(new Event('projectLoaded'));
     console.log('project loaded');
   }
 
@@ -99,10 +100,13 @@ export class EditorPage {
     this.setDesktopViewport(false);
   }
 
+  getSnapFrame() {
+    return <any>document.querySelector('iframe#editor');
+  }
+
   // gets the editor context
   updateSnapHandle() {
-    let iframe: any;
-    iframe = document.querySelector('iframe#editor');
+    let iframe = this.getSnapFrame();
     common.snap = iframe.contentWindow;
   }
 
