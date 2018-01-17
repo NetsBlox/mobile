@@ -30,13 +30,6 @@ export class ProjectPage {
   }
 
   openProject() {
-    let alert = this.alertCtrl.create({
-      title:'Coming soon', 
-      subTitle:'not implemented yet',
-      buttons:["I can't wait"]
-    });
-    alert.present();
-    // this.navCtrl.push(EditorPage);
     let target = '_self';
     let options: InAppBrowserOptions = {
       hardwareback : 'yes',
@@ -49,6 +42,7 @@ export class ProjectPage {
     window.location.href = this.project.url;
   }
 
+  // opens the project using external snap
   openProject3() {
     // no need for localsnap?
     window.location.href = this.project.externalUrl;
