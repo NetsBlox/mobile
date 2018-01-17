@@ -20,10 +20,11 @@
       <ion-card-content>
         <!-- Add card content here! -->
         <ion-list>
-          <button ion-item *ngFor="let user of role.users" (click)="evictUser(user, role.name)">
+          <ion-item *ngFor="let user of role.users" >
             <ion-icon name="person" item-start></ion-icon>
             {{ user.username }}
-          </button>
+            <ion-icon name="close" (click)="evictUser(user, role.name)" item-end></ion-icon>
+          </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
