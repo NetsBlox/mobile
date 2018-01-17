@@ -59,6 +59,11 @@ export class EditorPage {
     })
       .catch(console.error);
 
+    this.getSnapFrame().addEventListener('projectLoaded', () => {
+      // TODO use loading component
+      this.getSnapFrame().style.display = 'block';
+    });
+
   }
 
   // really?! FIXME
