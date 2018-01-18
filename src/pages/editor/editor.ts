@@ -42,7 +42,6 @@ export class EditorPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditorPage');
-    console.log(this.screenOrientation.type);
     this.updateSnapHandle();
     // call onProjectLoaded when the project is loaded 
     let editor = this;
@@ -59,14 +58,14 @@ export class EditorPage {
     })
       .catch(console.error);
 
-    this.getSnapFrame().addEventListener('projectLoaded', () => {
+    common.snapFrame.addEventListener('projectLoaded', () => {
       // TODO use loading component
-      this.getSnapFrame().style.visibility = 'visible';
+      common.snapFrame.style.visibility = 'visible';
     });
 
   }
 
-  // really?! FIXME
+  // really?! FIXME swap out with the proper solution
   // promisifiying race conditions!
   raceForIt(fn, delay=50, timeout=10000) {
     let counter = 0;
@@ -80,7 +79,7 @@ export class EditorPage {
         if (fn()) {
           clearInterval(interval);
           clearTimeout(myTimeout)
-          console.log(`finished with #${counter} tries or ${counter * delay}ms wait`);
+          console.log(`finished the race with #${counter} tries or ${counter * delay}ms wait`);
           resolve();
         }
       }, delay);
@@ -90,8 +89,7 @@ export class EditorPage {
 
   onProjectLoaded() {
     // dispatch a dom event? 
-    let iframe = this.getSnapFrame();
-    iframe.dispatchEvent(new Event('projectLoaded'));
+    common.snapFrame.dispatchEvent(new Event('projectLoaded'));
     console.log('project loaded');
   }
 
@@ -112,6 +110,7 @@ export class EditorPage {
   // gets the editor context
   updateSnapHandle() {
     let iframe = this.getSnapFrame();
+    common.snapFrame = iframe;
     common.snap = iframe.contentWindow;
   }
 
