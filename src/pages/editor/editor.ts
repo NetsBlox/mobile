@@ -61,7 +61,7 @@ export class EditorPage {
 
     this.getSnapFrame().addEventListener('projectLoaded', () => {
       // TODO use loading component
-      this.getSnapFrame().style.display = 'block';
+      this.getSnapFrame().style.visibility = 'visible';
     });
 
   }

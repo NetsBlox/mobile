@@ -2,7 +2,7 @@ page-editor {
   #editor {
     width: 100%;
     height: 100%;
-    display: none;
+    visibility: hidden;
     // margin-left: -$content-padding;
     // margin-right: -$content-padding;
   }
