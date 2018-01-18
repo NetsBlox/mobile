@@ -5,6 +5,7 @@ import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import common from '../../common';
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -16,8 +17,9 @@ export class RoomManagerPage {
   friends: any;
   cache: any = {friends: []};
   invitingTo: string; // if set, shows the friendlist and invites to the specified role
+  loader: any; // keeps a handle to the room loading popup
 
-  constructor(public toastCtrl: ToastController, private alertCtrl: AlertController, public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public loadingCtrl: LoadingController, public toastCtrl: ToastController, private alertCtrl: AlertController, public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
     this.roles = [{name: 'loading', occupants: []}];
   }
 
@@ -25,10 +27,21 @@ export class RoomManagerPage {
     console.log('ionViewDidLoad RoomManagerPage');
     this.updateRoles();
     this.updateFriendList();
+    // keep room page up to date, TODO while the page is in view
+    let roomManager = this;
+    common.snapFrame.addEventListener('projectLoaded', () => {
+      this.onProjectLoaded.call(roomManager);
+      this.loader.dismiss();
+    });
   }
 
   ionViewWillLeave() {
     this.invitingTo = undefined;
+  }
+
+  // acts as on role loaded
+  onProjectLoaded() {
+    this.updateRoles();
   }
 
   showToast(msg) {
@@ -115,13 +128,25 @@ export class RoomManagerPage {
           handler: () => {
             this.getRoom().moveToRole(roleName);
             // FIXME moving to role is an async task
-            this.updateRoles();
+            let loader = this.presentLoading(`loading ${roleName} data..`)
+            common.snapFrame.addEventListener('projectLoaded', loader.dismiss);
+            this.loader = loader;
           }
         }
       ]
     });
     alert.present();
   }
+
+
+  presentLoading(msg) {
+    let loader = this.loadingCtrl.create({
+      content: msg
+    });
+    loader.present();
+    return loader;
+  }
+
 
   evictUser(user, roleName) {
     // TODO warn/confirm
