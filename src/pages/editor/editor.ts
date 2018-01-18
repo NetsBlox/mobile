@@ -6,7 +6,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { RoomManagerPage } from '../room-manager/room-manager';
-
+import { LoadingController } from 'ionic-angular';
 
 
 @IonicPage()
@@ -18,7 +18,7 @@ export class EditorPage {
   project:Project = common.getProjectStructure();
   state:State = common.state;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private statusBar: StatusBar, private screenOrientation: ScreenOrientation) {
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public navParams: NavParams, private statusBar: StatusBar, private screenOrientation: ScreenOrientation) {
     let project = this.navParams.get('project');
     if (project) {
       this.project = project;
@@ -58,9 +58,11 @@ export class EditorPage {
     })
       .catch(console.error);
 
+    let loader = this.presentLoading('Loading the project..');
     common.snapFrame.addEventListener('projectLoaded', () => {
       // TODO use loading component
       common.snapFrame.style.visibility = 'visible';
+      loader.dismiss();
     });
 
   }
@@ -85,6 +87,14 @@ export class EditorPage {
       }, delay);
       // or accept failure
     })
+  }
+
+  presentLoading(msg) {
+    let loader = this.loadingCtrl.create({
+      content: msg
+    });
+    loader.present();
+    return loader;
   }
 
   onProjectLoaded() {
