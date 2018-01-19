@@ -9,15 +9,7 @@
 <ion-content>
   <!-- TODO directly load snap canvas -->
   <iframe id="editor" name="editor" [src]="project.url | safe"></iframe>
-  <ion-fab bottom right >
-    <button ion-fab><ion-icon name="add"></ion-icon></button>
-    <ion-fab-list side="top">
-      <button ion-fab (click)="setFullscreen()"><ion-icon name="ion-arrow-expand"></ion-icon></button>
-      <button ion-fab (click)="setFocusMode()">FM</button>
-      <button ion-fab (click)="openRoom()">Room</button>
-    </ion-fab-list>
-    <ion-fab-list side="left">
-      <button ion-fab>Button</button>
-    </ion-fab-list>
+  <ion-fab bottom right large>
+    <button ion-fab large (click)="openRoom()"><ion-icon name="git-network"></ion-icon></button>
   </ion-fab>
 </ion-content>

@@ -6,7 +6,18 @@ page-editor {
     // margin-left: -$content-padding;
     // margin-right: -$content-padding;
   }
+
   ion-content div.scroll-content {
     padding: $content-padding 0;
+  }
+
+  ion-fab {
+    button.fab {
+      width: 2*$fab-size;
+      height: 2*$fab-size;
+      ion-icon {
+        font-size: $fab-size;
+      }
+    }
   }
 }
