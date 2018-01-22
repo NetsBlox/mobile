@@ -3,7 +3,6 @@ import { ProjectPage } from '../project/project';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import common from '../../common';
 import { Project, State } from '../../types';
-import Q from 'q';
 import $ from 'jquery';
 import ta from 'time-ago';
 
@@ -18,6 +17,8 @@ interface Cache {
 })
 export class ProjectsPage {
   projects: any[];
+  publicProjects: any[];
+  exampleProjects: any[];
   cache:Cache = {projects: undefined};
   state:State = common.state; // TODO authentication should be handled in form of a middleware
   projectStructure:Project = common.getProjectStructure();
@@ -30,6 +31,7 @@ export class ProjectsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProjectsPage');
+    this.loadExamples();
   }
 
   ionViewWillEnter() {
@@ -41,36 +43,31 @@ export class ProjectsPage {
     this.navCtrl.push(ProjectPage, {project});
   }
 
-  generateFakeProject() {
-    let projects = [];
-    let deferred = Q.defer();
-    setTimeout(() => {
-      for(let i=0; i<10; i++){
-        let proj = <Project> Object.assign({}, this.projectStructure);
-        proj.name = proj.name + i
-        projects.push(proj);
-      }
-      this.projects = projects;
-      deferred.resolve(projects);
-    }, 3000)
-    return deferred.promise;
-  }
+  // loadPublicProjects() {
+  //   console.log('Calling server for public projects');
+  //   return $.ajax({
+  //     method: 'GET',
+  //     url: common.SERVER_ADDRESS +'/api/Projects/PROJECTS'
+  //   });
+  // }
 
-  loadProjects() {
-    // TODO display loading
-    return $.ajax({
-      url: 'https://jsonplaceholder.typicode.com/posts'
+  loadExamples() {
+    console.log('Calling server for example projects');
+    $.ajax({
+      url: common.SERVER_ADDRESS + '/api/Examples/EXAMPLES?metadata=true',
+      method: 'GET'
     })
       .then(resp => {
-        return resp.data;
-      })
-      .catch(e => {
-        let alert = this.alertCtrl.create({
-          title:'Loading Failed', 
-          subTitle:'Please retry.',
-          buttons:['OK']
+        let projects = resp.map(proj => {
+          return {
+            name: proj.projectName,
+            type: 'example',
+            description: proj.notes,
+            thumbnail: proj.thumbnail,
+            services: proj.services
+          };
         });
-        alert.present();
+        this.exampleProjects = projects;
       })
   }
 
@@ -87,7 +84,7 @@ export class ProjectsPage {
       url, 
       method: 'GET',
       xhrFields: {
-          withCredentials: true
+        withCredentials: true
       },
       crossDomain: true
     })
@@ -97,6 +94,7 @@ export class ProjectsPage {
         let projects = resp.map(proj => {
           return {
             name: proj.ProjectName,
+            type: 'private',
             description: proj.Notes,
             thumbnail: proj.Thumbnail,
             updatedAt: new Date(proj.Updated),

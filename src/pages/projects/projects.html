@@ -8,18 +8,27 @@
 
 
 <ion-content padding>
-  <ion-searchbar placeholder="Filter projects.."
-    showCancelButton color="danger"
-    (ionInput)="filterItems($event)"
-    (ionCancel)="loadUserProjects($event)">
-  </ion-searchbar>
 
 
   <div *ngIf="!state.loggedIn">
-    <p>Public Projects..</p>
+    <p>Example Projects</p>
+    <ion-list>
+      <ion-item *ngFor="let project of exampleProjects" (click)="itemSelected(project)">
+        <ion-thumbnail item-start>
+          <img src="{{ project.thumbnail }}">
+        </ion-thumbnail>
+        <h2>{{ project.name }}</h2>
+        <p>{{ project.description }}</p>
+      </ion-item>
+    </ion-list>
   </div>
   <!-- show a list of projects -->
   <ion-list *ngIf="state.loggedIn">
+    <ion-searchbar placeholder="Filter projects.."
+      showCancelButton color="danger"
+      (ionInput)="filterItems($event)"
+      (ionCancel)="loadUserProjects($event)">
+    </ion-searchbar>
     <ion-item *ngFor="let project of projects" (click)="itemSelected(project)">
       <ion-thumbnail item-start>
         <img src="{{ project.thumbnail }}">
