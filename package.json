@@ -8,7 +8,7 @@
     "clean": "ionic-app-scripts clean",
     "sign-android": "rm -i android.apk; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks platforms/android/build/outputs/apk/android-release-unsigned.apk my-alias && zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk android.apk",
     "build": "ionic-app-scripts build; cd netsblox && npm run postinstall && cd .. && node ./bin/build-nb-client-js.js && node ./bin/build-nb-client-html.js;",
-    "build-watch-nb": "nodemon -e js netsblox/src/browser --exec 'cd netsblox && npm run postinstall'",
+    "build-watch-nb": "nodemon -e js netsblox/src/browser --exec 'node ./bin/build-nb-client-js.js'",
     "build-stable": "rm -r netsblox/src/browser; ln -s $PWD/netsblox/src/client $PWD/netsblox/src/browser; ionic-app-scripts build; cd netsblox && npm run postinstall && cd .. && node ./bin/build-nb-client-js.compat.js && node ./bin/build-nb-client-html.compat.js;",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
