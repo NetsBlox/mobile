@@ -14,6 +14,10 @@ let state:State = {
   }
 };
 
+declare global {
+    interface Window { mobile: any; }
+}
+
 function getProjectStructure() {
   let project:Project;
   let projectStructure = {

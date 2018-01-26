@@ -7,6 +7,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { RoomManagerPage } from '../room-manager/room-manager';
 import { LoadingController } from 'ionic-angular';
+import { DiagnosticService } from '../../app/diagnostic.service';
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 @IonicPage()
@@ -18,7 +20,15 @@ export class EditorPage {
   project:Project = common.getProjectStructure();
   state:State = common.state;
 
-  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public navParams: NavParams, private statusBar: StatusBar, private screenOrientation: ScreenOrientation) {
+  constructor(
+    private geolocation: Geolocation,
+    private diagnosticService: DiagnosticService,
+    public loadingCtrl: LoadingController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private statusBar: StatusBar,
+    private screenOrientation: ScreenOrientation
+  ) {
     let project = this.navParams.get('project');
     if (project) {
       this.project = project;
@@ -64,6 +74,12 @@ export class EditorPage {
       common.snapFrame.style.visibility = 'visible';
       loader.dismiss();
     });
+
+    console.log('setting up snap mobile', common.snap);
+    window.mobile = window.mobile || {};
+    window.mobile.version = 1.2;
+    window.mobile.geolocation = this.geolocation;
+    window.mobile.diagnosticService = this.diagnosticService;
 
   }
 
