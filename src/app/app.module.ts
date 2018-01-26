@@ -19,6 +19,12 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HTTP } from '@ionic-native/http';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { DiagnosticService } from './diagnostic.service';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Device } from '@ionic-native/device';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +59,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   providers: [
     StatusBar,
+    Device,
+    Geolocation,
+    Diagnostic,
+    DiagnosticService,
+    LocationAccuracy,
     ScreenOrientation,
     InAppBrowser,
     HTTP,

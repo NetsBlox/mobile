@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 const SERVER_ADDRESS = 'http://netsblox.tk:3000';
 let snap: any;
+let platform:string = 'unknown';
 let snapFrame: any;
 let state:State = {
   loggedIn: false,
@@ -67,4 +68,5 @@ export default {
   state,
   snap,
   snapFrame,
+  platform,
 };
