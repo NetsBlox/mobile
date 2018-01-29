@@ -123,6 +123,12 @@ export class DiagnosticService {
                 private platform: Platform,
                 private events: Events) {
 
+        let supportedPlatforms:string[] = ['android', 'ios', 'windows'];
+        if (!supportedPlatforms.includes(commons.platform)) {
+            // skip setting up diagnostic services in unsupported platforms
+            return;
+        };
+
         DiagnosticService.instance = this;
 
         platform.ready().then(() => {
