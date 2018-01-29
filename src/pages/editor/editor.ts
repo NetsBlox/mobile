@@ -77,7 +77,7 @@ export class EditorPage {
 
     console.log('setting up snap mobile', common.snap);
     window.mobile = window.mobile || {};
-    window.mobile.version = 1.2;
+    window.mobile.platform = common.platform;
     window.mobile.geolocation = this.geolocation;
     window.mobile.diagnosticService = this.diagnosticService;
 

@@ -15,8 +15,15 @@ let branchFn = (originalFn, condition, newFn) => {
 // geolocation
 
 
+
 NetsProcess.prototype.getLocation = function() {
-  if (!parent.mobile.geolocation) throw new Error('geolocation access failed.');
+  if (parent.mobile.platform === 'unknown') {
+    // means we are running in a browser or an unsupported platfrom
+    alert('unsupported platform, using mock location data');
+    console.error(`can't access device's location information`);
+    return {latitude: 36, longitude: -86};
+  }
+
   let myself = this,
     errorName;
 
