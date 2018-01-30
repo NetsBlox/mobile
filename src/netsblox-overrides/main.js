@@ -12,10 +12,8 @@ let branchFn = (originalFn, condition, newFn) => {
   };
 };
 
+
 // geolocation
-
-
-
 NetsProcess.prototype.getLocation = function() {
   if (parent.mobile.platform === 'unknown') {
     // means we are running in a browser or an unsupported platfrom
@@ -61,3 +59,8 @@ NetsProcess.prototype.getLocation = function() {
   this.pushContext('doYield');
   this.pushContext();
 };
+
+// new version update
+WebSocketManager.MessageHandlers['new-version-available'] = function() {
+  console.debug('New netsblox version available, check for updates.');
+}
