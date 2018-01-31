@@ -1,5 +1,5 @@
 page-editor {
-  #editor {
+  #editor { // snap iframe
     width: 100%;
     height: 100%;
     visibility: hidden;
@@ -21,3 +21,11 @@ page-editor {
     }
   }
 }
+
+  ion-loading.desktopViewWidth .loading-wrapper {
+    padding: 2 * $loading-md-padding-top;
+    max-width: 2 * $loading-md-max-width;
+    .loading-content {
+      font-size: 3rem;
+    }
+  }

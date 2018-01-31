@@ -107,6 +107,7 @@ export class EditorPage {
 
   presentLoading(msg) {
     let loader = this.loadingCtrl.create({
+      cssClass: 'desktopViewWidth',
       content: msg
     });
     loader.present();
