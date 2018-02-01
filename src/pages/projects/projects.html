@@ -9,32 +9,49 @@
 
 <ion-content padding>
 
-
-  <div *ngIf="!state.loggedIn">
-    <p>Example Projects</p>
-    <ion-list>
-      <ion-item *ngFor="let project of exampleProjects" (click)="itemSelected(project)">
-        <ion-thumbnail item-start>
-          <img src="{{ project.thumbnail }}">
-        </ion-thumbnail>
-        <h2>{{ project.name }}</h2>
-        <p>{{ project.description }}</p>
-      </ion-item>
-    </ion-list>
+  <div padding>
+    <ion-segment [(ngModel)]="category">
+      <ion-segment-button value="examples">
+        Examples
+      </ion-segment-button>
+      <ion-segment-button value="private">
+        Private
+      </ion-segment-button>
+    </ion-segment>
   </div>
-  <!-- show a list of projects -->
-  <ion-list *ngIf="state.loggedIn">
-    <ion-searchbar placeholder="Filter projects.."
-      showCancelButton color="danger"
-      (ionInput)="filterItems($event)"
-      (ionCancel)="loadUserProjects($event)">
-    </ion-searchbar>
-    <ion-item *ngFor="let project of projects" (click)="itemSelected(project)">
-      <ion-thumbnail item-start>
-        <img src="{{ project.thumbnail }}">
-      </ion-thumbnail>
-      <h2>{{ project.name }}</h2>
-      <p>{{ project.description }}</p>
-    </ion-item>
-  </ion-list>
+
+  <div [ngSwitch]="category">
+    <div *ngSwitchCase="'examples'">
+      <p>Example Projects</p>
+      <ion-list>
+        <ion-item *ngFor="let project of exampleProjects" (click)="itemSelected(project)">
+          <ion-thumbnail item-start>
+            <img src="{{ project.thumbnail }}">
+          </ion-thumbnail>
+          <h2>{{ project.name }}</h2>
+          <p>{{ project.description }}</p>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'private'">
+      <!-- show a list of projects -->
+      <p *ngIf="!state.loggedIn">Login to see your projects here.</p>
+      <ion-list *ngIf="state.loggedIn">
+        <ion-searchbar placeholder="Filter projects.."
+                       showCancelButton color="danger"
+                      (ionInput)="filterItems($event)"
+                      (ionCancel)="loadUserProjects($event)">
+        </ion-searchbar>
+        <ion-item *ngFor="let project of projects" (click)="itemSelected(project)">
+          <ion-thumbnail item-start>
+            <img src="{{ project.thumbnail }}">
+          </ion-thumbnail>
+          <h2>{{ project.name }}</h2>
+          <p>{{ project.description }}</p>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
 </ion-content>

@@ -19,6 +19,7 @@ export class ProjectsPage {
   projects: any[];
   publicProjects: any[];
   exampleProjects: any[];
+  category: string = 'examples';
   cache:Cache = {projects: undefined};
   state:State = common.state; // TODO authentication should be handled in form of a middleware
   projectStructure:Project = common.getProjectStructure();
@@ -31,6 +32,7 @@ export class ProjectsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProjectsPage');
+    if (this.state.loggedIn) this.category = 'private';
     this.loadExamples();
   }
 
