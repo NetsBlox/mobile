@@ -78,6 +78,7 @@ export class RoomManagerPage {
     };
     let friendsCb = friends => {
       // TODO search find pick the friend if there are any
+      friends = friends.map(f => f.username);
       friends.unshift('myself');
       console.log('friendlist:', friends);
       this.friends = friends;
