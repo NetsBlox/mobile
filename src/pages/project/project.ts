@@ -19,12 +19,12 @@ export class ProjectPage {
     let project = this.navParams.get('project');
     if (project) this.project = project;
     if (project.type === 'private') {
-      let externalUrl = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
-      let internalUrl = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}`;
+      let externalUrl = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER`;
+      let internalUrl = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER`;
       this.project.url = internalUrl;
       this.project.externalUrl = externalUrl;
     } else if (project.type === 'example') {
-      this.project.url = `assets/netsblox-client/index.html?action=example&ProjectName=${encodeURIComponent(this.project.name)}`;
+      this.project.url = `assets/netsblox-client/index.html?action=example&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER`;
     }
     console.log('the project', this.project);
   }
