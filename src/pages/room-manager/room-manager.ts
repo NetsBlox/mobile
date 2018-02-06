@@ -33,6 +33,17 @@ export class RoomManagerPage {
       this.onProjectLoaded.call(roomManager);
       this.loader.dismiss();
     });
+
+    // FIXME hacky fix for keeping the room up to date with the changes
+    // catch websocket messages with type 'room-roles' or hook into room.update
+    // setInterval(this.updateRoles, 5000);
+    let fn = common.snap.WebSocketManager.MessageHandlers['room-roles'];
+    let webSocketManager = this.getIde().sockets;
+    common.snap.WebSocketManager.MessageHandlers['room-roles'] = function(msg) {
+      fn.call(webSocketManager, msg);
+      console.log('received room-roles message', msg);
+      roomManager.updateRoles();
+    }
   }
 
   ionViewWillLeave() {
