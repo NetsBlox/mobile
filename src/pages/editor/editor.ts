@@ -19,6 +19,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 export class EditorPage {
   project:Project = common.getProjectStructure();
   state:State = common.state;
+  loader:any = null;
 
   constructor(
     private geolocation: Geolocation,
@@ -73,6 +74,7 @@ export class EditorPage {
       // TODO use loading component
       common.snapFrame.style.visibility = 'visible';
       loader.dismiss();
+      this.loader = null;
     });
 
     console.log('setting up snap mobile', common.snap);
@@ -111,6 +113,7 @@ export class EditorPage {
       content: msg
     });
     loader.present();
+    this.loader = loader;
     return loader;
   }
 
@@ -128,6 +131,7 @@ export class EditorPage {
   ionViewWillLeave() {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
+    if (this.loader) this.loader.dismiss(); // dismiss if was leaving the page early
   }
 
   getSnapFrame() {
