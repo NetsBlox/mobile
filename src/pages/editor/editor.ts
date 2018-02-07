@@ -71,7 +71,7 @@ export class EditorPage {
 
     let loader = this.presentLoading('Loading the project..');
     common.snapFrame.addEventListener('projectLoaded', () => {
-      // TODO use loading component
+      this.getNbMorph().toggleAppMode(true);
       common.snapFrame.style.visibility = 'visible';
       loader.dismiss();
       this.loader = null;
