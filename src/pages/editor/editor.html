@@ -8,7 +8,8 @@
 
 <ion-content>
   <!-- TODO directly load snap canvas -->
-  <iframe id="editor" name="editor" [src]="project.url | safe"></iframe>
+  <!-- <iframe id="editor" name="editor" [src]="project.url | safe"></iframe> -->
+  <iframe id="editor" name="editor"></iframe>
   <ion-fab bottom right large>
     <button ion-fab large (click)="openRoom()"><ion-icon name="git-network"></ion-icon></button>
   </ion-fab>

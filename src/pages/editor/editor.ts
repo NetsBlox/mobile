@@ -17,7 +17,7 @@ import { Geolocation } from '@ionic-native/geolocation';
   templateUrl: 'editor.html',
 })
 export class EditorPage {
-  project:Project = common.getProjectStructure();
+  project:Project;
   state:State = common.state;
   loader:any = null;
 
@@ -33,10 +33,10 @@ export class EditorPage {
     let project = this.navParams.get('project');
     if (project) {
       this.project = project;
+      console.log('got the proj', this.project);
     } else {
       console.error('project is not set');
     }
-    console.log('got the proj', this.project);
 
     // detect orientation changes
     this.screenOrientation.onChange().subscribe(
@@ -54,6 +54,8 @@ export class EditorPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditorPage');
     this.updateSnapHandle();
+    // start loading snap after view is loaded
+    common.snapFrame.src = this.project.url;
     // call onProjectLoaded when the project is loaded 
     let editor = this;
     this.raceForIt(() => {
