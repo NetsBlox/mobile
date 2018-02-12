@@ -12,7 +12,7 @@ import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser'
 })
 
 export class ProjectPage {
-  project:Project = common.getProjectStructure();
+  project:Project;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private iab: InAppBrowser) {
     // setup project

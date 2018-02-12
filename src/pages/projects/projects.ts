@@ -16,18 +16,15 @@ interface Cache {
   templateUrl: 'projects.html',
 })
 export class ProjectsPage {
-  projects: any[];
-  publicProjects: any[];
-  exampleProjects: any[];
-  category: string = 'examples';
+  projects: Project[] = [];
+  publicProjects: Project[];
+  exampleProjects:  Project[] = [];
+  category: string = 'examples'; // default category to show
   cache:Cache = {projects: undefined};
   state:State = common.state; // TODO authentication should be handled in form of a middleware
-  projectStructure:Project = common.getProjectStructure();
 
   // TODO use native cordova http module for fetching
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-    this.projects = [];
-    this.projects.push(this.projectStructure);
   }
 
   ionViewDidLoad() {

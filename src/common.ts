@@ -1,4 +1,4 @@
-import { Project, State } from './types';
+import { State } from './types';
 import $ from 'jquery';
 
 const SERVER_ADDRESS = 'http://netsblox.tk:3000';
@@ -16,19 +16,6 @@ let state:State = {
 
 declare global {
     interface Window { mobile: any; }
-}
-
-function getProjectStructure() {
-  let project:Project;
-  let projectStructure = {
-    name: 'Loading',
-    url: '',
-    description: 'loading pojects',
-    updatedAt: new Date(),
-    thumbnail: 'url'
-  };
-  project = <Project> Object.assign({}, projectStructure);
-  return project;
 }
 
 // can be used as a way to check if loggedIn
@@ -68,7 +55,6 @@ export default {
   SERVER_ADDRESS,
   checkLoggedIn,
   getUser,
-  getProjectStructure,
   state,
   snap,
   snapFrame,
