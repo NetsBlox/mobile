@@ -76,6 +76,7 @@ export class LoginPage {
       .then(resp => {
         console.log('login succeeded from then');
         this.state.loggedIn = true;
+        this.state.username = this.username;
         common.getUser();
         this.navCtrl.push(ProjectsPage)
       })
