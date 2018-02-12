@@ -68,6 +68,9 @@ export class EditorPage {
         onOpenProject.apply(SnapActions, arguments);
         editor.onProjectLoaded();
       }
+      // setup credentials to allow for cookie authentication
+      common.snap.SnapCloud.username = common.state.username;
+      common.snap.SnapCloud.password = true;
     })
       .catch(console.error);
 
