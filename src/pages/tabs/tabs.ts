@@ -20,5 +20,10 @@ export class TabsPage {
 
   }
 
+  ionViewDidLoad() {
+    // async: passivly check to see if user is logged in and fetch user data
+    common.checkLoggedIn();
+  }
+
   // TODO on changes to state.view.focusMode run fn and hide .tabbar
 }
