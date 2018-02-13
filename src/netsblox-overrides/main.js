@@ -18,7 +18,7 @@ NetsProcess.prototype.getLocation = function() {
   if (parent.mobile.platform === 'unknown') {
     // means we are running in a browser or an unsupported platfrom
     alert('unsupported platform, using mock location data');
-    console.error(`can't access device's location information`);
+    console.error('can\'t access device\'s location information');
     return {latitude: 36, longitude: -86};
   }
 
@@ -63,4 +63,35 @@ NetsProcess.prototype.getLocation = function() {
 // disable new version update notice
 WebSocketManager.MessageHandlers['new-version-available'] = function() {
   console.debug('New netsblox version available, check for updates.');
-}
+};
+
+
+// fix keyboard text input
+// TODO zoom in zoom out issue. maybe by optimizing the input size or dynamic zooming
+CursorMorph.prototype.set = function (value) {
+  this.target.text = value;
+  this.target.changed();
+  this.target.drawNew();
+  this.target.changed();
+  this.gotoSlot(this.target.endOfLine(this.slot));
+};
+
+let initKeyboard = WorldMorph.prototype.initVirtualKeyboard;
+WorldMorph.prototype.initVirtualKeyboard = function () {
+  initKeyboard.call(this);
+
+  // change styling
+  this.virtualKeyboard.style.color = "black";
+  this.virtualKeyboard.style['z-index'] = -1;
+  this.virtualKeyboard.style.backgroundColor = "white";
+  this.virtualKeyboard.style.width = "10px";
+  this.virtualKeyboard.style.height = "10px";
+
+  // add listener to keep snap input updated
+  this.virtualKeyboard.addEventListener('input', e => {
+    let val = this.virtualKeyboard.value;
+    this.keyboardReceiver.set(val);
+  });
+  this.virtualKeyboard.value = '';
+  this.virtualKeyboard.focus();
+};
