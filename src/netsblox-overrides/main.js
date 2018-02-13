@@ -81,11 +81,11 @@ WorldMorph.prototype.initVirtualKeyboard = function () {
   initKeyboard.call(this);
 
   // change styling
-  this.virtualKeyboard.style.color = "black";
   this.virtualKeyboard.style['z-index'] = -1;
-  this.virtualKeyboard.style.backgroundColor = "white";
-  this.virtualKeyboard.style.width = "10px";
-  this.virtualKeyboard.style.height = "10px";
+  this.virtualKeyboard.style['font-size'] = '20px'; // bigger font size prevents zooming on focus
+  this.virtualKeyboard.style.width = '10px';
+  this.virtualKeyboard.style.height = '10px';
+
 
   // add listener to keep snap input updated
   this.virtualKeyboard.addEventListener('input', e => {
