@@ -6,9 +6,11 @@ page-tabs {
     }
 
     .scroll-content {
-      // TODO there should be a better way..
+      // FIXME there should be a better way..
+      // make a more specific target
       margin-top: 0 !important;
       margin-bottom: 0 !important;
+      padding: 0 !important;
     }
 
   }
