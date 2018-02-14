@@ -60,6 +60,7 @@ export class EditorPage {
     this.updateSnapHandle();
     // start loading snap after view is loaded
     common.snapFrame.src = this.project.url;
+    // dynamically modify snap when its loaded
     // call onProjectLoaded when the project is loaded 
     let editor = this;
     this.raceForIt(() => {
@@ -71,6 +72,9 @@ export class EditorPage {
       common.snap.SnapActions.onOpenProject = function(str) {
         onOpenProject.apply(SnapActions, arguments);
         editor.onProjectLoaded();
+        console.log('project loaded');
+        // broadcast an event so other pages can listen to
+        common.snapFrame.dispatchEvent(new Event('projectLoaded'));
       }
       // setup credentials to allow for cookie authentication
       common.snap.SnapCloud.username = common.state.username;
@@ -79,13 +83,6 @@ export class EditorPage {
       .catch(console.error);
 
     let loader = this.presentLoading('Loading the project..');
-    common.snapFrame.addEventListener('projectLoaded', () => {
-      this.getNbMorph().toggleAppMode(true);
-      // this.reRenderSnap();
-      common.snapFrame.style.visibility = 'visible';
-      loader.dismiss();
-      this.loader = null;
-    });
 
     console.log('setting up snap mobile', common.snap);
     window.mobile = window.mobile || {};
@@ -129,8 +126,11 @@ export class EditorPage {
 
   onProjectLoaded() {
     // dispatch a dom event? 
-    common.snapFrame.dispatchEvent(new Event('projectLoaded'));
-    console.log('project loaded');
+    this.getNbMorph().toggleAppMode(true);
+    // this.reRenderSnap();
+    common.snapFrame.style.visibility = 'visible';
+    // loader.dismiss();
+    this.loader = null;
   }
 
   ionViewWillEnter() {
