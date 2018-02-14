@@ -4,7 +4,6 @@ import common from '../../common';
 import { State } from '../../types';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { RoomManagerPage } from '../room-manager/room-manager';
 import { LoadingController } from 'ionic-angular';
 import { DiagnosticService } from '../../app/diagnostic.service';
@@ -21,6 +20,7 @@ export class EditorPage {
   project:Project;
   state:State = common.state;
   loader:any = null;
+  projectLoaded:boolean = false;
   subscriptions:any[] = [];
 
   constructor(
@@ -31,7 +31,6 @@ export class EditorPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private statusBar: StatusBar,
-    private screenOrientation: ScreenOrientation
   ) {
     let project = this.navParams.get('project');
     if (project) {
@@ -40,19 +39,6 @@ export class EditorPage {
     } else {
       console.error('project is not set');
     }
-
-    // detect orientation changes
-    let orientationSub = this.screenOrientation.onChange().subscribe(
-      () => {
-        if (this.screenOrientation.type.startsWith('landscape')) {
-          this.setFocusMode(true);
-        } else {
-          this.setFocusMode(false);
-        }
-      }
-    );
-    this.subscriptions.push(orientationSub);
-
   }
 
   ionViewDidLoad() {
@@ -71,10 +57,10 @@ export class EditorPage {
       let onOpenProject = common.snap.SnapActions.onOpenProject;
       common.snap.SnapActions.onOpenProject = function(str) {
         onOpenProject.apply(SnapActions, arguments);
-        editor.onProjectLoaded();
         console.log('project loaded');
         // broadcast an event so other pages can listen to
         common.snapFrame.dispatchEvent(new Event('projectLoaded'));
+        editor.onProjectLoaded();
       }
       // setup credentials to allow for cookie authentication
       common.snap.SnapCloud.username = common.state.username;
@@ -82,7 +68,7 @@ export class EditorPage {
     })
       .catch(console.error);
 
-    let loader = this.presentLoading('Loading the project..');
+    this.presentLoading('Loading the project..');
 
     console.log('setting up snap mobile', common.snap);
     window.mobile = window.mobile || {};
@@ -125,17 +111,24 @@ export class EditorPage {
   }
 
   onProjectLoaded() {
-    // dispatch a dom event? 
     this.getNbMorph().toggleAppMode(true);
-    // this.reRenderSnap();
+    this.showSnap();
+    this.loader.dismiss();
+    this.projectLoaded = true;
+  }
+
+  showSnap() {
     common.snapFrame.style.visibility = 'visible';
-    // loader.dismiss();
-    this.loader = null;
+  }
+
+  hideSnap() {
+    common.snapFrame.style.visibility = 'hidden';
   }
 
   ionViewWillEnter() {
     this.setFocusMode(true);
     this.setDesktopViewport(true);
+    if(this.projectLoaded) this.showSnap();
 
     // resize snap when keyboard shows up
     let showSub = this.keyboard.onKeyboardShow()
@@ -190,12 +183,11 @@ export class EditorPage {
     this.getNbMorph().toggleAppMode(status);
   }
 
-  // forces a rerender of snap env by resizing the iframe
-  reRenderSnap() {
-    console.log('rerendering snap');
-    let origHeight = common.snapFrame.clientHeight;
-    common.snapFrame.style.height = origHeight-1 + 'px';
-    common.snapFrame.style.height = origHeight + 'px';
+  // forces snap world to fill the page
+  snapReactToResize() {
+    let world = this.getWorld();
+    // if snap is loaded have it fill its available space
+    if (world) world.fillPage();
   }
 
   setFocusMode(status) {
@@ -206,7 +198,7 @@ export class EditorPage {
       tabEl.className += ' focusMode';
     } else {
       //revert
-      tabEl.className = tabEl.className.replace('focusMode', '');
+      tabEl.className = tabEl.className.replace(' focusMode', '');
     }
     this.state.view.focusMode = status;
   }
@@ -216,6 +208,7 @@ export class EditorPage {
     if (status) {
       vpEl.content = 'width=980';
     } else {
+      this.hideSnap();
       vpEl.content = 'viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
     }
   }
@@ -226,17 +219,18 @@ export class EditorPage {
   pushUpSnap(pixels) {
     if (!pixels) {
       common.snapFrame.style.height = ''; // reset height
-      return;
-    }
-    const BUTTON_SIZE = 50;
-    // find out howmuch empty spaces are around the stage
-    let topEmpty = this.getNbMorph().mobileMode.emptySpaces().top;
-    // figure out the maximum you can push the snap env up
-    let max = (topEmpty  - BUTTON_SIZE ) * 2;
-    if (max < pixels) {
-      console.error('there is not enough space to move the whole editor into view w/ keyboard')
     } else {
-      common.snapFrame.style.height = (common.snapFrame.clientHeight - pixels + (topEmpty - pixels/2)) + 'px';
+
+      const BUTTON_SIZE = 50;
+      // find out howmuch empty spaces are around the stage
+      let topEmpty = this.getNbMorph().mobileMode.emptySpaces().top;
+      // figure out the maximum you can push the snap env up
+      let max = (topEmpty  - BUTTON_SIZE ) * 2;
+      if (max < pixels) {
+        console.error('there is not enough space to move the whole editor into view w/ keyboard')
+      } else {
+        common.snapFrame.style.height = (common.snapFrame.clientHeight - pixels + (topEmpty - pixels/2)) + 'px';
+      }
     }
   }
 

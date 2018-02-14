@@ -76,9 +76,9 @@ CursorMorph.prototype.set = function (value) {
   this.gotoSlot(this.target.endOfLine(this.slot));
 };
 
-let initKeyboard = WorldMorph.prototype.initVirtualKeyboard;
-WorldMorph.prototype.initVirtualKeyboard = function () {
-  initKeyboard.call(this);
+WorldMorph.prototype._initVirtualKeyboard = WorldMorph.prototype.initVirtualKeyboard;
+WorldMorph.prototype.initVirtualKeyboard = function() {
+  this._initVirtualKeyboard();
 
   // change styling
   this.virtualKeyboard.style['z-index'] = -1;
@@ -94,4 +94,12 @@ WorldMorph.prototype.initVirtualKeyboard = function () {
   });
   this.virtualKeyboard.value = '';
   this.virtualKeyboard.focus();
+};
+
+
+// set the fillpage option on creating world instance
+WorldMorph.prototype._init = WorldMorph.prototype.init;
+WorldMorph.prototype.init = function(aCanvas, fillPage) {
+  // if (fillPage === true) console.warn('fillpage option is disabled in mobileMode');
+  return this._init(aCanvas, true);
 };
