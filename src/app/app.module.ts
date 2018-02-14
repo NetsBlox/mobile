@@ -24,6 +24,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { DiagnosticService } from './diagnostic.service';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Device } from '@ionic-native/device';
+import { Keyboard } from '@ionic-native/keyboard';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { Device } from '@ionic-native/device';
     DiagnosticService,
     LocationAccuracy,
     ScreenOrientation,
+    Keyboard,
     InAppBrowser,
     HTTP,
     SplashScreen,
