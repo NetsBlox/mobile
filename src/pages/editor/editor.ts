@@ -9,6 +9,7 @@ import { RoomManagerPage } from '../room-manager/room-manager';
 import { LoadingController } from 'ionic-angular';
 import { DiagnosticService } from '../../app/diagnostic.service';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Keyboard } from '@ionic-native/keyboard';
 
 
 @IonicPage()
@@ -20,8 +21,10 @@ export class EditorPage {
   project:Project;
   state:State = common.state;
   loader:any = null;
+  subscriptions:any[] = [];
 
   constructor(
+    private keyboard: Keyboard,
     private geolocation: Geolocation,
     private diagnosticService: DiagnosticService,
     public loadingCtrl: LoadingController,
@@ -131,12 +134,27 @@ export class EditorPage {
   ionViewWillEnter() {
     this.setFocusMode(true);
     this.setDesktopViewport(true);
+
+    // resize snap when keyboard shows up
+    let showSub = this.keyboard.onKeyboardShow()
+      .subscribe((e) => {
+        // figure out the minimum you have to push snap up
+        let scale = window.innerHeight / window.outerHeight;
+        let scaledKeyHeight = e.keyboardHeight * scale;
+        this.pushUpSnap(scaledKeyHeight);
+      });
+    let hideSub = this.keyboard.onKeyboardHide()
+      .subscribe(() => {
+        this.pushUpSnap(0);
+      });
+    this.subscriptions.push(showSub, hideSub);
   }
 
   ionViewWillLeave() {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
     if (this.loader) this.loader.dismiss(); // dismiss if was leaving the page early
+    this.subscriptions.forEach(sub => sub.unsubscribe()); // unsubscribe when leaving
   }
 
   getSnapFrame() {
@@ -189,6 +207,26 @@ export class EditorPage {
       vpEl.content = 'width=980';
     } else {
       vpEl.content = 'viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    }
+  }
+
+  // pushes up snap to open space below to fit elements like keyboard
+  // resets to full screen if the argument is falsy
+  // does not work relative to cur state (does not stack)
+  pushUpSnap(pixels) {
+    if (!pixels) {
+      common.snapFrame.style.height = ''; // reset height
+      return;
+    }
+    const BUTTON_SIZE = 50;
+    // find out howmuch empty spaces are around the stage
+    let topEmpty = this.getNbMorph().mobileMode.emptySpaces().top;
+    // figure out the maximum you can push the snap env up
+    let max = (topEmpty  - BUTTON_SIZE ) * 2;
+    if (max < pixels) {
+      console.error('there is not enough space to move the whole editor into view w/ keyboard')
+    } else {
+      common.snapFrame.style.height = (common.snapFrame.clientHeight - pixels + (topEmpty - pixels/2)) + 'px';
     }
   }
 
