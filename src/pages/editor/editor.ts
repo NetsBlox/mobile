@@ -42,7 +42,7 @@ export class EditorPage {
     }
 
     // detect orientation changes
-    this.screenOrientation.onChange().subscribe(
+    let orientationSub = this.screenOrientation.onChange().subscribe(
       () => {
         if (this.screenOrientation.type.startsWith('landscape')) {
           this.setFocusMode(true);
@@ -51,6 +51,7 @@ export class EditorPage {
         }
       }
     );
+    this.subscriptions.push(orientationSub);
 
   }
 
