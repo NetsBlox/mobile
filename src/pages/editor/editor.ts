@@ -81,6 +81,7 @@ export class EditorPage {
     let loader = this.presentLoading('Loading the project..');
     common.snapFrame.addEventListener('projectLoaded', () => {
       this.getNbMorph().toggleAppMode(true);
+      // this.reRenderSnap();
       common.snapFrame.style.visibility = 'visible';
       loader.dismiss();
       this.loader = null;
@@ -187,6 +188,14 @@ export class EditorPage {
   setFullscreen(status) {
     if (status === undefined) status = !this.getNbMorph().isAppMode;
     this.getNbMorph().toggleAppMode(status);
+  }
+
+  // forces a rerender of snap env by resizing the iframe
+  reRenderSnap() {
+    console.log('rerendering snap');
+    let origHeight = common.snapFrame.clientHeight;
+    common.snapFrame.style.height = origHeight-1 + 'px';
+    common.snapFrame.style.height = origHeight + 'px';
   }
 
   setFocusMode(status) {
