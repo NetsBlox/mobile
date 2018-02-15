@@ -11,16 +11,9 @@ page-editor {
     padding: $content-padding 0;
   }
 
-  ion-fab {
-    button.fab {
-      width: 2*$fab-size;
-      height: 2*$fab-size;
-      ion-icon {
-        font-size: $fab-size;
-      }
-    }
-  }
 }
+
+@media all and (orientation: portrait){
 
   ion-loading.desktopViewWidth .loading-wrapper {
     padding: 2 * $loading-md-padding-top;
@@ -29,3 +22,15 @@ page-editor {
       font-size: 3rem;
     }
   }
+
+  page-editor ion-fab {
+    button.fab {
+      width: 2*$fab-size;
+      height: 2*$fab-size;
+      ion-icon {
+        font-size: $fab-size;
+      }
+    }
+  }
+
+}
