@@ -15,14 +15,13 @@
         Examples
       </ion-segment-button>
       <ion-segment-button value="private">
-        Private
+        Personal
       </ion-segment-button>
     </ion-segment>
   </div>
 
   <div [ngSwitch]="category">
     <div *ngSwitchCase="'examples'">
-      <p>Example Projects</p>
       <ion-list>
         <ion-item *ngFor="let project of exampleProjects" (click)="itemSelected(project)">
           <ion-thumbnail item-start>

@@ -1,25 +1,21 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>project</ion-title>
+    <ion-title>{{ project.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-card>
-    <img src="{{ project.thumbnail }}"/>
-    <ion-card-content>
-      <ion-card-title>{{ project.name }}</ion-card-title>
-      <p>{{ project.description }}</p>
-      <p>Last update {{ project.updatedAtRelative }}</p>
-      <!-- TODO detect and show warnings for unsupported or restricted blocks/features
-      denied permissions, disabled sensors, unsupported platform, unsupported feature-->
-      <button ion-button color="light" center (click)="openProject()">Open1</button>
-      <button ion-button color="light" center (click)="openProject2()">Open2</button>
-      <button ion-button color="light" center (click)="openProject3()">Open3</button>
-      <button ion-button color="dark" center (click)="openProject4()">Open4</button>
-    </ion-card-content>
-  </ion-card>
+  <img src="{{ project.thumbnail }}"/>
+  <ion-card-title>{{ project.name }}</ion-card-title>
+  <p>{{ project.description }}</p>
+  <p *ngIf="project.updatedAt" >Last update {{ project.updatedAtRelative }}</p>
+  <!-- TODO detect and show warnings for unsupported or restricted blocks/features
+    denied permissions, disabled sensors, unsupported platform, unsupported feature-->
+  <button ion-button block color="secondary" center (click)="openProject4()">Open</button>
+  <button ion-button color="light" center (click)="openProject()">Open1</button>
+  <button ion-button color="light" center (click)="openProject2()">Open2</button>
+  <button ion-button color="light" center (click)="openProject3()">Open3</button>
 </ion-content>
