@@ -103,3 +103,6 @@ WorldMorph.prototype.init = function(aCanvas, fillPage) {
   // if (fillPage === true) console.warn('fillpage option is disabled in mobileMode');
   return this._init(aCanvas, true);
 };
+
+
+disableRetinaSupport(); // lower quality => better performance
