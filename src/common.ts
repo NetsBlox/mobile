@@ -38,9 +38,14 @@ function getUser() {
     },
     crossDomain: true
   }).then( resp => {
-    state.username = resp.username;
-    state.email = resp.email;
-    return resp;
+    if (resp) {
+      state.loggedIn = true;
+      state.username = resp.username;
+      state.email = resp.email;
+      return resp;
+    } else {
+      throw new Error('no response from server when getting user');
+    }
   }).catch(err => {
     state.loggedIn = false;
     throw err;
