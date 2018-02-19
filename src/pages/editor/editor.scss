@@ -7,6 +7,10 @@ page-editor {
     // margin-right: -$content-padding;
   }
 
+  iframe {
+    border: 0;
+  }
+
   ion-content div.scroll-content {
     padding: $content-padding 0;
   }
