@@ -1,7 +1,7 @@
 import { State } from './types';
 import $ from 'jquery';
 
-const SERVER_ADDRESS = 'http://netsblox.tk:3000';
+const SERVER_ADDRESS = 'https://dev.netsblox.org';
 let snap: any;
 let platform:string = 'unknown';
 let snapFrame: any;
