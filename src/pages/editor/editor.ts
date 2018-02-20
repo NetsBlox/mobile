@@ -68,7 +68,7 @@ export class EditorPage {
     })
       .catch(console.error);
 
-    this.presentLoading('Loading the project..');
+    this.presentLoading(`Loading ${this.project.name}..`);
 
     console.log('setting up snap mobile', common.snap);
     window.mobile = window.mobile || {};
