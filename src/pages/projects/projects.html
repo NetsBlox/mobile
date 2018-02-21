@@ -36,12 +36,12 @@
     <div *ngSwitchCase="'private'">
       <!-- show a list of projects -->
       <p *ngIf="!state.loggedIn">Login to see your projects here.</p>
+      <ion-searchbar placeholder="Filter projects.."
+                     showCancelButton color="danger"
+                    (ionInput)="filterItems($event)"
+                    (ionCancel)="loadUserProjects($event)">
+      </ion-searchbar>
       <ion-list *ngIf="state.loggedIn">
-        <ion-searchbar placeholder="Filter projects.."
-                       showCancelButton color="danger"
-                      (ionInput)="filterItems($event)"
-                      (ionCancel)="loadUserProjects($event)">
-        </ion-searchbar>
         <ion-item *ngFor="let project of projects" (click)="itemSelected(project)">
           <ion-thumbnail item-start>
             <img src="{{ project.thumbnail }}">
@@ -50,6 +50,7 @@
           <p>{{ project.description }}</p>
         </ion-item>
       </ion-list>
+      <p *ngIf="projects.length === 0">No projects found.</p>
     </div>
   </div>
 
