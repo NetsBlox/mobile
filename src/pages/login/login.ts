@@ -35,6 +35,7 @@ export class LoginPage {
     })
       .then(resp => {
         this.state.loggedIn = false;
+        common.cache.projects = null;
       })
       .catch(console.error);
   }
