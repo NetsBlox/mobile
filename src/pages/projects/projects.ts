@@ -62,7 +62,9 @@ export class ProjectsPage {
             services: proj.services
           };
         });
+        projects.sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
         this.exampleProjects = projects;
+        return projects;
       })
   }
 
@@ -96,8 +98,10 @@ export class ProjectsPage {
             updatedAtRelative: ta().ago(new Date(proj.Updated))
           };
         });
+        projects.sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
         this.cache.projects = projects;  
         this.projects = [...projects];
+        return projects
       })
       .catch(console.error);
   }
