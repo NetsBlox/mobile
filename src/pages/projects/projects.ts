@@ -6,10 +6,6 @@ import { Project, State } from '../../types';
 import $ from 'jquery';
 import ta from 'time-ago';
 
-interface Cache {
-  projects: any[];
-};
-
 @IonicPage()
 @Component({
   selector: 'page-projects',
@@ -20,7 +16,7 @@ export class ProjectsPage {
   publicProjects: Project[];
   exampleProjects:  Project[] = [];
   category: string = 'examples'; // default category to show
-  cache:Cache = {projects: undefined};
+  cache:Cache = common.cache;
   state:State = common.state; // TODO authentication should be handled in form of a middleware
 
   // TODO use native cordova http module for fetching

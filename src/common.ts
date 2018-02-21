@@ -1,6 +1,14 @@
 import { State } from './types';
 import $ from 'jquery';
 
+declare global {
+    interface Window { mobile: any; }
+}
+
+interface Cache {
+  projects: any[];
+};
+
 const SERVER_ADDRESS = 'https://dev.netsblox.org';
 let snap: any;
 let platform:string = 'unknown';
@@ -14,10 +22,7 @@ let state:State = {
   }
 };
 
-declare global {
-    interface Window { mobile: any; }
-}
-
+let cache:Cache = {projects: null};
 // can be used as a way to check if loggedIn
 function getUser() {
   return $.ajax({
@@ -62,6 +67,7 @@ export default {
   getUser,
   state,
   snap,
+  cache,
   snapFrame,
   platform,
 };
