@@ -21,6 +21,7 @@ export class EditorPage {
   state:State = common.state;
   loader:any = null;
   projectLoaded:boolean = false;
+  keyListeners:any[] = [];
   subscriptions:any[] = [];
 
   constructor(
@@ -39,6 +40,15 @@ export class EditorPage {
     } else {
       console.error('project is not set');
     }
+
+    // populate keylisteners with some basic ones
+    this.keyListeners = [
+      {label: '&larr', icon: 'arrow-dropleft', value: 'left arrow'},
+      {label: '&uarr', icon: 'arrow-dropup', value: 'up arrow'},
+      {label: '&darr', icon: 'arrow-dropdown', value: 'down arrow'},
+      {label: '&rarr', icon: 'arrow-dropright', value: 'right arrow'},
+      {label: 'space', icon: '', value: 'space'},
+    ]
   }
 
   ionViewDidLoad() {
@@ -236,6 +246,11 @@ export class EditorPage {
 
   openRoom() {
     this.navCtrl.push(RoomManagerPage, {});
+  }
+
+  // simulates a key press to snap
+  simulateKeyPress(key) {
+    this.getNbMorph().stage.fireKeyEvent(key);
   }
 
 

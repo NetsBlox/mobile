@@ -36,6 +36,15 @@ page-editor {
         font-size: $fab-size;
       }
     }
+
+  ion-fab-list[side=right] {
+    margin-left: 12rem;
+  }
+
+  .fab-close-active .fab-close-icon {
+    display: none;
+  }
+
   }
 
 }
