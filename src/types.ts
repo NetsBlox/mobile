@@ -5,6 +5,7 @@ export interface Project {
     description: string;
     updatedAt: Date;
     thumbnail: string;
+    numRoles: number;
 };
 
 export interface View {
