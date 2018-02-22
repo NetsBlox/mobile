@@ -53,19 +53,19 @@ export class EditorPage {
       return common.snap.SnapActions !== undefined;
     }, 50, 5000)
       .then(stat => {
-      let SnapActions = common.snap.SnapActions;
-      let onOpenProject = common.snap.SnapActions.onOpenProject;
-      common.snap.SnapActions.onOpenProject = function(str) {
-        onOpenProject.apply(SnapActions, arguments);
-        console.log('project loaded');
-        // broadcast an event so other pages can listen to
-        common.snapFrame.dispatchEvent(new Event('projectLoaded'));
-        editor.onProjectLoaded();
-      }
-      // setup credentials to allow for cookie authentication
-      common.snap.SnapCloud.username = common.state.username;
-      common.snap.SnapCloud.password = true;
-    })
+        let SnapActions = common.snap.SnapActions;
+        let onOpenProject = common.snap.SnapActions.onOpenProject;
+        common.snap.SnapActions.onOpenProject = function(str) {
+          onOpenProject.apply(SnapActions, arguments);
+          console.log('project loaded');
+          // broadcast an event so other pages can listen to
+          common.snapFrame.dispatchEvent(new Event('projectLoaded'));
+          editor.onProjectLoaded();
+        }
+        // setup credentials to allow for cookie authentication
+        common.snap.SnapCloud.username = common.state.username;
+        common.snap.SnapCloud.password = true;
+      })
       .catch(console.error);
 
     this.presentLoading(`Loading ${this.project.name}..`);
