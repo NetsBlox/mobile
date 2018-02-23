@@ -19,40 +19,43 @@ page-editor {
 
 @media all and (orientation: portrait){
 
-  ion-loading.desktopViewWidth .loading-wrapper {
-    padding: 2 * $loading-md-padding-top;
-    max-width: 2 * $loading-md-max-width;
-    .loading-content {
-      font-size: 3rem;
-    }
-  }
+  ion-app:not(.platform-tablet) {
 
-  page-editor ion-fab {
-    button.fab {
-      width: 2*$fab-size;
-      height: 2*$fab-size;
-      font-size: 3rem;
-      ion-icon {
-        font-size: $fab-size;
+    ion-loading.desktopViewWidth .loading-wrapper {
+      padding: 2 * $loading-md-padding-top;
+      max-width: 2 * $loading-md-max-width;
+      .loading-content {
+        font-size: 3rem;
       }
     }
 
-    ion-fab-list  {
-      // probably should be adjusted dynamically
-      width: 70vw;
-      button.fab.fab-in-list {
-        transform: scale(0.7);
+    page-editor ion-fab {
+      button.fab {
+        width: 2*$fab-size;
+        height: 2*$fab-size;
+        font-size: 3rem;
+        ion-icon {
+          font-size: $fab-size;
+        }
       }
-    }
 
-    ion-fab-list[side=right] {
-      margin-left: 12rem;
-    }
+      ion-fab-list  {
+        // probably should be adjusted dynamically
+        width: 70vw;
+        button.fab.fab-in-list {
+          transform: scale(0.7);
+        }
+      }
 
-    .fab-close-active .fab-close-icon {
-      display: none;
-    }
+      ion-fab-list[side=right] {
+        margin-left: 12rem;
+      }
 
+      .fab-close-active .fab-close-icon {
+        display: none;
+      }
+
+    }
   }
 
 }
