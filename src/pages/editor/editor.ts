@@ -47,6 +47,8 @@ export class EditorPage {
       {label: '&uarr', icon: 'arrow-dropup', value: 'up arrow'},
       {label: '&darr', icon: 'arrow-dropdown', value: 'down arrow'},
       {label: '&rarr', icon: 'arrow-dropright', value: 'right arrow'},
+      {label: '+', icon: 'add', value: '+'},
+      {label: '-', icon: 'remove', value: '-'},
       {label: 'space', icon: '', value: 'space'},
     ]
   }
