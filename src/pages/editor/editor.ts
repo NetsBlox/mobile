@@ -251,8 +251,12 @@ export class EditorPage {
   }
 
   // simulates a key press to snap
-  simulateKeyPress(key) {
+  simulateKeyPress(key, duration=100) {
     this.getNbMorph().stage.fireKeyEvent(key);
+    // TODO add mousedown and mouseup (touch) event listeners
+    setTimeout(() => {
+      this.getNbMorph().stage.removePressedKey(key);
+    }, duration)
   }
 
 
