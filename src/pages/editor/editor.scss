@@ -37,13 +37,21 @@ page-editor {
       }
     }
 
-  ion-fab-list[side=right] {
-    margin-left: 12rem;
-  }
+    ion-fab-list  {
+      // probably should be adjusted dynamically
+      width: 70vw;
+      button.fab.fab-in-list {
+        transform: scale(0.7);
+      }
+    }
 
-  .fab-close-active .fab-close-icon {
-    display: none;
-  }
+    ion-fab-list[side=right] {
+      margin-left: 12rem;
+    }
+
+    .fab-close-active .fab-close-icon {
+      display: none;
+    }
 
   }
 
