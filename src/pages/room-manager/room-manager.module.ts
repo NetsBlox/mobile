@@ -4,7 +4,6 @@ import { RoomManagerPage } from './room-manager';
 
 @NgModule({
   declarations: [
-    RoomManagerPage,
   ],
   imports: [
     IonicPageModule.forChild(RoomManagerPage),
