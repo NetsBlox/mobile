@@ -148,8 +148,7 @@ export class EditorPage {
     let showSub = this.keyboard.onKeyboardShow()
       .subscribe((e) => {
         // figure out the minimum you have to push snap up
-        let scale = window.innerHeight / window.outerHeight;
-        let scaledKeyHeight = e.keyboardHeight * scale;
+        let scaledKeyHeight = e.keyboardHeight * window.devicePixelRatio;
         this.pushUpSnap(scaledKeyHeight);
       });
     let hideSub = this.keyboard.onKeyboardHide()
@@ -220,7 +219,7 @@ export class EditorPage {
   setDesktopViewport(status) {
     let vpEl:any = document.querySelector('meta[name="viewport"]');
     if (status) {
-      vpEl.content = 'width=980';
+      vpEl.content = 'width=980, user-scalable=no';
     } else {
       this.hideSnap();
       vpEl.content = 'viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
