@@ -1,15 +1,13 @@
-<ion-header *ngIf="!state.view.focusMode">
-
-  <ion-navbar>
-    <ion-title>{{ project.name }}</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
 <ion-content>
   <!-- TODO directly load snap canvas -->
   <!-- <iframe id="editor" name="editor" [src]="project.url | safe"></iframe> -->
   <iframe id="editor" name="editor"></iframe>
+  <ion-fab top left showWhen="ios">
+    <button ion-fab color="light" (click)="viewCtrl.dismiss()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+  </ion-fab>
+
   <ion-fab bottom right>
     <button ion-fab (click)="openRoom()"><ion-icon name="git-network"></ion-icon></button>
   </ion-fab>

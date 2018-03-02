@@ -9,6 +9,7 @@ import { LoadingController } from 'ionic-angular';
 import { DiagnosticService } from '../../app/diagnostic.service';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
+import { ViewController } from 'ionic-angular';
 
 
 @IonicPage()
@@ -28,6 +29,7 @@ export class EditorPage {
     private keyboard: Keyboard,
     private geolocation: Geolocation,
     private diagnosticService: DiagnosticService,
+    public viewCtrl: ViewController,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
     public navParams: NavParams,
