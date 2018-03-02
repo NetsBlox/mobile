@@ -10,6 +10,7 @@ import { DiagnosticService } from '../../app/diagnostic.service';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 import { ViewController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 
 
 @IonicPage()
@@ -29,6 +30,7 @@ export class EditorPage {
     private keyboard: Keyboard,
     private geolocation: Geolocation,
     private diagnosticService: DiagnosticService,
+    private platform: Platform,
     public viewCtrl: ViewController,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
@@ -81,6 +83,11 @@ export class EditorPage {
         common.snap.SnapCloud.password = true;
       })
       .catch(console.error);
+
+    // disable scrolling of the content when keyboard popsup
+    this.platform.ready().then(() => {
+      this.keyboard.disableScroll(true);
+    })
 
     this.presentLoading(`Loading ${this.project.name}..`);
 
