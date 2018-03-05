@@ -124,6 +124,7 @@ export class EditorPage {
   presentLoading(msg) {
     let loader = this.loadingCtrl.create({
       cssClass: 'desktopViewWidth',
+      dismissOnPageChange: true,
       content: msg
     });
     loader.present();
@@ -168,7 +169,6 @@ export class EditorPage {
   ionViewWillLeave() {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
-    if (this.loader) this.loader.dismiss(); // dismiss if was leaving the page early
     this.subscriptions.forEach(sub => sub.unsubscribe()); // unsubscribe when leaving
   }
 
