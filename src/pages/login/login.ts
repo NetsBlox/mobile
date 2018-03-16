@@ -61,7 +61,7 @@ export class LoginPage {
       method: 'POST',
       data: JSON.stringify({
           __h: sha512(this.password),
-          __u: this.username.toLowerCase(),
+          __u: this.username,
           remember: true
       }),
       contentType: 'application/json; charset=utf-8',
