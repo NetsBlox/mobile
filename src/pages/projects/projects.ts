@@ -65,6 +65,22 @@ export class ProjectsPage {
         this.exampleProjects = projects;
         return projects;
       })
+      .catch(err => {
+        let alert = this.alertCtrl.create({
+          title:'Failed to load examples.',
+          subTitle:'Are you connected to internet?',
+          buttons: [
+            'OK',
+            {
+              text: 'Try Again',
+              handler: () => {
+                this.loadExamples();
+              }
+            }
+          ]
+        });
+        alert.present();
+      })
   }
 
   // loads the projects from cache or request the server for projects

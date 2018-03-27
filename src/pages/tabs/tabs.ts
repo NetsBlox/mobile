@@ -4,6 +4,7 @@ import { State } from '../../types';
 // import { AboutPage } from '../about/about';
 import { ProjectsPage } from '../projects/projects';
 import { HomePage } from '../home/home';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-tabs',
@@ -16,13 +17,21 @@ export class TabsPage {
   tab3Root = ProjectsPage;
   state:State = common.state;
 
-  constructor() {
+  constructor(public alertCtrl: AlertController) {
 
   }
 
   ionViewDidLoad() {
     // async: passivly check to see if user is logged in and fetch user data
-    common.checkLoggedIn();
+    common.checkLoggedIn()
+      .catch(err => {
+        let alert = this.alertCtrl.create({
+          title: "Connection Error", 
+          subTitle: 'Are you connected to internet?',
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      });
   }
 
   // TODO on changes to state.view.focusMode run fn and hide .tabbar
