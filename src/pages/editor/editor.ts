@@ -225,7 +225,8 @@ export class EditorPage {
 
   setDesktopViewport(status) {
     let vpEl:any = document.querySelector('meta[name="viewport"]');
-    if (status) {
+    // don't change the viewport on tablets (or non mobile platforms)
+    if (status && common.platform.indexOf('mobile') != -1) {
       vpEl.content = 'width=980, user-scalable=no';
     } else {
       this.hideSnap();
