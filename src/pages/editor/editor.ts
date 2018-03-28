@@ -226,9 +226,16 @@ export class EditorPage {
   setDesktopViewport(status) {
     let vpEl:any = document.querySelector('meta[name="viewport"]');
     // don't change the viewport on tablets (or non mobile platforms)
-    if (status && common.platform.indexOf('mobile') != -1) {
-      vpEl.content = 'width=980, user-scalable=no';
+    if (status && this.platform.is('mobile') && !this.platform.is('tablet')) {
+      if (this.platform.is('android')) {
+        // it's not ios => android
+        vpEl.content = 'width=980, user-scalable=no';
+      } else if (this.platform.is('ios')) {
+        // it's ios
+        vpEl.content = 'width=980, user-scalable=no, maximum-scale=0.32, initial-scale=0.32, minimum-scale=0.32';
+      }
     } else {
+      // back to default
       this.hideSnap();
       vpEl.content = 'viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
     }
