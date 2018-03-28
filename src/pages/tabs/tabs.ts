@@ -25,12 +25,14 @@ export class TabsPage {
     // async: passivly check to see if user is logged in and fetch user data
     common.checkLoggedIn()
       .catch(err => {
-        let alert = this.alertCtrl.create({
-          title: "Connection Error", 
-          subTitle: 'Are you connected to internet?',
-          buttons: ['Dismiss']
-        });
-        alert.present();
+        if (err.readyState === 0) { // it's a network error
+          let alert = this.alertCtrl.create({
+            title: "Connection Error",
+            subTitle: 'Are you connected to internet?',
+            buttons: ['Dismiss']
+          });
+          alert.present();
+        }
       });
   }
 
