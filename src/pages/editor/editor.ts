@@ -124,7 +124,7 @@ export class EditorPage {
   presentLoading(msg) {
     let loader = this.loadingCtrl.create({
       cssClass: 'desktopViewWidth',
-      dismissOnPageChange: true,
+      // dismissOnPageChange: true, // prematurely dismisses loader
       content: msg
     });
     loader.present();
@@ -170,6 +170,7 @@ export class EditorPage {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
     this.subscriptions.forEach(sub => sub.unsubscribe()); // unsubscribe when leaving
+    if ( this.loader ) this.loader.dismiss();
   }
 
   getSnapFrame() {
