@@ -1,4 +1,5 @@
 import { State } from './types';
+import { SERVER_URL } from './constants';
 import $ from 'jquery';
 
 declare global {
@@ -9,7 +10,7 @@ interface Cache {
   projects: any[];
 };
 
-const SERVER_ADDRESS = 'https://dev.netsblox.org';
+const SERVER_ADDRESS = SERVER_URL;
 let snap: any;
 let platform:string = 'unknown';
 let snapFrame: any;

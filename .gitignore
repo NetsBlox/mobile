@@ -36,4 +36,5 @@ UserInterfaceState.xcuserstate
 .env
 *.jks
 *.apk
+src/constants.ts
 TODO.md
