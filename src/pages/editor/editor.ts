@@ -11,6 +11,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 import { ViewController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 
 @IonicPage()
@@ -28,6 +29,7 @@ export class EditorPage {
 
   constructor(
     private keyboard: Keyboard,
+    private orientation: ScreenOrientation,
     private geolocation: Geolocation,
     private diagnosticService: DiagnosticService,
     private platform: Platform,
@@ -163,12 +165,19 @@ export class EditorPage {
       .subscribe(() => {
         this.pushUpSnap(0);
       });
-    this.subscriptions.push(showSub, hideSub);
+    let orientationSub = this.orientation.onChange()
+      .subscribe(() => {
+        // in portrait mode use desktop viewport and change back on landscape
+        this.setDesktopViewport(this.isPortraitMode());
+        }
+      );
+    this.subscriptions.push(showSub, hideSub, orientationSub);
   }
 
   ionViewWillLeave() {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
+    this.hideSnap();
     this.subscriptions.forEach(sub => sub.unsubscribe()); // unsubscribe when leaving
     if ( this.loader ) this.loader.dismiss();
   }
@@ -227,7 +236,8 @@ export class EditorPage {
   setDesktopViewport(status) {
     let vpEl:any = document.querySelector('meta[name="viewport"]');
     // don't change the viewport on tablets (or non mobile platforms)
-    if (status && this.platform.is('mobile') && !this.platform.is('tablet')) {
+    console.log(this.orientation.type);
+    if (status && this.platform.is('mobile') && !this.platform.is('tablet') && this.isPortraitMode()) {
       if (this.platform.is('android')) {
         // it's not ios => android
         vpEl.content = 'width=980, user-scalable=no';
@@ -237,7 +247,6 @@ export class EditorPage {
       }
     } else {
       // back to default
-      this.hideSnap();
       vpEl.content = 'viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
     }
   }
@@ -274,6 +283,11 @@ export class EditorPage {
     setTimeout(() => {
       this.getNbMorph().stage.removePressedKey(key);
     }, duration)
+  }
+
+  // checks if the phone is in portrait mode
+  isPortraitMode() {
+    return this.orientation.type.indexOf('portrait') !== -1;
   }
 
 
