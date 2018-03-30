@@ -23,6 +23,7 @@ let constantsTxt;
 try {
   constantsTxt = fse.readFileSync(CONSTANTS_PATH, 'UTF8');
 } catch (e) {
+  console.error('couldn\'t find constant file, creating a new one');
   constantsTxt = 'export const SERVER_URL = "https://dev.netsblox.org";';
 }
 const curUrl = constantsTxt.match(/SERVER_URL.*"(.*)"/)[1];
