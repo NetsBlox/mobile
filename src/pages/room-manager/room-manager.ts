@@ -31,7 +31,7 @@ export class RoomManagerPage {
     let roomManager = this;
     common.snapFrame.addEventListener('projectLoaded', () => {
       this.onProjectLoaded.call(roomManager);
-      this.loader.dismiss();
+      if (this.loader) this.loader.dismiss();
     });
 
     // FIXME hacky fix for keeping the room up to date with the changes
