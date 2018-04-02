@@ -12,6 +12,8 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { ViewController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { ToastController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
 
 @IonicPage()
@@ -31,6 +33,8 @@ export class EditorPage {
     private keyboard: Keyboard,
     private orientation: ScreenOrientation,
     private geolocation: Geolocation,
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private diagnosticService: DiagnosticService,
     private platform: Platform,
     public viewCtrl: ViewController,
@@ -99,6 +103,16 @@ export class EditorPage {
     window.mobile.geolocation = this.geolocation;
     window.mobile.diagnosticService = this.diagnosticService;
 
+    common.snapFrame.addEventListener('snapError', event => {
+      let { message, error } = event.detail;
+      console.error('exception in snap', error);
+      this.presentToast(message);
+      if (this.loader) { // dismiss the loader if there is an error and notify user
+        this.loader.dismiss();
+        this.presentAlert('Something went wrong.', 'Please reload the project to try again.');
+      }
+    })
+
   }
 
   // really?! FIXME swap out with the proper solution
@@ -121,6 +135,24 @@ export class EditorPage {
       }, delay);
       // or accept failure
     })
+  }
+
+  presentAlert(title, msg) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+    return alert;
+  }
+
+  presentToast(msg) {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
   }
 
   presentLoading(msg) {
@@ -169,7 +201,7 @@ export class EditorPage {
       .subscribe(() => {
         // in portrait mode use desktop viewport and change back on landscape
         this.setDesktopViewport(this.isPortraitMode());
-        }
+      }
       );
     this.subscriptions.push(showSub, hideSub, orientationSub);
   }
@@ -236,7 +268,6 @@ export class EditorPage {
   setDesktopViewport(status) {
     let vpEl:any = document.querySelector('meta[name="viewport"]');
     // don't change the viewport on tablets (or non mobile platforms)
-    console.log(this.orientation.type);
     if (status && this.platform.is('mobile') && !this.platform.is('tablet') && this.isPortraitMode()) {
       if (this.platform.is('android')) {
         // it's not ios => android
