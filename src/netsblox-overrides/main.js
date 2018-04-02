@@ -106,3 +106,13 @@ WorldMorph.prototype.init = function(aCanvas, fillPage) {
 
 
 disableRetinaSupport(); // lower quality => better performance
+
+Process.prototype.isCatchingErrors = false;
+
+window.onerror = function(message, source, lineno, colno, error) {
+  window.dispatchEvent(new CustomEvent('snapError', {
+    detail: {message, error}
+  }));
+  return false; // don't interrupt the error flow
+};
+
