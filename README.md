@@ -4,6 +4,10 @@
 
 ## Installation Tips
 
+- Requirements:
+    - Node (version 8+)
+    - Android Studio
+    - XCode (for IOS development)
 - Globally install ionic and coroda `npm i -g ionic cordova`
 - Clone the repo `git clone --recursive REPO_URL_HERE netsblox-mobile && cd netsblox-mobile && git pull --recurse-submodules`
 - Setup NetsBlox as a submodule: 
@@ -12,7 +16,6 @@
     - install netsblox depndecies to allow buliding dist file `cd netsblox && npm i; cd ../`
 - Setup NetsBlox's browser by going to src/browser and running `git submodule update --init --recursive`
 - Create a relative symlink from netsblox's browser directory to www/assets/netsblox-client `ln -s ../../netsblox/src/browser www/assets/netsblox-client`
-- Set the server address for ionic through `src/commons`. TODO have it set the address as part of the compilation process.
 
 ### Platform Dependent Tips
 
