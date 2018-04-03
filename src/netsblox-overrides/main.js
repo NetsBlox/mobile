@@ -110,9 +110,10 @@ disableRetinaSupport(); // lower quality => better performance
 Process.prototype.isCatchingErrors = false;
 
 window.onerror = function(message, source, lineno, colno, error) {
-  window.dispatchEvent(new CustomEvent('snapError', {
+  let event = new CustomEvent('snapError', {
     detail: {message, error}
-  }));
+  });
+  mobileHandle.eventTarget.dispatchEvent(event);
   return false; // don't interrupt the error flow
 };
 

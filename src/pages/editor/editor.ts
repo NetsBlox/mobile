@@ -102,14 +102,16 @@ export class EditorPage {
     window.mobile.platform = common.platform;
     window.mobile.geolocation = this.geolocation;
     window.mobile.diagnosticService = this.diagnosticService;
+    window.mobile.eventTarget = common.snapFrame;
 
-    common.snapFrame.addEventListener('snapError', event => {
+    window.mobile.eventTarget.addEventListener('snapError', event => {
       let { message, error } = event.detail;
       console.error('exception in snap', error);
-      this.presentToast(message);
       if (this.loader) { // dismiss the loader if there is an error and notify user
         this.loader.dismiss();
         this.presentAlert('Something went wrong.', 'Please reload the project to try again.');
+      } else {
+        this.presentToast(message);
       }
     })
 
@@ -161,6 +163,9 @@ export class EditorPage {
       // dismissOnPageChange: true, // prematurely dismisses loader
       content: msg
     });
+    loader.onDidDismiss = () => {
+      this.loader = undefined;
+    }
     loader.present();
     this.loader = loader;
     return loader;
@@ -222,7 +227,7 @@ export class EditorPage {
   updateSnapHandle() {
     let iframe = this.getSnapFrame();
     common.snapFrame = iframe;
-    common.snap = iframe.contentWindow;
+    common.snap = iframe.contentWindow; // the 'window' inside iframe
   }
 
   getWorld() {
