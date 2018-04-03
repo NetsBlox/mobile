@@ -150,11 +150,13 @@ export class EditorPage {
   }
 
   presentToast(msg) {
-    this.toastCtrl.create({
+    let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
       position: 'bottom'
     });
+    toast.present();
+    return toast;
   }
 
   presentLoading(msg) {
