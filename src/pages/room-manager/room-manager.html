@@ -23,7 +23,7 @@
         <ion-list>
           <ion-item *ngFor="let user of role.users" >
             <ion-icon name="person" item-start></ion-icon>
-            {{ user.username }}
+            {{ user.username || 'Guest' }}
             <ion-icon name="close" (click)="evictUser(user, role.name)" item-end></ion-icon>
           </ion-item>
         </ion-list>
