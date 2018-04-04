@@ -22,6 +22,8 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="EnableViewportScale" value="true" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+    <hook src="bin/build-nb-client-js.js" type="before_deploy" />
+    <hook src="bin/build-nb-client-html.js" type="before_deploy" />
     <platform name="android">
         <allow-intent href="market:*" />
         <config-file parent="/*" target="AndroidManifest.xml">
