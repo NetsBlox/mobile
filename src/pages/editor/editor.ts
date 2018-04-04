@@ -165,9 +165,11 @@ export class EditorPage {
       // dismissOnPageChange: true, // prematurely dismisses loader
       content: msg
     });
-    loader.onDidDismiss = () => {
+
+    loader.onDidDismiss(() => {
       this.loader = undefined;
-    }
+    });
+
     loader.present();
     this.loader = loader;
     return loader;
