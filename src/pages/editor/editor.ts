@@ -66,11 +66,11 @@ export class EditorPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditorPage');
     this.updateSnapHandle();
-    // start loading snap after view is loaded
-    common.snapFrame.src = this.project.url;
+    let editor = this;
+    // start loading snap after view is loaded and animations are settled (IOS)
+    setTimeout(() => {common.snapFrame.src = editor.project.url;}, 250);
     // dynamically modify snap when its loaded
     // call onProjectLoaded when the project is loaded 
-    let editor = this;
     this.raceForIt(() => {
       return common.snap.SnapActions !== undefined;
     }, 50, 5000)
