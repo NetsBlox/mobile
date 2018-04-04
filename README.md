@@ -4,8 +4,7 @@
 
 ## Installation Tips
 
-- Requirements:
-    - Node (version 8+)
+- Requirements: Node (version 8+)
     - Android Studio
     - XCode (for IOS development)
 - Globally install ionic and coroda `npm i -g ionic cordova`
@@ -44,3 +43,11 @@ Set the environment variables below to configure your deployment.
 - `ANDROID_HOME` to android sdk directory
 - `JAVA_HOME` to jdk directory
 - `PATH` should include android build-tools
+
+## Publishing the App
+Read general instructions on how to publish on [Ionic's docs](https://ionicframework.com/docs/v1/guide/publishing.html)
+
+### Android
+
+run `./bin/publish-android.sh KEYSTORE_PATH ALIAS VERSION` to generate a production ready apk. Don't forget to subsitute keysore, alias and version number with appropriate values.
+

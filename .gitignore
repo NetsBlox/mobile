@@ -35,6 +35,7 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 .env
 *.jks
+*.keystore
 *.apk
 src/constants.ts
 TODO.md
