@@ -16,7 +16,7 @@ function safe_deletion() {
   echo    # (optional) move to a new line
   if [[ $REPLY =~ ^[Yy]$ ]]
   then
-    rm -i $apk_dir/$unsigned_name $apk_dir/$final_name
+    rm -i $apk_dir/$final_name
   fi
 }
 
