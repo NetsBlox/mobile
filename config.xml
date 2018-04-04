@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.netsblox.player" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.netsblox.player" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>NetsBlox Player</name>
     <description>A Player for NetsBlox projects.</description>
     <author email="hamid.zare@vanderbilt.edu" href="https://netsblox.org/">Hamid Zare</author>
@@ -24,11 +24,11 @@
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <hook src="bin/build-nb-client-js.js" type="before_deploy" />
     <hook src="bin/build-nb-client-html.js" type="before_deploy" />
+    <hook src="bin/remove-permissions.js" type="after_prepare" />
     <platform name="android">
         <allow-intent href="market:*" />
         <config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-            <uses-permission android:name="android.permission.RECORD_AUDIO" />
             <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
