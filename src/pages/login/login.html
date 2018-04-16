@@ -15,12 +15,12 @@
   <div *ngIf="!state.loggedIn">
     <div>
       <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="username" value=""></ion-input>
+        <ion-label primary>Username</ion-label>
+        <ion-input type="text" placeholder="Your username from {{ SERVER_ADDRESS }} (case sensitive)" [(ngModel)]="username" value=""></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Password</ion-label>
+        <ion-label primary>Password</ion-label>
         <ion-input type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
     </div>

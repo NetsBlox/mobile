@@ -16,6 +16,7 @@ export class LoginPage {
   username:string = '';
   password:string = '';
   state:State = common.state;
+  SERVER_ADDRESS:string = common.SERVER_ADDRESS.replace(/https?:\/\//,'');
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
