@@ -199,7 +199,9 @@ export class EditorPage {
     let showSub = this.keyboard.onKeyboardShow()
       .subscribe((e) => {
         // figure out the minimum you have to push snap up
-        let scaledKeyHeight = e.keyboardHeight * window.devicePixelRatio;
+        // different from window.devicePixelRatio
+        let pixelRatio =  window.innerHeight / window.outerHeight;
+        let scaledKeyHeight = e.keyboardHeight * pixelRatio;
         this.pushUpSnap(scaledKeyHeight);
       });
     let hideSub = this.keyboard.onKeyboardHide()
@@ -295,20 +297,29 @@ export class EditorPage {
   // resets to full screen if the argument is falsy
   // does not work relative to cur state (does not stack)
   pushUpSnap(pixels) {
+    const SMALL_BTN = 20;
     if (!pixels) {
       common.snapFrame.style.height = ''; // reset height
     } else {
-
-      const BUTTON_SIZE = 50;
+      let curButtonSize = this.getNbMorph().mobileMode.btnConfig.size;
       // find out howmuch empty spaces are around the stage
+      // OPTIMIZE buttons can jump to the right or any empy space they find.
+      // consider landscape
       let topEmpty = this.getNbMorph().mobileMode.emptySpaces().top;
       // figure out the maximum you can push the snap env up
-      let max = (topEmpty  - BUTTON_SIZE ) * 2;
+      let max = (topEmpty  - curButtonSize ) * 2;
       if (max < pixels) {
-        console.error('there is not enough space to move the whole editor into view w/ keyboard')
-      } else {
-        common.snapFrame.style.height = (common.snapFrame.clientHeight - pixels + (topEmpty - pixels/2)) + 'px';
+        let  neededSpace = pixels - max;
+        let reduceFromBtn = neededSpace / 2;
+        let newBtnSize = curButtonSize - reduceFromBtn;
+        if (newBtnSize < SMALL_BTN){
+          newBtnSize = SMALL_BTN;
+          console.error('there is not enough space to move the whole editor into view w/ keyboard')
+        };
+        this.getNbMorph().mobileMode.setBtnSize(newBtnSize, false);
       }
+      // in any case move the stage
+      common.snapFrame.style.height = (common.snapFrame.clientHeight - pixels) + 'px';
     }
   }
 
