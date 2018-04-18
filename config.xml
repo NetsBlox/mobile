@@ -24,8 +24,9 @@
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <hook src="bin/build-nb-client-js.js" type="before_deploy" />
     <hook src="bin/build-nb-client-html.js" type="before_deploy" />
-    <hook src="bin/remove-permissions.js" type="after_prepare" />
     <platform name="android">
+        <hook src="bin/remove-permissions.js" type="after_prepare" />
+        <hook src="bin/connection-check-hook.js" type="before_run" />
         <allow-intent href="market:*" />
         <config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
