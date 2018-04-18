@@ -30,7 +30,7 @@ export class ProjectsPage {
 
   ionViewWillEnter() {
     console.log('ionViewWillEnter ProjectsPage');
-    if (!common.cache.projects) this.loadUserProjects();
+    this.loadUserProjects(true);
   }
 
   itemSelected(project) {
@@ -87,7 +87,10 @@ export class ProjectsPage {
   // cache flag dictates whether to use the cache (if available) or not
   loadUserProjects(cache=true) {
     console.log('loading projects');
-    if (cache && common.cache.projects) {
+    let hasValidCache = () => {
+      return common.cache.projects && common.cache.projects.length > 0;
+    }
+    if (cache && hasValidCache()) {
       console.log('loading projects from cache');
       this.projects = [...common.cache.projects];
       return;
