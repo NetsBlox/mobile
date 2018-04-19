@@ -8,6 +8,12 @@ apk_dir=platforms/android/build/outputs/apk
 final_name="$app_name-release-$version.apk"
 unsigned_name="$app_name-release-unsigned-$version.apk"
 
+# check if args are passed in
+if [ -z "$alias" ]; then
+  echo pass in keystore and alias
+  exit 1
+fi
+
 set -e
 
 function safe_deletion() {
