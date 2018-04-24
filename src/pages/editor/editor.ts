@@ -190,6 +190,12 @@ export class EditorPage {
     common.snapFrame.style.visibility = 'hidden';
   }
 
+  screenPixelRatio() {
+    let h = window.innerHeight / window.outerHeight;
+    let w = window.innerWidth / window.outerWidth;
+    return (h+w)/2;
+  }
+
   ionViewWillEnter() {
     this.setFocusMode(true);
     this.setDesktopViewport(true);
@@ -200,7 +206,7 @@ export class EditorPage {
       .subscribe((e) => {
         // figure out the minimum you have to push snap up
         // different from window.devicePixelRatio
-        let pixelRatio =  window.innerHeight / window.outerHeight;
+        let pixelRatio = this.screenPixelRatio();
         let scaledKeyHeight = e.keyboardHeight * pixelRatio;
         this.pushUpSnap(scaledKeyHeight);
       });
@@ -243,7 +249,7 @@ export class EditorPage {
   getNbMorph() {
     return this.getWorld().children[0];
   }
-  // helper
+  // helper to apply native netsblox compatible functions on editor
   applyOnEditor(fn, arg1, arg2) {
     const context = common.snap;
     let args = Array.prototype.slice.call(arguments, 1);
@@ -275,6 +281,7 @@ export class EditorPage {
     }
     this.state.view.focusMode = status;
   }
+
 
   setDesktopViewport(status) {
     let vpEl:any = document.querySelector('meta[name="viewport"]');
