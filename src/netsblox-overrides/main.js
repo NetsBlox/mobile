@@ -107,7 +107,18 @@ WorldMorph.prototype.init = function(aCanvas, fillPage) {
 
 disableRetinaSupport(); // lower quality => better performance
 
+// should snap eatup all exceptions?
 Process.prototype.isCatchingErrors = false;
+
+// disable automatic client bug reporting?
+const reportClientBugs = false;
+SnapActions.completeAction = function(error) {
+  if (reportClientBugs && error) {
+    this.ide().submitBugReport(null, error);
+  }
+  return ActionManager.prototype.completeAction.apply(this, arguments);
+};
+
 
 window.onerror = function(message, source, lineno, colno, error) {
   let event = new CustomEvent('snapError', {
