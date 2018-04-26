@@ -1,4 +1,5 @@
 # NetsBlox Mobile
+Currently available for Android at [Google Store](https://play.google.com/store/apps/details?id=org.netsblox.player)
 
 
 
