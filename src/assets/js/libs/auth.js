@@ -23,6 +23,9 @@ var AuthHandler = function () {
     value: function _requestPromise(request, data) {
       return new Promise(function (resolve, reject) {
         // stringifying undefined => undefined
+        if (data) {
+          request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        }
         request.send(JSON.stringify(data));
         request.onreadystatechange = function () {
           if (request.readyState === 4) {
@@ -42,7 +45,6 @@ var AuthHandler = function () {
     value: function login(username, password) {
       var request = new XMLHttpRequest();
       request.open('POST', this.serverUrl + '/api', true);
-      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
       request.withCredentials = true;
       var data = {
         __u: username,
@@ -65,6 +67,26 @@ var AuthHandler = function () {
       request.open('POST', this.serverUrl + '/api', true);
       request.withCredentials = true;
       return this._requestPromise(request);
+    }
+
+    // gets user info: username, email
+
+  }, {
+    key: 'getProfile',
+    value: function getProfile() {
+      var request = new XMLHttpRequest();
+      request.open('POST', this.serverUrl + '/api', true);
+      request.withCredentials = true;
+      var data = {
+        api: false,
+        return_user: true,
+        silent: true
+      };
+      return this._requestPromise(request, data).then(function (res) {
+        if (!res.responseText) throw new Error('Access denied. You are not logged in.');
+        var user = JSON.parse(res.responseText);
+        return user;
+      });
     }
   }]);
 
