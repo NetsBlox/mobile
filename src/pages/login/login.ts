@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ProjectsPage } from '../projects/projects';
-import * as sha512 from 'js-sha512';
-import $ from 'jquery';
 import common from '../../common';
 import { State } from '../../types';
-
 
 @IonicPage()
 @Component({
@@ -19,6 +16,7 @@ export class LoginPage {
   SERVER_ADDRESS:string = common.SERVER_ADDRESS.replace(/https?:\/\//,'');
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+    this.authenticator = new AuthHandler(common.SERVER_ADDRESS);
   }
 
   ionViewDidLoad() {
@@ -30,10 +28,7 @@ export class LoginPage {
   }
 
   logout() {
-    $.ajax({
-      method: 'POST',
-      url: common.SERVER_ADDRESS + '/api/logout',
-    })
+    this.authenticator.logout()
       .then(resp => {
         this.state.loggedIn = false;
         common.cache.projects = null;
@@ -42,6 +37,7 @@ export class LoginPage {
   }
 
   login() {
+    // alert about blank username or password
     if(!this.username || !this.password) {
       let alert = this.alertCtrl.create({
         title:'Login Failed', 
@@ -52,41 +48,17 @@ export class LoginPage {
       return;
     }
 
-    // dummy login
-    // this.state.loggedIn = true;
-    // this.navCtrl.push(ProjectsPage)
-    // return;
-
-    return $.ajax({
-      url: common.SERVER_ADDRESS + '/api/?SESSIONGLUE=.sc1m16',
-      method: 'POST',
-      data: JSON.stringify({
-          __h: sha512(this.password),
-          __u: this.username,
-          remember: true
-      }),
-      contentType: 'application/json; charset=utf-8',
-      xhrFields: {
-          withCredentials: true
-      },
-      headers: {
-          // SESSIONGLUE: '.sc1m16',
-          Accept: '*/*',
-      },
-      crossDomain: true
-    })
+    return this.authenticator.login(this.username, this.password)
       .then(resp => {
-        console.log('login succeeded from then');
         this.state.loggedIn = true;
         this.state.username = this.username;
         common.getUser();
         this.navCtrl.push(ProjectsPage)
       })
       .catch(e => {
-        console.log(e);
         let alert = this.alertCtrl.create({
           title:'Login Failed', 
-          subTitle: e.responseText,
+          subTitle: e.request.responseText,
           buttons:['OK']
         });
         alert.present();

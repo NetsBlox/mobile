@@ -4,9 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Device } from '@ionic-native/device';
 import common from '../common';
-
-
 import { TabsPage } from '../pages/tabs/tabs';
+declare var AuthHandler;
 
 @Component({
   templateUrl: 'app.html'
