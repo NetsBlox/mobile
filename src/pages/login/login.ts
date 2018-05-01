@@ -16,7 +16,6 @@ export class LoginPage {
   SERVER_ADDRESS:string = common.SERVER_ADDRESS.replace(/https?:\/\//,'');
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-    this.authenticator = new AuthHandler(common.SERVER_ADDRESS);
   }
 
   ionViewDidLoad() {
@@ -24,11 +23,12 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    common.checkLoggedIn();
+    common.checkLoggedIn()
+      .catch(() => {}); // ignore errors if loggedout
   }
 
   logout() {
-    this.authenticator.logout()
+    common.authenticator.logout()
       .then(resp => {
         this.state.loggedIn = false;
         common.cache.projects = null;
@@ -48,7 +48,7 @@ export class LoginPage {
       return;
     }
 
-    return this.authenticator.login(this.username, this.password)
+    return common.authenticator.login(this.username, this.password)
       .then(resp => {
         this.state.loggedIn = true;
         this.state.username = this.username;

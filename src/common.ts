@@ -1,16 +1,18 @@
 import { State } from './types';
 import { SERVER_URL } from './constants';
-import $ from 'jquery';
 
 declare global {
     interface Window { mobile: any; }
 }
+
 
 interface Cache {
   projects: any[];
 };
 
 const SERVER_ADDRESS = SERVER_URL;
+declare var AuthHandler;
+const authenticator = new AuthHandler(SERVER_ADDRESS)
 let snap: any;
 let platform:string = 'unknown';
 let snapFrame: any;
@@ -25,37 +27,19 @@ let state:State = {
 
 let cache:Cache = {projects: null};
 // can be used as a way to check if loggedIn
+// gets the current logged in users and also updates the app state regarding the user auth
 function getUser() {
-  return $.ajax({
-    url: SERVER_ADDRESS + '/api',
-    method: 'POST',
-    data: JSON.stringify({
-    api: false,
-    return_user: true,
-    silent: true
-    }),
-    contentType: 'application/json; charset=utf-8',
-    xhrFields: {
-      withCredentials: true
-    },
-    headers: {
-      // SESSIONGLUE: '.sc1m16',
-      Accept: '*/*',
-    },
-    crossDomain: true
-  }).then( resp => {
-    if (resp) {
+  return authenticator.getProfile()
+    .then( user => {
       state.loggedIn = true;
-      state.username = resp.username;
-      state.email = resp.email;
-      return resp;
-    } else {
-      throw new Error('no response from server when getting user');
-    }
-  }).catch(err => {
-    state.loggedIn = false;
-    throw err;
-  })
+      state.username = user.username;
+      state.email = user.email;
+      return user;
+    })
+    .catch(err => {
+      state.loggedIn = false;
+      throw err;
+    })
 }
 
 function checkLoggedIn() {
@@ -71,4 +55,5 @@ export default {
   cache,
   snapFrame,
   platform,
+  authenticator
 };
