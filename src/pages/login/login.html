@@ -16,19 +16,29 @@
     <div>
       <ion-item>
         <ion-label primary>Username</ion-label>
-        <ion-input type="text" placeholder="Your username from {{ SERVER_ADDRESS }} (case sensitive)" [(ngModel)]="username" value=""></ion-input>
+        <ion-input type="text" placeholder="Your username from {{ simpleUrl(common.SERVER_ADDRESS) }} (case sensitive)" [(ngModel)]="username" value=""></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label primary>Password</ion-label>
         <ion-input type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
+
+      <div *ngIf="expertMode">
+        <ion-item>
+          <ion-label primary>Server address</ion-label>
+          <ion-input type="text" [(ngModel)]="candidateAddress"></ion-input>
+        </ion-item>
+        <div padding>
+          <button ion-button color="secondary" (click)="updateServerUrl()" block>Change</button>
+        </div>
+      </div>
     </div>
 
     <div padding>
-      <button ion-button color="secondary" (click)="login()" block>Login</button>
+      <button ion-button (press)="expertMode=true;" color="secondary" (click)="login()" block>Login</button>
     </div>
-      
+
   </div>
 
 </ion-content>

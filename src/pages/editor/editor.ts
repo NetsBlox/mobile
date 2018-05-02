@@ -103,7 +103,7 @@ export class EditorPage {
     window.mobile.geolocation = this.geolocation;
     window.mobile.diagnosticService = this.diagnosticService;
     window.mobile.eventTarget = common.snapFrame;
-
+    window.mobile.common = common;
     window.mobile.eventTarget.addEventListener('snapError', event => {
       let { message, error } = event.detail;
       console.error('exception in snap', error);

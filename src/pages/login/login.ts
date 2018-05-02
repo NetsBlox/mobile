@@ -13,7 +13,9 @@ export class LoginPage {
   username:string = '';
   password:string = '';
   state:State = common.state;
-  SERVER_ADDRESS:string = common.SERVER_ADDRESS.replace(/https?:\/\//,'');
+  common:any = common;
+  candidateAddress:string = common.SERVER_ADDRESS;
+  expertMode: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
@@ -25,6 +27,31 @@ export class LoginPage {
   ionViewWillEnter() {
     common.checkLoggedIn()
       .catch(() => {}); // ignore errors if loggedout
+  }
+
+  simpleUrl(url) {
+    return url.replace(/https?:\/\//,'');
+  }
+
+  updateServerUrl() {
+    // validate url
+    if (this.validateUrl(this.candidateAddress)) {
+      common.SERVER_ADDRESS = this.candidateAddress;
+      // update authenticator
+      common.authenticator.serverUrl = common.SERVER_ADDRESS
+      // TODO update / notify netsblox client
+      console.log('changed server url to', common.SERVER_ADDRESS);
+      this.expertMode = false;
+    } else {
+      this.presentAlert('Bad URL', 'Please enter a valid and complete URL.');
+    }
+  }
+
+  validateUrl(str) {
+    if (!str.startsWith('http')) return false;
+    let a  = document.createElement('a');
+    a.href = str;
+    return (a.host && a.host != window.location.host);
   }
 
   logout() {
@@ -39,13 +66,7 @@ export class LoginPage {
   login() {
     // alert about blank username or password
     if(!this.username || !this.password) {
-      let alert = this.alertCtrl.create({
-        title:'Login Failed', 
-        subTitle:'All fields are rquired',
-        buttons:['OK']
-      });
-      alert.present();
-      return;
+      return this.presentAlert('Login failed', 'All fields are required.');
     }
 
     return common.authenticator.login(this.username, this.password)
@@ -56,13 +77,18 @@ export class LoginPage {
         this.navCtrl.push(ProjectsPage)
       })
       .catch(e => {
-        let alert = this.alertCtrl.create({
-          title:'Login Failed', 
-          subTitle: e.request.responseText,
-          buttons:['OK']
-        });
-        alert.present();
+        this.presentAlert('Login failed', e.request.responseText);
       })
+  }
+
+  presentAlert(title, msg) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: msg,
+      buttons:['OK']
+    });
+    alert.present();
+    return alert;
   }
 
 }
