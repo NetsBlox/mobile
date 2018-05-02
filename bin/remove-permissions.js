@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+'use strict';
 //
 // This hook removes specific permissions from the AndroidManifest.xml
 // The AndroidManifest is re-generated during the prepare stage,
@@ -15,7 +15,8 @@
 //     If the count is more than 1, you should search through
 //     the /plugins/<plugin-name>/plugin.xml files for <uses-permission> tags.
 
-var permissionsToRemove = [ 'RECORD_AUDIO', 'CAMERA', 'READ_CONTACTS', 'BLUETOOTH', 'BLUETOOTH_ADMIN', 'READ_CALENDAR' ];
+var permissionsToRemove = [ 'RECORD_AUDIO', 'CAMERA', 'READ_CONTACTS', 'BLUETOOTH', 'BLUETOOTH_ADMIN', 'READ_CALENDAR'];
+  // 'ACCESS_FINE_LOCATION', 'ACCESS_LOCATION_EXTRA_COMMANDS'];
 
 
 var fs = require('fs');
