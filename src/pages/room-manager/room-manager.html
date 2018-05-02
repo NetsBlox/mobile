@@ -31,9 +31,6 @@
     </ion-card>
   </div>
 
-  <button ion-button color="secondary" (click)="updateRoles()">Update Roles</button>
-  <button ion-button color="secondary" (click)="updateFriendList()">Update Friends List</button>
-
   <div *ngIf="!!invitingTo">
     <p>Who do you want to invite to role "{{ invitingTo }}"?</p>
     <ion-searchbar

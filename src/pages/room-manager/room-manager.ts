@@ -14,10 +14,11 @@ import { LoadingController } from 'ionic-angular';
 })
 export class RoomManagerPage {
   roles: any;
-  friends: any;
+  friends: any = [];
   cache: any = {friends: []};
   invitingTo: string; // if set, shows the friendlist and invites to the specified role
   loader: any; // keeps a handle to the room loading popup
+  intervals:any = []
 
   constructor(public loadingCtrl: LoadingController, public toastCtrl: ToastController, private alertCtrl: AlertController, public platform: Platform, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
     this.roles = [{name: 'loading', occupants: []}];
@@ -36,18 +37,19 @@ export class RoomManagerPage {
 
     // FIXME hacky fix for keeping the room up to date with the changes
     // catch websocket messages with type 'room-roles' or hook into room.update
-    // setInterval(this.updateRoles, 5000);
+    // client doesn't get room-roles message when target accepts invitaiton
+    this.intervals.push(setInterval(this.updateFriendList.bind(this), 2000))
     let fn = common.snap.WebSocketManager.MessageHandlers['room-roles'];
     let webSocketManager = this.getIde().sockets;
     common.snap.WebSocketManager.MessageHandlers['room-roles'] = function(msg) {
       fn.call(webSocketManager, msg);
-      console.log('received room-roles message', msg);
       roomManager.updateRoles();
     }
   }
 
   ionViewWillLeave() {
     this.invitingTo = undefined;
+    this.intervals.forEach(i => clearInterval(i));
   }
 
   // acts as on role loaded
@@ -76,14 +78,11 @@ export class RoomManagerPage {
   // updates roles inplace
   updateRoles() {
     let roles = this.getRoom().getRoles();
-    console.log('updating roles', roles);
     this.roles = roles;
   }
 
   // FIXME not working reliably 
   updateFriendList() {
-    console.log('updating the friend list');
-    this.friends = [];
     let handleError =(err, lbl) => {
       console.error(err);
     };
@@ -91,7 +90,6 @@ export class RoomManagerPage {
       // TODO search find pick the friend if there are any
       friends = friends.map(f => f.username);
       friends.unshift('myself');
-      console.log('friendlist:', friends);
       this.friends = friends;
       this.cache.friends = [...friends];
     };
