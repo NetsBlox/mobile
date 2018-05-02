@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { ProjectsPage } from '../projects/projects';
+import { HomePage } from '../home/home';
 import common from '../../common';
 import { State } from '../../types';
 
@@ -74,7 +74,7 @@ export class LoginPage {
         this.state.loggedIn = true;
         this.state.username = this.username;
         common.getUser();
-        this.navCtrl.push(ProjectsPage)
+        this.navCtrl.setRoot(HomePage);
       })
       .catch(e => {
         this.presentAlert('Login failed', e.request.responseText);
