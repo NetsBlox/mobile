@@ -7,7 +7,12 @@ var fs = require('fs'),
   path = require('path'),
   srcPath = 'netsblox/src/browser';
 
-const listOverrides = () => ['src/netsblox-overrides/main.js'],
+const listOverrides = () => {
+    return {
+      post: ['src/netsblox-overrides/post-nb.js'],
+      pre: ['src/netsblox-overrides/pre-nb.js']
+    };
+  },
   overrides = listOverrides();
 
 
@@ -15,19 +20,22 @@ const listOverrides = () => ['src/netsblox-overrides/main.js'],
 var devHtml = fs.readFileSync(path.join(srcPath, 'index.dev.html'), 'utf8'),
   re = /text\/javascript" src="(.*)">/,
   match = devHtml.match(re),
+  nbSrcFiles = [],
   srcFiles = [];
 
 while (match) {
-  srcFiles.push(match[1]);
+  nbSrcFiles.push(match[1]);
   devHtml = devHtml.substring(match.index + match[0].length);
   match = devHtml.match(re);
 }
+if (!isDevEnv) console.log('concatting and minifying:', nbSrcFiles);
+nbSrcFiles = nbSrcFiles.map(file => path.join(srcPath, file));
 
-if (!isDevEnv) console.log('concatting and minifying:', srcFiles);
-
-srcFiles = srcFiles.map(file => path.join(srcPath, file));
 // H add mobile overrides
-srcFiles = srcFiles.concat(overrides);
+srcFiles = srcFiles.concat(overrides.pre);
+srcFiles = srcFiles.concat(nbSrcFiles);
+srcFiles = srcFiles.concat(overrides.post);
+
 var src = srcFiles
   .map(file => fs.readFileSync(file, 'utf8'))
   .join('\n');

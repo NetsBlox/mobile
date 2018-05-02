@@ -1,6 +1,5 @@
 // overriding netsblox/snap features for mobile use
-console.log('overriding netsblox for mobile use');
-let mobileHandle = parent.mobile;
+console.log('overriding netsblox for mobile use. post-nb');
 // override helper
 let branchFn = (originalFn, condition, newFn) => {
   let self = this;
