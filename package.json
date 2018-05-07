@@ -23,6 +23,7 @@
     "@angular/http": "4.4.4",
     "@angular/platform-browser": "4.4.4",
     "@angular/platform-browser-dynamic": "4.4.4",
+    "@ionic-native/app-preferences": "^4.7.0",
     "@ionic-native/core": "4.3.2",
     "@ionic-native/device": "^4.5.3",
     "@ionic-native/diagnostic": "^4.5.3",
@@ -40,6 +41,7 @@
     "cordova-browser": "5.0.3",
     "cordova-ios": "4.5.4",
     "cordova-plugin-advanced-http": "^1.9.0",
+    "cordova-plugin-app-preferences": "^0.99.3",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-file": "^6.0.0",
     "cordova-plugin-geolocation": "^4.0.1",
@@ -84,7 +86,8 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-screen-orientation": {},
       "cordova.plugins.diagnostic": {},
-      "cordova-plugin-request-location-accuracy": {}
+      "cordova-plugin-request-location-accuracy": {},
+      "cordova-plugin-app-preferences": {}
     },
     "platforms": [
       "ios",

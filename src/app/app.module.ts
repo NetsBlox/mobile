@@ -26,6 +26,7 @@ import { DiagnosticService } from './diagnostic.service';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Device } from '@ionic-native/device';
 import { Keyboard } from '@ionic-native/keyboard';
+import { AppPreferences } from '@ionic-native/app-preferences';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { Keyboard } from '@ionic-native/keyboard';
     Keyboard,
     InAppBrowser,
     Utils,
+    AppPreferences,
     HTTP,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
