@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import common from '../../common';
+import { Utils } from '../../utils';
 import { State } from '../../types';
 
 @IonicPage()
@@ -17,7 +18,12 @@ export class LoginPage {
   candidateAddress:string = common.SERVER_ADDRESS;
   expertMode: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private utils: Utils
+  ) {
   }
 
   ionViewDidLoad() {
@@ -36,11 +42,7 @@ export class LoginPage {
   updateServerUrl() {
     // validate url
     if (this.validateUrl(this.candidateAddress)) {
-      common.SERVER_ADDRESS = this.candidateAddress;
-      // update authenticator
-      common.authenticator.serverUrl = common.SERVER_ADDRESS
-      // TODO update / notify netsblox client
-      console.log('changed server url to', common.SERVER_ADDRESS);
+      this.utils.updateServerUrl(this.candidateAddress, true);
       this.expertMode = false;
     } else {
       this.presentAlert('Bad URL', 'Please enter a valid and complete URL.');

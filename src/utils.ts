@@ -1,7 +1,10 @@
-import {Injectable} from "@angular/core";
+import { Injectable } from '@angular/core';
 import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
+import { AppPreferences } from '@ionic-native/app-preferences';
+import common from './common';
+
 
 // TODO port present* methods to reuse these
 @Injectable()
@@ -10,6 +13,7 @@ export class Utils {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
+    private appPreferences: AppPreferences
   ) {
   }
 
@@ -45,5 +49,15 @@ export class Utils {
     loader.present();
     return loader;
   }
+
+  // updates server url used throughout the app
+  updateServerUrl(url, save) {
+    common.SERVER_ADDRESS = url;
+    // update authenticator
+    common.authenticator.serverUrl = common.SERVER_ADDRESS
+    console.log('changed server url to', url);
+    if (save) this.appPreferences.store('SERVER_URL', url);
+  }
+
 
 }
