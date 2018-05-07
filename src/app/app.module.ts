@@ -27,6 +27,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Device } from '@ionic-native/device';
 import { Keyboard } from '@ionic-native/keyboard';
 import { AppPreferences } from '@ionic-native/app-preferences';
+import { AbsoluteDrag } from '../components/absolute-drag/absolute-drag';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AppPreferences } from '@ionic-native/app-preferences';
     EditorPage,
     RoomManagerPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    AbsoluteDrag
   ],
   imports: [
     BrowserModule,
