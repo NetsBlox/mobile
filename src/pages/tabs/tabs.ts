@@ -5,6 +5,8 @@ import { State } from '../../types';
 import { ProjectsPage } from '../projects/projects';
 import { HomePage } from '../home/home';
 import { AlertController } from 'ionic-angular';
+import { AppPreferences } from '@ionic-native/app-preferences';
+import { Utils } from '../../utils';
 
 @Component({
   selector: 'page-tabs',
@@ -17,7 +19,11 @@ export class TabsPage {
   tab3Root = ProjectsPage;
   state:State = common.state;
 
-  constructor(public alertCtrl: AlertController) {
+  constructor(
+    public alertCtrl: AlertController,
+    private appPreferences: AppPreferences,
+    private utils: Utils
+  ) {
 
   }
 
@@ -34,6 +40,17 @@ export class TabsPage {
           alert.present();
         }
       });
+
+    // setup server address
+    this.loadServerAddress();
+  }
+
+  // loads and sets the current server if it is defined
+  loadServerAddress() {
+    this.appPreferences.fetch('SERVER_URL').then(val => {
+      // if is set and different, update
+      if (val && val !== common.SERVER_ADDRESS) this.utils.updateServerUrl(val, false);
+    });
   }
 
   // TODO on changes to state.view.focusMode run fn and hide .tabbar
