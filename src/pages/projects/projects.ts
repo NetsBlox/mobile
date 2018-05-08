@@ -15,6 +15,7 @@ export class ProjectsPage {
   projects: Project[] = [];
   publicProjects: Project[];
   exampleProjects:  Project[] = [];
+  examplesStatus: '';
   category: string = 'examples'; // default category to show
   state:State = common.state; // TODO authentication should be handled in form of a middleware
 
@@ -31,6 +32,7 @@ export class ProjectsPage {
   ionViewWillEnter() {
     console.log('ionViewWillEnter ProjectsPage');
     this.loadUserProjects(true);
+    if (this.exampleProjects.length === 0) this.loadExamples();
   }
 
   itemSelected(project) {
@@ -47,6 +49,7 @@ export class ProjectsPage {
 
   loadExamples() {
     console.log('Calling server for example projects');
+    this.examplesStatus = 'Loading examples.';
     $.ajax({
       url: common.SERVER_ADDRESS + '/api/Examples/EXAMPLES?metadata=true',
       method: 'GET'
@@ -63,6 +66,7 @@ export class ProjectsPage {
         });
         projects.sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
         this.exampleProjects = projects;
+        this.examplesStatus = (projects.length === 0) ? 'No examples found.' : '';
         return projects;
       })
       .catch(err => {
@@ -80,6 +84,7 @@ export class ProjectsPage {
           ]
         });
         alert.present();
+        this.examplesStatus = 'Failed to load examples.';
       })
   }
 

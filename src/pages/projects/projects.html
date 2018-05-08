@@ -22,6 +22,7 @@
 
   <div [ngSwitch]="category">
     <div *ngSwitchCase="'examples'">
+      <p>{{ examplesStatus }}</p>
       <ion-list>
         <ion-item *ngFor="let project of exampleProjects" (click)="itemSelected(project)">
           <ion-thumbnail item-start>
