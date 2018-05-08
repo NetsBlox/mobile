@@ -3,7 +3,7 @@ import { ProjectPage } from '../project/project';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import common from '../../common';
 import { Project, State } from '../../types';
-import $ from 'jquery';
+import axios from 'axios';
 import ta from 'time-ago';
 
 @IonicPage()
@@ -15,7 +15,8 @@ export class ProjectsPage {
   projects: Project[] = [];
   publicProjects: Project[];
   exampleProjects:  Project[] = [];
-  examplesStatus: '';
+  examplesStatus:string = '';
+  projectsStatus:string = '';
   category: string = 'examples'; // default category to show
   state:State = common.state; // TODO authentication should be handled in form of a middleware
 
@@ -41,7 +42,7 @@ export class ProjectsPage {
 
   // loadPublicProjects() {
   //   console.log('Calling server for public projects');
-  //   return $.ajax({
+  //   return axios({
   //     method: 'GET',
   //     url: common.SERVER_ADDRESS +'/api/Projects/PROJECTS'
   //   });
@@ -50,12 +51,13 @@ export class ProjectsPage {
   loadExamples() {
     console.log('Calling server for example projects');
     this.examplesStatus = 'Loading examples.';
-    $.ajax({
+    axios({
       url: common.SERVER_ADDRESS + '/api/Examples/EXAMPLES?metadata=true',
       method: 'GET'
     })
       .then(resp => {
-        let projects = resp.map(proj => {
+        let data = resp.data;
+        let projects = data.map(proj => {
           return {
             name: proj.projectName,
             type: 'example',
@@ -91,7 +93,10 @@ export class ProjectsPage {
   // loads the projects from cache or request the server for projects
   // cache flag dictates whether to use the cache (if available) or not
   loadUserProjects(cache=true) {
-    console.log('loading projects');
+    if (!common.state.loggedIn) {
+      this.projectsStatus = 'Login to see your projects here.';
+      return false
+    }
     let hasValidCache = () => {
       return common.cache.projects && common.cache.projects.length > 0;
     }
@@ -100,19 +105,19 @@ export class ProjectsPage {
       this.projects = [...common.cache.projects];
       return;
     }
+    this.projectsStatus = 'Loading projects..';
     let url = common.SERVER_ADDRESS + '/api/getProjectList?format=json';
-    $.ajax({
+    axios({
       url, 
       method: 'GET',
-      xhrFields: {
-        withCredentials: true
-      },
+      withCredentials: true,
       crossDomain: true
-    })
+    } as any)
       .then(resp => {
-        console.log('received user projects', resp);
+        let data = resp.data;
+        console.log('received user projects', data);
         this.state.loggedIn = true;
-        let projects = resp.map(proj => {
+        let projects = data.map(proj => {
           return {
             name: proj.ProjectName,
             type: 'private',
@@ -125,9 +130,13 @@ export class ProjectsPage {
         projects.sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
         common.cache.projects = projects;
         this.projects = [...projects];
+        this.projectsStatus = (projects.length === 0) ? 'No projects found.' : '';
         return projects
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err);
+        this.projectsStatus = 'Failed to load projects.';
+      });
   }
 
   filterItems(ev: any) {

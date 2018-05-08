@@ -36,8 +36,8 @@
 
     <div *ngSwitchCase="'private'">
       <!-- show a list of projects -->
-      <p *ngIf="!state.loggedIn">Login to see your projects here.</p>
-      <ion-searchbar placeholder="Filter projects.."
+      <p *ngIf="!!projectsStatus">{{ projectsStatus }}</p>
+      <ion-searchbar *ngIf="state.loggedIn" placeholder="Filter projects.."
                      showCancelButton color="danger"
                     (ionInput)="filterItems($event)"
                     (ionCancel)="loadUserProjects($event)">
@@ -51,7 +51,6 @@
           <p>{{ project.description }}</p>
         </ion-item>
       </ion-list>
-      <p *ngIf="projects.length === 0">No projects found.</p>
     </div>
   </div>
 
