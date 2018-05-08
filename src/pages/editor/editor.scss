@@ -39,20 +39,28 @@ page-editor {
         }
       }
 
-      ion-fab-list  {
-        // probably should be adjusted dynamically
-        width: 70vw;
+      // $fab-list-margin
+      ion-fab-list {
         button.fab.fab-in-list {
           transform: scale(0.7);
         }
       }
 
-      ion-fab-list[side=right] {
-        margin-left: 12rem;
-      }
-
       .fab-close-active .fab-close-icon {
         display: none;
+      }
+
+      // listeners fablist
+      #listeners {
+        ion-fab-list  {
+          // probably should be adjusted dynamically
+          width: 70vw;
+        }
+
+        ion-fab-list[side=right] {
+          margin-left: 12rem;
+        }
+
       }
 
     }
