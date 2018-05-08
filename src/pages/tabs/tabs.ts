@@ -42,7 +42,7 @@ export class TabsPage {
       });
 
     // setup server address
-    this.loadServerAddress();
+    if (this.utils.plt.is('cordova')) this.loadServerAddress();
   }
 
   // loads and sets the current server if it is defined

@@ -3,6 +3,7 @@ import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { AppPreferences } from '@ionic-native/app-preferences';
+import { Platform } from 'ionic-angular';
 import common from './common';
 
 
@@ -10,6 +11,7 @@ import common from './common';
 @Injectable()
 export class Utils {
   constructor(
+    public plt: Platform,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
