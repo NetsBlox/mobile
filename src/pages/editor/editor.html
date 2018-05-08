@@ -1,24 +1,29 @@
 <ion-content>
-  <!-- TODO directly load snap canvas -->
-  <!-- <iframe id="editor" name="editor" [src]="project.url | safe"></iframe> -->
-  <iframe id="editor" name="editor"></iframe>
-  <ion-fab top left showWhen="ios">
-    <button ion-fab color="light" (click)="viewCtrl.dismiss()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </button>
-  </ion-fab>
-
-  <ion-fab bottom right>
-    <button ion-fab (click)="openRoom()"><ion-icon name="git-network"></ion-icon></button>
-  </ion-fab>
-
-  <ion-fab *ngIf="keyListeners.length > 0" left bottom>
-    <button ion-fab color="light"><ion-icon name="arrow-dropright"></ion-icon></button>
-    <ion-fab-list side="right">
-      <button *ngFor="let key of keyListeners" (click)="simulateKeyPress(key.value)" ion-fab>
+  <div ion-fixed>
+    <iframe id="editor" name="editor"></iframe>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons start *ngIf="keyListeners.length > 0">
+      <button *ngFor="let key of keyListeners" (click)="simulateKeyPress(key.value)" ion-button>
         <ion-icon *ngIf="key.icon; else label" name="{{ key.icon }}"></ion-icon>
         <ng-template #label>{{ key.label }}</ng-template>
       </button>
-    </ion-fab-list>
-  </ion-fab>
-</ion-content>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openRoom()">
+        <ion-icon name="people"></ion-icon>
+      </button>
+      <button ion-button icon-only color="secondary" (click)="sendStart()">
+        <ion-icon name="play"></ion-icon>
+      </button>
+      <button ion-button icon-only color="danger" (click)="sendStop()">
+        <ion-icon name="square"></ion-icon>
+      </button>
+      <!-- <button ion-button icon-only> -->
+      <!--   <ion-icon name="more"></ion-icon> -->
+      <!-- </button> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

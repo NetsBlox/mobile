@@ -7,6 +7,11 @@ page-editor {
     // margin-right: -$content-padding;
   }
 
+  [ion-fixed] {
+    height: 100%;
+    width: 100%;
+  }
+
   iframe {
     border: 0;
   }
@@ -15,6 +20,10 @@ page-editor {
     padding: $content-padding 0;
   }
 
+}
+
+ion-footer button.bar-button {
+  margin: 0 1.8rem;
 }
 
 @media all and (orientation: portrait){
@@ -64,6 +73,27 @@ page-editor {
       }
 
     }
-  }
+
+    // toolbar starts
+    $toolbar-height: 10rem;
+
+    ion-footer {
+      min-height: $toolbar-height;
+      z-index: 1000;
+      ion-toolbar {
+        min-height: $toolbar-height;
+      }
+
+      button.bar-button {
+        font-size: 4rem;
+      }
+    }
+
+    .fixed-content {
+      // margin-bottom: $toolbar-height;
+    }
+
+
+  } // end of not-tablet media query
 
 }

@@ -218,6 +218,13 @@ export class EditorPage {
       .subscribe(() => {
         // in portrait mode use desktop viewport and change back on landscape
         this.setDesktopViewport(this.isPortraitMode());
+        const onRotationFinished = () => {
+          let fcEl:any = document.querySelector('page-editor .fixed-content');
+          let toolbarHeight = document.querySelector('ion-footer').clientHeight + 'px';
+          fcEl.style.marginBottom = toolbarHeight;
+        }
+        // FIXME change to a pubsub model (event)
+        setTimeout(onRotationFinished.bind(this), 300);
       }
       );
     this.subscriptions.push(showSub, hideSub, orientationSub);
@@ -332,6 +339,14 @@ export class EditorPage {
 
   openRoom() {
     this.navCtrl.push(RoomManagerPage, {});
+  }
+
+  sendStart() {
+    this.getNbMorph().pressStart();
+  }
+
+  sendStop() {
+    this.getNbMorph().stopAllScripts();
   }
 
   // simulates a key press to snap

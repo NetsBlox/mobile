@@ -127,3 +127,5 @@ window.onerror = function(message, source, lineno, colno, error) {
   return false; // don't interrupt the error flow
 };
 
+// don't create buttons on mobilemode
+IDE_Morph.prototype.mobileMode.fixLayout = function() {};
