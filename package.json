@@ -87,7 +87,10 @@
       "cordova-plugin-screen-orientation": {},
       "cordova.plugins.diagnostic": {},
       "cordova-plugin-request-location-accuracy": {},
-      "cordova-plugin-app-preferences": {}
+      "cordova-plugin-app-preferences": {},
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "To provive location services."
+      }
     },
     "platforms": [
       "ios",
