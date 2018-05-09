@@ -72,20 +72,8 @@ export class ProjectsPage {
         return projects;
       })
       .catch(err => {
-        let alert = this.alertCtrl.create({
-          title:'Failed to load examples.',
-          subTitle:'Are you connected to internet?',
-          buttons: [
-            'OK',
-            {
-              text: 'Try Again',
-              handler: () => {
-                this.loadExamples();
-              }
-            }
-          ]
-        });
-        alert.present();
+        // chrome throws an error for no apparent reason ERR_CACHE_READ_FAILURE
+        // more at https://productforums.google.com/forum/#!topic/chrome/Mjcmli_1Dts
         this.examplesStatus = 'Failed to load examples.';
       })
   }
