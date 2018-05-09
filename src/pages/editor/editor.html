@@ -1,6 +1,11 @@
 <ion-content>
   <div ion-fixed>
     <iframe id="editor" name="editor"></iframe>
+    <ion-fab top left showWhen="ios">
+      <button ion-fab color="light" (click)="viewCtrl.dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-fab>
   </div>
 </ion-content>
 <ion-footer>
