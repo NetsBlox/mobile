@@ -75,24 +75,29 @@ ion-footer button.bar-button {
     }
 
     // toolbar starts
-    $toolbar-height: 10rem;
+    $button-size: 4rem;
+    $button-size-ios: 4rem;
 
     ion-footer {
-      min-height: $toolbar-height;
       z-index: 1000;
       ion-toolbar {
-        min-height: $toolbar-height;
+        padding: 3rem;
       }
 
       button.bar-button {
-        font-size: 4rem;
+        font-size: $button-size;
       }
     }
 
-    .fixed-content {
-      // margin-bottom: $toolbar-height;
-    }
+    .footer-ios {
+      ion-buttons, button, ion-toolbar {
+        height: 100%
+      }
 
+      button.bar-button {
+        font-size: $button-size-ios;
+      }
+    }
 
   } // end of not-tablet media query
 

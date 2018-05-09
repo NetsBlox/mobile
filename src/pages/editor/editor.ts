@@ -225,6 +225,7 @@ export class EditorPage {
         }
         // FIXME change to a pubsub model (event)
         setTimeout(onRotationFinished.bind(this), 300);
+        setTimeout(onRotationFinished.bind(this), 1000);
       }
       );
     this.subscriptions.push(showSub, hideSub, orientationSub);
