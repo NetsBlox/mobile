@@ -100,6 +100,7 @@ export class EditorPage {
       if (this.loader) { // dismiss the loader if there is an error and notify user
         this.loader.dismiss();
         this.presentAlert('Something went wrong.', 'Please reload the project to try again.');
+        this.viewCtrl.dismiss() // send it back
       } else {
         this.presentToast(message);
       }
