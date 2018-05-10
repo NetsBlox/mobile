@@ -132,3 +132,36 @@ IDE_Morph.prototype.mobileMode.fixLayout = function() {};
 
 // remove leaving confirmation
 window.onbeforeunload = nop;
+
+// finds all key listeners for the current role.
+// CHECK custom blocks
+// can be refactored and used as a way of finding all blocks of certaion type in the current role
+IDE_Morph.prototype.findAllListeners = function() {
+  let ide = this;
+  let allSprites = ide.stage.children
+    .filter(m => m instanceof SpriteMorph);
+  let allTopBlocks = allSprites
+    .map(sp => sp.scripts)
+    .map(sc => sc.children)
+    .reduce((a,b) => a.concat(b));
+  // TODO filter to hat blocks only?
+  // find interesting blocks
+  const impSelectors = ['receiveKey', 'reportKeyPressed'];
+  let impBlocks = [];
+  allTopBlocks.forEach(b => {
+    SnapActions.traverse(b, block => {
+      if (impSelectors.includes(block.selector)) impBlocks.push(block);
+    });
+  });
+  // pull out the interesting section of the blocks
+  const listeners = impBlocks
+    .map(b => {
+      return b.children.find(child => child instanceof InputSlotMorph);
+    })
+    .map(is => {
+      if (is.constant) return is.constant[0];
+    });
+
+  // set also takes care of duplicate values
+  return new Set(listeners);
+};
