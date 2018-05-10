@@ -51,16 +51,6 @@ export class EditorPage {
       console.error('project is not set');
     }
 
-    // populate keylisteners with some basic ones
-    this.keyListeners = [
-      {label: '&larr', icon: 'arrow-dropleft', value: 'left arrow'},
-      {label: '&uarr', icon: 'arrow-dropup', value: 'up arrow'},
-      {label: '&darr', icon: 'arrow-dropdown', value: 'down arrow'},
-      {label: '&rarr', icon: 'arrow-dropright', value: 'right arrow'},
-      {label: '+', icon: 'add', value: '+'},
-      {label: '-', icon: 'remove', value: '-'},
-      {label: 'space', icon: '', value: 'space'},
-    ]
   }
 
   ionViewDidLoad() {
@@ -179,6 +169,7 @@ export class EditorPage {
     this.getNbMorph().toggleAppMode(true);
     this.showSnap();
     this.loader.dismiss();
+    this.setupKeys();
     this.projectLoaded = true;
   }
 
@@ -200,6 +191,7 @@ export class EditorPage {
     this.setFocusMode(true);
     this.setDesktopViewport(true);
     if(this.projectLoaded) this.showSnap();
+    if(this.projectLoaded) this.setupKeys(); // OPTIMIZE only do so when the role is changed
 
     // resize snap when keyboard shows up
     let showSub = this.keyboard.onKeyboardShow()
@@ -254,6 +246,7 @@ export class EditorPage {
     return common.snap.world;
   }
 
+  // returns a handle to IDE_Morph from snap
   getNbMorph() {
     return this.getWorld().children[0];
   }
@@ -362,6 +355,35 @@ export class EditorPage {
   // checks if the phone is in portrait mode
   isPortraitMode() {
     return this.orientation.type.indexOf('portrait') !== -1;
+  }
+
+  setupKeys() {
+    this.keyListeners = []; // reset keys
+    const listeners = this.getNbMorph().findAllListeners();
+    console.log('setting up keys', listeners);
+
+    let hasOneOf = (setS, list) => {
+      return list.some(k => setS.has(k));
+    }
+
+    const directionalKeys = ['left arrow', 'up arrow', 'down arrow', 'right arrow']
+    if (hasOneOf(listeners, directionalKeys)) {
+      // TODO add directional keys button
+      this.keyListeners = this.keyListeners.concat([
+        {label: '&larr', icon: 'arrow-dropleft', value: 'left arrow'},
+        {label: '&uarr', icon: 'arrow-dropup', value: 'up arrow'},
+        {label: '&darr', icon: 'arrow-dropdown', value: 'down arrow'},
+        {label: '&rarr', icon: 'arrow-dropright', value: 'right arrow'},
+      ])
+      directionalKeys.forEach(k => listeners.delete(k))
+    }
+
+    // set a shorter label for space
+    if (listeners.delete('space')) this.keyListeners.push({label: 'SP', icon: '', value: 'space'})
+
+    listeners.forEach(k => {
+      this.keyListeners.push({label: k, icon: '', value: k});
+    });
   }
 
 
