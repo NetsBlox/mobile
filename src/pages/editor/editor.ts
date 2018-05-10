@@ -201,7 +201,7 @@ export class EditorPage {
         // different from window.devicePixelRatio
         let pixelRatio = this.screenPixelRatio();
         let scaledKeyHeight = e.keyboardHeight * pixelRatio;
-        this.pushUpSnap(scaledKeyHeight);
+        this.pushUpSnap(scaledKeyHeight - this.toolbarHeight());
       });
     let hideSub = this.keyboard.onKeyboardHide()
       .subscribe(() => {
@@ -213,7 +213,7 @@ export class EditorPage {
         this.setDesktopViewport(this.isPortraitMode());
         const onRotationFinished = () => {
           let fcEl:any = document.querySelector('page-editor .fixed-content');
-          let toolbarHeight = document.querySelector('ion-footer').clientHeight + 'px';
+          let toolbarHeight = this.toolbarHeight() + 'px';
           fcEl.style.marginBottom = toolbarHeight;
         }
         // FIXME change to a pubsub model (event)
@@ -302,9 +302,11 @@ export class EditorPage {
     }
   }
 
-  // pushes up snap to open space below to fit elements like keyboard
-  // resets to full screen if the argument is falsy
-  // does not work relative to cur state (does not stack)
+  /* pushes up snap by changing its iframe height
+  * to open space below to fit elements like keyboard
+  * resets to full screen if the argument is falsy
+  * does not work relative to cur state (does not stack)
+  */
   pushUpSnap(pixels) {
     const SMALL_BTN = 20;
     if (!pixels) {
@@ -356,6 +358,10 @@ export class EditorPage {
   // checks if the phone is in portrait mode
   isPortraitMode() {
     return this.orientation.type.indexOf('portrait') !== -1;
+  }
+
+  toolbarHeight() {
+    return document.querySelector('ion-footer').clientHeight;
   }
 
   setupKeys() {

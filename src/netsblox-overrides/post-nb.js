@@ -95,6 +95,13 @@ WorldMorph.prototype.initVirtualKeyboard = function() {
   this.virtualKeyboard.focus();
 };
 
+// remove the top position for virt keyboard
+WorldMorph.prototype._edit = WorldMorph.prototype.edit;
+WorldMorph.prototype.edit = function (aStringOrTextMorph) {
+  this._edit(aStringOrTextMorph);
+  if (this.virtualKeyboard) this.virtualKeyboard.style.top = '';
+};
+
 
 // set the fillpage option on creating world instance
 WorldMorph.prototype._init = WorldMorph.prototype.init;
@@ -108,6 +115,10 @@ disableRetinaSupport(); // lower quality => better performance
 
 // should snap eatup all exceptions?
 Process.prototype.isCatchingErrors = false;
+
+// explicitly set that this is a touch device to avoid problems
+// if there has not been any touches yet (initKeyboard)
+MorphicPreferences.isTouchDevice = true;
 
 // disable automatic client bug reporting?
 const reportClientBugs = false;
@@ -143,7 +154,7 @@ IDE_Morph.prototype.findAllListeners = function() {
   let allTopBlocks = allSprites
     .map(sp => sp.scripts)
     .map(sc => sc.children)
-    .reduce((a,b) => a.concat(b));
+    .reduce((a, b) => a.concat(b));
   // TODO filter to hat blocks only?
   // find interesting blocks
   const impSelectors = ['receiveKey', 'reportKeyPressed'];
