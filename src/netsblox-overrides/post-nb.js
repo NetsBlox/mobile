@@ -151,6 +151,8 @@ IDE_Morph.prototype.findAllListeners = function() {
   let ide = this;
   let allSprites = ide.stage.children
     .filter(m => m instanceof SpriteMorph);
+  allSprites.push(ide.stage); // also look into stage scripts
+
   let allTopBlocks = allSprites
     .map(sp => sp.scripts)
     .map(sc => sc.children)
