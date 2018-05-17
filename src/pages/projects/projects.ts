@@ -32,7 +32,7 @@ export class ProjectsPage {
 
   ionViewWillEnter() {
     console.log('ionViewWillEnter ProjectsPage');
-    this.loadUserProjects(true);
+    this.loadUserProjects();
     if (this.exampleProjects.length === 0) this.loadExamples();
   }
 
@@ -96,7 +96,7 @@ export class ProjectsPage {
     this.projectsStatus = 'Loading projects..';
     let url = common.SERVER_ADDRESS + '/api/getProjectList?format=json';
     axios({
-      url, 
+      url,
       method: 'GET',
       withCredentials: true,
       crossDomain: true
