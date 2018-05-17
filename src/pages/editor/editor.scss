@@ -79,9 +79,13 @@ ion-footer button.bar-button {
     $button-size-ios: 4rem;
 
     ion-footer {
+      $ion-toolbar-padding: 3rem;
       z-index: 1000;
       ion-toolbar {
-        padding: 3rem;
+        padding: $ion-toolbar-padding;
+      }
+      ion-toolbar.toolbar-ios:last-child {
+        padding-bottom: $ion-toolbar-padding !important;
       }
 
       button.bar-button {
