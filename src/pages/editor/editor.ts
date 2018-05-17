@@ -60,7 +60,7 @@ export class EditorPage {
     // start loading snap after view is loaded and animations are settled (IOS)
     setTimeout(() => {common.snapFrame.src = editor.project.url;}, 250);
     // dynamically modify snap when its loaded
-    // call onProjectLoaded when the project is loaded 
+    // call onProjectLoaded when the project is loaded
     this.raceForIt(() => {
       return common.snap.SnapActions !== undefined;
     }, 50, 5000)
@@ -172,6 +172,7 @@ export class EditorPage {
     this.loader.dismiss();
     this.setupKeys();
     this.projectLoaded = true;
+    this.alignFCToolbar();
   }
 
   showSnap() {
@@ -212,9 +213,7 @@ export class EditorPage {
         // in portrait mode use desktop viewport and change back on landscape
         this.setDesktopViewport(this.isPortraitMode());
         const onRotationFinished = () => {
-          let fcEl:any = document.querySelector('page-editor .fixed-content');
-          let toolbarHeight = this.toolbarHeight() + 'px';
-          fcEl.style.marginBottom = toolbarHeight;
+          this.alignFCToolbar();
         }
         // FIXME change to a pubsub model (event)
         setTimeout(onRotationFinished.bind(this), 300);
@@ -391,6 +390,12 @@ export class EditorPage {
     listeners.forEach(k => {
       this.keyListeners.push({label: k, icon: '', value: k});
     });
+  }
+
+  alignFCToolbar() {
+    let fcEl:any = document.querySelector('page-editor .fixed-content');
+    let toolbarHeight = this.toolbarHeight() + 'px';
+    fcEl.style.marginBottom = toolbarHeight;
   }
 
 
