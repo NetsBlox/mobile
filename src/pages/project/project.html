@@ -11,7 +11,6 @@
   <div text-center>
     <img src="{{ project.thumbnail }}"/>
   </div>
-  <ion-card-title>{{ project.name }}</ion-card-title>
   <p>{{ project.description }}</p>
   <p *ngIf="project.updatedAt" >Last update {{ project.updatedAtRelative }}</p>
   <!-- TODO detect and show warnings for unsupported or restricted blocks/features
