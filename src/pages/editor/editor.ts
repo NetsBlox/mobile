@@ -172,7 +172,7 @@ export class EditorPage {
     this.loader.dismiss();
     this.setupKeys();
     this.projectLoaded = true;
-    this.alignFCToolbar();
+    this.alignFCToolbar(0);
   }
 
   showSnap() {
@@ -192,6 +192,7 @@ export class EditorPage {
   ionViewWillEnter() {
     this.setFocusMode(true);
     this.setDesktopViewport(true);
+    this.alignFCToolbar(500);
     if(this.projectLoaded) this.showSnap();
     if(this.projectLoaded) this.setupKeys(); // OPTIMIZE only do so when the role is changed
 
@@ -212,12 +213,8 @@ export class EditorPage {
       .subscribe(() => {
         // in portrait mode use desktop viewport and change back on landscape
         this.setDesktopViewport(this.isPortraitMode());
-        const onRotationFinished = () => {
-          this.alignFCToolbar();
-        }
-        // FIXME change to a pubsub model (event)
-        setTimeout(onRotationFinished.bind(this), 300);
-        setTimeout(onRotationFinished.bind(this), 1000);
+        this.alignFCToolbar(300);
+        this.alignFCToolbar(1000);
       }
       );
     this.subscriptions.push(showSub, hideSub, orientationSub);
@@ -392,7 +389,11 @@ export class EditorPage {
     });
   }
 
-  alignFCToolbar() {
+  alignFCToolbar(delay) {
+    if (delay) { // !!0 is equal to !!false (note typscript method sig)
+      setTimeout(this.alignFCToolbar.bind(this), delay);
+      return;
+    }
     let fcEl:any = document.querySelector('page-editor .fixed-content');
     let toolbarHeight = this.toolbarHeight() + 'px';
     fcEl.style.marginBottom = toolbarHeight;
