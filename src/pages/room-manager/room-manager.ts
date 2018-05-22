@@ -50,6 +50,9 @@ export class RoomManagerPage {
   ionViewWillLeave() {
     this.invitingTo = undefined;
     this.intervals.forEach(i => clearInterval(i));
+    // hide page ASAP to avoid showing changes when updating viewport settings
+    let page:any = document.querySelector('page-room-manager');
+    page.style.display = 'none';
   }
 
   // acts as on role loaded
@@ -81,7 +84,7 @@ export class RoomManagerPage {
     this.roles = roles;
   }
 
-  // FIXME not working reliably 
+  // FIXME not working reliably
   updateFriendList() {
     let handleError =(err, lbl) => {
       console.error(err);
@@ -202,7 +205,7 @@ export class RoomManagerPage {
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'exit' : null,
           handler: () => {
-            // TODO find the user, through the role? 
+            // TODO find the user, through the role?
             let user = role.users.find(uName => uName !== 'myself');
             this.evictUser(user, role.name);
             console.log('Destructive clicked');
