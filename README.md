@@ -36,6 +36,9 @@ more information available at [cordova viewport fix](https://fetch-info.blogspot
     3. signing > select a team (refer to free provisioning)
     4. go to your device settings > general > dev management > trust your account
     5. `ionic cordova run ios --device`
+- To publish to app store
+    1. check/change signing identity located at `./platforms/ios/corodva/bulid-release.xcconfig`
+    2. ensure you have the correct bundle id (same as the one defined in itunes connect)
 
 
 ## Environment Variables
