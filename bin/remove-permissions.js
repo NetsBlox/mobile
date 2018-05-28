@@ -16,7 +16,10 @@
 //     the /plugins/<plugin-name>/plugin.xml files for <uses-permission> tags.
 
 var permissionsToRemove = [ 'RECORD_AUDIO', 'CAMERA', 'READ_CONTACTS', 'BLUETOOTH', 'BLUETOOTH_ADMIN', 'READ_CALENDAR'];
-  // 'ACCESS_FINE_LOCATION', 'ACCESS_LOCATION_EXTRA_COMMANDS'];
+// permissionsToRemove = permissionsToRemove.concat(['ACCESS_FINE_LOCATION', 'ACCESS_LOCATION_EXTRA_COMMANDS']);
+
+// make these hardware features optional
+var optionalFeatures = ['hardware.location.gps'];
 
 
 var fs = require('fs');
@@ -30,6 +33,11 @@ fs.readFile( manifestFile, 'utf8', function( err, data )
   var result = data;
   for (var i=0; i<permissionsToRemove.length; i++)
     result = result.replace( '<uses-permission android:name="android.permission.' + permissionsToRemove[i] + '" />', '' );
+
+  for (var i=0; i<optionalFeatures.length; i++) {
+    var find = '<uses-feature android:name="android.' + optionalFeatures[i] + '" />';
+    result = result.replace(find, '<uses-feature android:name="android.' + optionalFeatures[i] + '" android:required="false"/>' );
+  }
 
   fs.writeFile( manifestFile, result, 'utf8', function( err ) {
     console.log('removed permissions', permissionsToRemove);
