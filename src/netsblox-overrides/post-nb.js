@@ -121,6 +121,7 @@ Process.prototype.isCatchingErrors = false;
 MorphicPreferences.isTouchDevice = true;
 
 // disable automatic client bug reporting?
+NetsBloxMorph.prototype.submitBugReport = nop;
 const reportClientBugs = false;
 SnapActions.completeAction = function(error) {
   if (reportClientBugs && error) {
@@ -193,5 +194,6 @@ DialogBoxMorph.prototype.askYesNo = function(title, textString, world, pic) {
         this.cancel();
       }
     })
-    .catch(e => console.log('Error displaying dialog', e));
+    .catch(e => console.error('Error displaying dialog', e));
 };
+
