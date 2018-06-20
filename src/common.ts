@@ -10,7 +10,7 @@ interface Cache {
   projects: any[];
 };
 
-const DEVICE_UUID = 'unset';
+const DEVICE_UUID = '_netsblox';
 const SERVER_ADDRESS = SERVER_URL;
 declare var AuthHandler;
 const authenticator = new AuthHandler(SERVER_ADDRESS)
