@@ -28,6 +28,7 @@ export class EditorPage {
   state:State = common.state;
   loader:any = null;
   lastToastTime:number = 0;
+  snapExceptions:any[];
   projectLoaded:boolean = false;
   keyListeners:any[] = [];
   subscriptions:any[] = [];
@@ -108,10 +109,14 @@ export class EditorPage {
         this.viewCtrl.dismiss() // send it back
       } else {
         // show the error but limit the rate
+        this.snapExceptions.push(error);
+        if (this.snapExceptions.length > 10) { // smell factor
+          this.presentToast(`Something seems wrong, if you are experiencing problems with your program please reload the project.`)
+        }
         let curTime = new Date().getTime();
         if ((curTime - this.lastToastTime) > 5 * 1000) { // 5 seconds
           this.lastToastTime = curTime;
-          this.presentToast(message);
+          // this.presentToast(message); // only enable in dev mode
         }
       }
     })
