@@ -22,6 +22,7 @@ export class MyApp {
       // setup platfrom string to be used by diagnostic service
       if(device.platform){
         common.platform = device.platform.toLowerCase();
+        common.DEVICE_UUID = device.uuid;
         if(common.platform.match(/win/)){
           common.platform = "windows";
         }

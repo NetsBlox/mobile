@@ -20,11 +20,11 @@ export class ProjectPage {
     if (project) this.project = project;
     if (project.type === 'private') {
       let externalUrl = `${common.SERVER_ADDRESS}/?action=private&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER`;
-      let internalUrl = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER&editMode=DOESNT_MATTER`;
+      let internalUrl = `assets/netsblox-client/index.html?action=private&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER`;
       this.project.url = internalUrl;
       this.project.externalUrl = externalUrl;
     } else if (project.type === 'example') {
-      this.project.url = `assets/netsblox-client/index.html?action=example&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER&editMode=DOESNT_MATTER`;
+      this.project.url = `assets/netsblox-client/index.html?action=example&ProjectName=${encodeURIComponent(this.project.name)}&noRun=DOESNT_MATTER`;
     }
     console.log('the project', this.project);
   }
@@ -37,7 +37,7 @@ export class ProjectPage {
     let target = '_self';
     let options: InAppBrowserOptions = {
       hardwareback : 'yes',
-      toolbar : 'yes', //iOS only 
+      toolbar : 'yes', //iOS only
     };
     this.iab.create(this.project.url, target, options);
   }

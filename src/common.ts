@@ -10,6 +10,7 @@ interface Cache {
   projects: any[];
 };
 
+const DEVICE_UUID = 'unset';
 const SERVER_ADDRESS = SERVER_URL;
 declare var AuthHandler;
 const authenticator = new AuthHandler(SERVER_ADDRESS)
@@ -48,6 +49,7 @@ function checkLoggedIn() {
 
 export default {
   SERVER_ADDRESS,
+  DEVICE_UUID,
   checkLoggedIn,
   getUser,
   state,
