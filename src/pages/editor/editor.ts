@@ -25,6 +25,7 @@ export class EditorPage {
   project:Project;
   state:State = common.state;
   loader:any = null;
+  lastToastTime:number = 0;
   projectLoaded:boolean = false;
   keyListeners:any[] = [];
   subscriptions:any[] = [];
@@ -102,14 +103,18 @@ export class EditorPage {
         this.presentAlert('Something went wrong.', 'Please reload the project to try again.');
         this.viewCtrl.dismiss() // send it back
       } else {
-        this.presentToast(message);
+        // show the error but limit the rate
+        let curTime = new Date().getTime();
+        if ((curTime - this.lastToastTime) > 5 * 1000) { // 5 seconds
+          this.lastToastTime = curTime;
+          this.presentToast(message);
+        }
       }
     })
 
   }
 
-  // really?! FIXME swap out with the proper solution
-  // promisifiying race conditions!
+  // FIXME promisifiying race conditions! really?
   raceForIt(fn, delay=50, timeout=10000) {
     let counter = 0;
     return new Promise((resolve, reject) => {
