@@ -28,6 +28,7 @@ import { Device } from '@ionic-native/device';
 import { Keyboard } from '@ionic-native/keyboard';
 import { AppPreferences } from '@ionic-native/app-preferences';
 import { AbsoluteDrag } from '../components/absolute-drag/absolute-drag';
+import { Dialogs } from '@ionic-native/dialogs';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { AbsoluteDrag } from '../components/absolute-drag/absolute-drag';
     TabsPage
   ],
   providers: [
+    Dialogs,
     StatusBar,
     Device,
     Geolocation,

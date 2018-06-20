@@ -27,6 +27,7 @@
     "@ionic-native/core": "4.3.2",
     "@ionic-native/device": "^4.7.0",
     "@ionic-native/diagnostic": "^4.7.0",
+    "@ionic-native/dialogs": "^4.7.0",
     "@ionic-native/geolocation": "^4.7.0",
     "@ionic-native/http": "^4.7.0",
     "@ionic-native/in-app-browser": "^4.7.0",
@@ -90,7 +91,8 @@
       "cordova-plugin-app-preferences": {},
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To provive location services."
-      }
+      },
+      "cordova-plugin-dialogs": {}
     },
     "platforms": [
       "ios",
