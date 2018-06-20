@@ -14,6 +14,8 @@ import { Platform } from 'ionic-angular';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { Dialogs } from '@ionic-native/dialogs';
+
 
 
 @IonicPage()
@@ -31,6 +33,7 @@ export class EditorPage {
   subscriptions:any[] = [];
 
   constructor(
+    private dialogs: Dialogs,
     private keyboard: Keyboard,
     private orientation: ScreenOrientation,
     private geolocation: Geolocation,
@@ -90,6 +93,7 @@ export class EditorPage {
 
     console.log('setting up snap mobile', common.snap);
     window.mobile = window.mobile || {};
+    window.mobile.parent = this;
     window.mobile.platform = common.platform;
     window.mobile.geolocation = this.geolocation;
     window.mobile.diagnosticService = this.diagnosticService;

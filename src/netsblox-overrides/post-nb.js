@@ -178,3 +178,20 @@ IDE_Morph.prototype.findAllListeners = function() {
   // set also takes care of duplicate values
   return new Set(listeners);
 };
+
+
+// capture yes no dialog boxes
+DialogBoxMorph.prototype.askYesNo = function(title, textString, world, pic) {
+  console.log('overriding dialog', this);
+  mobileHandle.parent.dialogs.confirm(textString, title, ['Yes', 'No'])
+    .then(selection => { // 0,2 == no
+      if (selection === 1) {
+        console.log('accepted');
+        this.accept();
+      } else {
+        console.log('canceled');
+        this.cancel();
+      }
+    })
+    .catch(e => console.log('Error displaying dialog', e));
+};
