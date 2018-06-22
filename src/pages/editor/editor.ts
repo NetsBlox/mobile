@@ -358,11 +358,28 @@ export class EditorPage {
 
   // simulates a key press to snap
   simulateKeyPress(key, duration=100) {
-    this.getNbMorph().stage.fireKeyEvent(key);
-    // TODO add mousedown and mouseup (touch) event listeners
-    setTimeout(() => {
-      this.getNbMorph().stage.removePressedKey(key);
-    }, duration)
+    return new Promise((resolve, reject) => {
+      this.getNbMorph().stage.fireKeyEvent(key);
+      // TODO add mousedown and mouseup (touch) event listeners
+      setTimeout(() => {
+        this.getNbMorph().stage.removePressedKey(key);
+        resolve();
+      }, duration)
+    })
+  }
+
+  // repeats a key press every n ms
+  async keyDownWithRepeat($keyListener, every=150) {
+    // find the keylistener
+    // let keyL = this.keyListeners.find(kl => kl.pressed === true);
+    $keyListener.pressed = true; // this is passed by reference and later changed by keyup
+    while ($keyListener.pressed === true) {
+      await this.simulateKeyPress($keyListener.value, every);
+    }
+  }
+
+  keyUp($keyListener) {
+    $keyListener.pressed = false;
   }
 
   // checks if the phone is in portrait mode

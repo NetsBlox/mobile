@@ -11,7 +11,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons start *ngIf="keyListeners.length > 0">
-      <button *ngFor="let key of keyListeners" (click)="simulateKeyPress(key.value)" ion-button>
+      <button *ngFor="let key of keyListeners" (touchstart)="keyDownWithRepeat(key)" (touchend)="keyUp(key)" ion-button>
         <ion-icon *ngIf="key.icon; else label" name="{{ key.icon }}"></ion-icon>
         <ng-template #label>{{ key.label }}</ng-template>
       </button>
