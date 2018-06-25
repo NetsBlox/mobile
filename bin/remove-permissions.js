@@ -15,7 +15,8 @@
 //     If the count is more than 1, you should search through
 //     the /plugins/<plugin-name>/plugin.xml files for <uses-permission> tags.
 
-var permissionsToRemove = [ 'RECORD_AUDIO', 'CAMERA', 'READ_CONTACTS', 'BLUETOOTH', 'BLUETOOTH_ADMIN', 'READ_CALENDAR'];
+// marks these permissions for removal
+var permissionsToRemove = [ 'RECORD_AUDIO', 'CAMERA', 'READ_CONTACTS', 'BLUETOOTH', 'BLUETOOTH_ADMIN', 'READ_CALENDAR', 'READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE'];
 // permissionsToRemove = permissionsToRemove.concat(['ACCESS_FINE_LOCATION', 'ACCESS_LOCATION_EXTRA_COMMANDS']);
 
 // make these hardware features optional
