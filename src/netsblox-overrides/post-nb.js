@@ -26,7 +26,7 @@ NetsProcess.prototype.getLocation = function() {
 
   if (this.location === undefined) {
     this.locationError = null;
-    let posOptions = { timeout: 10000, enableHighAccuracy: false, maximumAge: 10000 };
+    let posOptions = { timeout: 30000, enableHighAccuracy: true, maximumAge: 60000 };
     if (mobileHandle.diagnosticService.locationAvailable) {
       mobileHandle.geolocation.getCurrentPosition(posOptions)
         .then(location => {
@@ -37,8 +37,7 @@ NetsProcess.prototype.getLocation = function() {
           myself.location = null;
         });
     } else { // request for location access
-      let canReqLocAuth = mobileHandle.diagnosticService.canRequestLocationAuthorization();
-      if (canReqLocAuth) mobileHandle.diagnosticService.requestLocationAuthorization();
+      mobileHandle.diagnosticService.requestLocationAuthorization();
     }
   } else {
     var location = this.location;
