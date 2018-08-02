@@ -196,3 +196,5 @@ DialogBoxMorph.prototype.askYesNo = function(title, textString, world, pic) {
     .catch(e => console.error('Error displaying dialog', e));
 };
 
+// always assume running on mobile devices
+IDE_Morph.prototype.isMobileDevice = () => true;
