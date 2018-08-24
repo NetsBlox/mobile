@@ -84,6 +84,10 @@ export class RoomManagerPage {
     this.roles = roles;
   }
 
+  getRoleByName(name) {
+    return this.roles.find(r => r.name === name);
+  }
+
   // FIXME not working reliably
   updateFriendList() {
     let handleError =(err, lbl) => {
@@ -91,7 +95,6 @@ export class RoomManagerPage {
     };
     let friendsCb = friends => {
       // TODO search find pick the friend if there are any
-      friends = friends.map(f => f.username);
       friends.unshift('myself');
       this.friends = friends;
       this.cache.friends = [...friends];
@@ -112,10 +115,11 @@ export class RoomManagerPage {
         return;
       }
     }
+    let role = this.getRoleByName(roleName);
     // TODO don't expose if is not the owner or a collaborator
     if (room.isOwner() || room.isCollaborator()) {
       this.showToast(`Inviting user ${username} to role ${roleName}`);
-      room.inviteGuest(username, roleName);
+      room.inviteGuest(username, role.id);
     } else {
       // not allowed to do this
       console.error('you are not allowed to invite guests');
@@ -124,10 +128,10 @@ export class RoomManagerPage {
   }
 
   // move to a role
-  moveToRole(roleName) {
+  goToRole(role) {
     let alert = this.alertCtrl.create({
       title: 'Confirm',
-      message: `Move to role ${roleName}?`,
+      message: `Move to role ${role.name}?`,
       buttons: [
         {
           text: 'Cancel',
@@ -139,9 +143,9 @@ export class RoomManagerPage {
         {
           text: 'Move',
           handler: () => {
-            this.getRoom().moveToRole(roleName);
+            this.getRoom().moveToRole(role);
             // FIXME moving to role is an async task
-            let loader = this.presentLoading(`loading ${roleName} data..`)
+            let loader = this.presentLoading(`loading ${role.name} data..`)
             common.snapFrame.addEventListener('projectLoaded', loader.dismiss);
             this.loader = loader;
           }
@@ -214,7 +218,7 @@ export class RoomManagerPage {
           text: 'Move To',
           icon: !this.platform.is('ios') ? 'move' : null,
           handler: () => {
-            this.moveToRole(role.name);
+            this.goToRole(role);
             console.log('moving to role', role.name);
           }
         },{
