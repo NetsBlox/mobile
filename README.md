@@ -16,6 +16,7 @@ Currently available for Android at [Google Store](https://play.google.com/store/
     - install netsblox depndecies to allow buliding dist file `cd netsblox && npm i; cd ../`
 - Setup NetsBlox's browser by going to src/browser and running `git submodule update --init --recursive`
 - Create a relative symlink from netsblox's browser directory to www/assets/netsblox-client `ln -s ../../netsblox/src/browser www/assets/netsblox-client`
+- everytime netsblox submodule is changed/updated run `bin/update-netsblox.sh` to rebuild the nb dependencies
 
 ## Platform Dependent Tips
 Read general instructions on how to publish on [Ionic's docs](https://ionicframework.com/docs/v1/guide/publishing.html)
