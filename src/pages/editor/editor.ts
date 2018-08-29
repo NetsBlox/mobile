@@ -183,7 +183,7 @@ export class EditorPage {
   onProjectLoaded() {
     this.getNbMorph().toggleAppMode(true);
     this.showSnap();
-    this.loader.dismiss();
+    if (this.loader) this.loader.dismiss();
     this.setupKeys();
     this.projectLoaded = true;
     this.alignFCToolbar(0);
@@ -237,6 +237,7 @@ export class EditorPage {
   ionViewWillLeave() {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
+    this.keyboard.close(); // close the keyboard if open
     this.hideSnap();
     this.subscriptions.forEach(sub => sub.unsubscribe()); // unsubscribe when leaving
     if ( this.loader ) this.loader.dismiss();
