@@ -26,6 +26,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 export class EditorPage {
   project:Project;
   state:State = common.state;
+  showRoom:boolean = false;
   loader:any = null;
   lastToastTime:number = 0;
   snapExceptions:any[];
@@ -121,7 +122,7 @@ export class EditorPage {
       }
     })
 
-  }
+  } // end of viewDidLoad
 
   // FIXME promisifiying race conditions! really?
   raceForIt(fn, delay=50, timeout=10000) {
@@ -184,6 +185,7 @@ export class EditorPage {
     this.getNbMorph().toggleAppMode(true);
     this.showSnap();
     if (this.loader) this.loader.dismiss();
+    if (this.state.loggedIn && this.getRoles().length > 1) this.showRoom = true;
     this.setupKeys();
     this.projectLoaded = true;
     this.alignFCToolbar(0);
@@ -195,6 +197,10 @@ export class EditorPage {
 
   hideSnap() {
     common.snapFrame.style.visibility = 'hidden';
+  }
+
+  getRoles() {
+    return this.getNbMorph().room.getRoles();
   }
 
   screenPixelRatio() {

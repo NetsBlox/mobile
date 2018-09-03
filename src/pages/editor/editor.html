@@ -21,7 +21,7 @@
       </button>
     </ion-buttons>
     <ion-buttons end>
-      <button *ngIf="state.loggedIn" ion-button icon-only (click)="openRoom()">
+      <button *ngIf="showRoom" ion-button icon-only (click)="openRoom()">
         <ion-icon name="people"></ion-icon>
       </button>
       <button ion-button icon-only color="secondary" (click)="sendStart()">
