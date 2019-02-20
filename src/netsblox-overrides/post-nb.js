@@ -63,6 +63,9 @@ WebSocketManager.MessageHandlers['new-version-available'] = function() {
   console.debug('New netsblox version available, check for updates.');
 };
 
+// disable browser support notification
+NetsBloxMorph.prototype.showBrowserNotification = function () {};
+
 
 // fix keyboard text input
 // TODO zoom in zoom out issue. maybe by optimizing the input size or dynamic zooming
@@ -198,3 +201,6 @@ DialogBoxMorph.prototype.askYesNo = function(title, textString, world, pic) {
 
 // always assume running on mobile devices
 IDE_Morph.prototype.isMobileDevice = () => true;
+
+
+
