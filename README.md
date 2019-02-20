@@ -2,6 +2,10 @@
 Currently available for Android at [Google Store](https://play.google.com/store/apps/details?id=org.netsblox.player)
 
 
+## TODO
+- big action buttons on android
+- keyboard interaction on ios
+- ? missing roles
 
 ## Installation Tips
 
