@@ -24,7 +24,7 @@ var optionalFeatures = ['hardware.location.gps'];
 
 
 var fs = require('fs');
-var manifestFile = 'platforms/android/AndroidManifest.xml';
+var manifestFile = 'platforms/android/app/src/main/AndroidManifest.xml';
 
 fs.readFile( manifestFile, 'utf8', function( err, data )
 {
