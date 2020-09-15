@@ -9,10 +9,14 @@ Currently available for Android at [Google Store](https://play.google.com/store/
 
 ## Installation Tips
 
-- Requirements: Node (version 8+)
+- Requirements: Node (version 10)
     - Android Studio
     - XCode (for IOS development)
-- Globally install ionic and coroda `npm i -g ionic cordova`
+- Globally install ionic and cordova:
+
+    npm i -g @ionic/cli
+    npm i -g cordova@8.1.2
+
 - Clone the repo `git clone --recursive REPO_URL_HERE netsblox-mobile && cd netsblox-mobile && git pull --recurse-submodules`
 - Setup NetsBlox as a submodule:
     - ~add `git submodule add https://github.com/NetsBlox/netsblox`~
