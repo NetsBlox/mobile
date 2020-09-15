@@ -46,6 +46,7 @@
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-app-preferences": "git+https://bitbucket.org/packt-internal/cordova-plugin-app-preferences.git",
     "cordova-plugin-device": "^1.1.7",
+    "cordova-plugin-dialogs": "~2.0.1",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-inappbrowser": "^1.7.2",
@@ -67,8 +68,7 @@
     "sw-toolbox": "3.6.0",
     "time-ago": "^0.1.0",
     "uglify-js": "^3.4.6",
-    "zone.js": "0.8.26",
-    "cordova-plugin-dialogs": "~2.0.1"
+    "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.11",
@@ -92,7 +92,7 @@
       "cordova-plugin-request-location-accuracy": {},
       "cordova-plugin-app-preferences": {},
       "cordova-plugin-geolocation": {
-        "GEOLOCATION_USAGE_DESCRIPTION": "To provive location services."
+        "GEOLOCATION_USAGE_DESCRIPTION": "To provide location services."
       },
       "cordova-plugin-dialogs": {}
     },

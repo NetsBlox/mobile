@@ -2,8 +2,9 @@
  * complies the netsblox index.html
  */
 
-const dot = require('dot'),
-  fse = require('fs-extra');
+const dot = require('dot');
+const fs = require('fs');
+const assert = require('assert');
 
 const SERVER_URL = process.env.SERVER_URL,
   CLIENT_ADDRESS = 'www/assets/netsblox-client/',
@@ -11,23 +12,27 @@ const SERVER_URL = process.env.SERVER_URL,
 
 if (!SERVER_URL) throw new Error('set the SERVER_URL');
 
-const indexTpl = dot.template(fse.readFileSync(CLIENT_ADDRESS + 'index.dot', 'UTF8'));
+const srcPath = 'netsblox/src/browser/';
+const indexDotFile = fs.readFileSync(srcPath + 'index.dot', 'UTF8');
+assert(indexDotFile, 'index.dot file is empty');
+const indexTpl = dot.template(indexDotFile);
 indexMetadata = {
   baseUrl: SERVER_URL,
+  servicesHosts: [],
 };
 
-fse.writeFileSync(CLIENT_ADDRESS + 'index.html', indexTpl(indexMetadata), 'UTF8');
+fs.writeFileSync(CLIENT_ADDRESS + 'index.html', indexTpl(indexMetadata), 'UTF8');
 
 // setup constants file
 let constantsTxt;
 try {
-  constantsTxt = fse.readFileSync(CONSTANTS_PATH, 'UTF8');
+  constantsTxt = fs.readFileSync(CONSTANTS_PATH, 'UTF8');
 } catch (e) {
   console.error('couldn\'t find constant file, creating a new one');
   constantsTxt = 'export const SERVER_URL = "https://editor.netsblox.org";';
 }
 const curUrl = constantsTxt.match(/SERVER_URL.*"(.*)"/)[1];
 constantsTxt = constantsTxt.replace(curUrl, SERVER_URL);
-fse.writeFileSync(CONSTANTS_PATH, constantsTxt, 'UTF8');
+fs.writeFileSync(CONSTANTS_PATH, constantsTxt, 'UTF8');
 
 console.log('finished building index.html at', CLIENT_ADDRESS);
