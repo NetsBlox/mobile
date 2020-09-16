@@ -6,6 +6,7 @@ const isDevEnv = process.env.ENV !== 'production';
 var fs = require('fs'),
   path = require('path'),
   srcPath = 'netsblox/src/browser';
+const fsp = fs.promises;
 
 const listOverrides = () => {
     return {
@@ -29,7 +30,8 @@ while (match) {
   match = devHtml.match(re);
 }
 if (!isDevEnv) console.log('concatting and minifying:', nbSrcFiles);
-nbSrcFiles = nbSrcFiles.map(file => path.join(srcPath, file));
+nbSrcFiles = nbSrcFiles.map(file => path.join(srcPath, file))
+    .filter(filename => !filename.endsWith('main.js'));
 
 // H add mobile overrides
 srcFiles = srcFiles.concat(overrides.pre);
@@ -42,7 +44,7 @@ var src = srcFiles
 
 var ugly = require('uglify-js');
 
-var final_code = src;
+var finalCode = src;
 
 if (isDevEnv) { // don't minify in dev
   console.log('Dev environment detected - skipping build optimizations. If you ' +
@@ -53,10 +55,28 @@ if (isDevEnv) { // don't minify in dev
 } else {
   console.log('dev src length:', src.length);
 
-  final_code = ugly.minify(srcFiles, {outSourceMap: path.join(srcPath, 'netsblox-build.js.map')}).code;
-  console.log('output length:', final_code.length);
-  console.log('compression ratio:', 1-(final_code.length/src.length));
+  finalCode = ugly.minify(srcFiles, {outSourceMap: path.join(srcPath, 'netsblox-build.js.map')}).code;
+  console.log('output length:', finalCode.length);
+  console.log('compression ratio:', 1-(finalCode.length/src.length));
 }
 
-fs.writeFileSync(path.join(srcPath, 'dist', 'app.min.js'), final_code);
+async function saveCode(code) {
+    const outPath = 'www/assets/netsblox-client/';
+    try {
+      await Promise.all([
+          fsp.mkdir(path.join(outPath, 'src')),
+          fsp.mkdir(path.join(outPath, 'dist')),
+      ]);
+    } catch (err) {
+    }
+    await Promise.all([
+        fsp.writeFile(
+            'www/assets/netsblox-client/src/main.js',
+            await fsp.readFile(path.join(srcPath, 'src', 'main.js'))
+        ),
+        fsp.writeFile(outPath + 'dist/app.min.js', code),
+    ]);
+}
+
+saveCode(finalCode);
 /* eslint-enable no-console */

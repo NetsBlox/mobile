@@ -13,7 +13,7 @@ let branchFn = (originalFn, condition, newFn) => {
 
 
 // update geolocation to access native mobile sensors
-NetsProcess.prototype.getLocation = function() {
+Process.prototype.getLocation = function() {
   if (parent.mobile.platform === 'unknown') {
     // means we are running in a browser or an unsupported platfrom
     alert('unsupported platform, using mock location data');

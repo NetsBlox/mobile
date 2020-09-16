@@ -116,10 +116,10 @@
     <allow-navigation href="http://129.59.105.146:8100" />
     <allow-navigation href="http://10.67.205.63:8101" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To provive location services." />
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To provide location services." />
     </plugin>
     <plugin name="cordova-plugin-dialogs" spec="~2.0.1" />
-    <plugin name="cordova-plugin-app-preferences" spec="https://bitbucket.org/packt-internal/cordova-plugin-app-preferences.git" />
+    <plugin name="cordova-plugin-app-preferences" spec="git+https://bitbucket.org/packt-internal/cordova-plugin-app-preferences.git" />
     <engine name="ios" spec="^4.5.5" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.1.4" />
