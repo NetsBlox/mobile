@@ -120,7 +120,7 @@
     </plugin>
     <plugin name="cordova-plugin-dialogs" spec="~2.0.1" />
     <plugin name="cordova-plugin-app-preferences" spec="git+https://bitbucket.org/packt-internal/cordova-plugin-app-preferences.git" />
-    <engine name="ios" spec="^4.5.5" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.1.4" />
+    <engine name="ios" spec="~5.1.1" />
 </widget>
