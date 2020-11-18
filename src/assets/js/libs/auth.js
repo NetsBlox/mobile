@@ -82,7 +82,9 @@ var AuthHandler = function () {
         return_user: true,
         silent: true
       };
+      console.log('getProfile', this.serverUrl + '/api');
       return this._requestPromise(request, data).then(function (res) {
+        console.log('getProfile response:', res.responseText);
         if (!res.responseText) throw new Error('Access denied. You are not logged in.');
         var user = JSON.parse(res.responseText);
         return user;
