@@ -72,12 +72,8 @@ export class LoginPage {
     }
 
     return common.authenticator.login(this.username, this.password)
-      .then(resp => {
-        this.state.loggedIn = true;
-        this.state.username = this.username;
-        common.getUser();
-        this.navCtrl.setRoot(HomePage);
-      })
+      .then(() => common.getUser())
+      .then(() => this.navCtrl.setRoot(HomePage))
       .catch(e => {
         this.presentAlert('Login failed', e.request.responseText);
       })
