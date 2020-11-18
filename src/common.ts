@@ -32,12 +32,14 @@ let cache:Cache = {projects: null};
 function getUser() {
   return authenticator.getProfile()
     .then( user => {
+    console.log('getUser:', user);
       state.loggedIn = true;
       state.username = user.username;
       state.email = user.email;
       return user;
     })
     .catch(err => {
+        console.log('getUser failed:', err);
       state.loggedIn = false;
       throw err;
     })
