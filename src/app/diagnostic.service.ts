@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Diagnostic} from '@ionic-native/diagnostic';
+import {Injectable, EventEmitter} from '@angular/core';
+import {Diagnostic} from '@ionic-native/diagnostic/ngx';
 import commons from '../common';
-import {Platform} from 'ionic-angular';
-import { Events } from 'ionic-angular';
+import {Platform} from '@ionic/angular';
 import {Observable} from 'rxjs/Rx';
 
 @Injectable()
@@ -58,7 +57,7 @@ export class DiagnosticService {
         if($this.stateCheckCount === 0){
             $this.stateChecking = false;
             if($this.stateChanged){
-                $this.events.publish('diagnostic:stateupdated');
+                $this.events.emit('diagnostic:stateupdated');
             }
         }
     }
@@ -75,7 +74,7 @@ export class DiagnosticService {
      **********************/
     constructor(private diagnostic: Diagnostic,
                 private platform: Platform,
-                private events: Events) {
+                private events: EventEmitter<any>) {
 
         let supportedPlatforms:string[] = ['android', 'ios', 'windows'];
         if (!supportedPlatforms.includes(commons.platform)) {

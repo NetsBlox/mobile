@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { Routes, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { EditorPage } from './editor';
+const routes: Routes = [
+{ path: 'editor', component: EditorPage }
+];
 
 @NgModule({
   declarations: [
+    EditorPage 
   ],
   imports: [
-    IonicPageModule.forChild(EditorPage),
+    IonicModule,
+    RouterModule.forChild(routes),
   ],
 })
 export class EditorPageModule {}

@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonApp, IonicModule } from '@ionic/angular';
 import { MyApp } from './app.component';
 import { SafePipe } from '../pipes';
 import { Utils } from '../utils';
@@ -16,19 +16,19 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { HTTP } from '@ionic-native/http';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Geolocation } from '@ionic-native/geolocation';
-import { Diagnostic } from '@ionic-native/diagnostic';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { DiagnosticService } from './diagnostic.service';
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
-import { Device } from '@ionic-native/device';
-import { Keyboard } from '@ionic-native/keyboard';
-import { AppPreferences } from '@ionic-native/app-preferences';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { Device } from '@ionic-native/device/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 import { AbsoluteDrag } from '../components/absolute-drag/absolute-drag';
-import { Dialogs } from '@ionic-native/dialogs';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 
 
 @NgModule({
@@ -48,9 +48,10 @@ import { Dialogs } from '@ionic-native/dialogs';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp, [Utils])
+    //IonicModule.forRoot(MyApp, [Utils])
+    IonicModule.forRoot()
   ],
-  bootstrap: [IonicApp],
+  bootstrap: [IonApp],
   entryComponents: [
     MyApp,
     AboutPage,
@@ -78,7 +79,7 @@ import { Dialogs } from '@ionic-native/dialogs';
     AppPreferences,
     HTTP,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    //{provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

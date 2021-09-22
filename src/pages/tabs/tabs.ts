@@ -4,8 +4,8 @@ import { State } from '../../types';
 // import { AboutPage } from '../about/about';
 import { ProjectsPage } from '../projects/projects';
 import { HomePage } from '../home/home';
-import { AlertController } from 'ionic-angular';
-import { AppPreferences } from '@ionic-native/app-preferences';
+import { AlertController } from '@ionic/angular';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 import { Utils } from '../../utils';
 
 @Component({
@@ -27,14 +27,14 @@ export class TabsPage {
 
   }
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
     // async: passivly check to see if user is logged in and fetch user data
     common.checkLoggedIn()
-      .catch(err => {
+      .catch(async err => {
         if (err.readyState === 0) { // it's a network error
-          let alert = this.alertCtrl.create({
-            title: "Connection Error",
-            subTitle: 'Are you connected to internet?',
+          let alert = await this.alertCtrl.create({
+            header: "Connection Error",
+            subHeader: 'Are you connected to internet?',
             buttons: ['Dismiss']
           });
           alert.present();

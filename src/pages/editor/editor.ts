@@ -2,23 +2,23 @@ import { Component } from '@angular/core';
 import { Project } from '../../types';
 import common from '../../common';
 import { State } from '../../types';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { /*IonicPage,*/ NavController, NavParams } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { RoomManagerPage } from '../room-manager/room-manager';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController } from '@ionic/angular';
 import { DiagnosticService } from '../../app/diagnostic.service';
-import { Geolocation } from '@ionic-native/geolocation';
-import { Keyboard } from '@ionic-native/keyboard';
-import { ViewController } from 'ionic-angular';
-import { Platform } from 'ionic-angular';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { ToastController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-import { Dialogs } from '@ionic-native/dialogs';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { ModalController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 
 
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-editor',
   templateUrl: 'editor.html',
@@ -43,7 +43,7 @@ export class EditorPage {
     private alertCtrl: AlertController,
     private diagnosticService: DiagnosticService,
     private platform: Platform,
-    public viewCtrl: ViewController,
+    public viewCtrl: ModalController,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -127,7 +127,7 @@ export class EditorPage {
   // FIXME promisifiying race conditions! really?
   raceForIt(fn, delay=50, timeout=10000) {
     let counter = 0;
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       let myTimeout = setTimeout(() => {
         reject('timedout');
         clearInterval(interval);
@@ -145,38 +145,36 @@ export class EditorPage {
     })
   }
 
-  presentAlert(title, msg) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: msg,
+  async presentAlert(title, msg) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      subHeader: msg,
       buttons: ['OK']
     });
-    alert.present();
+    await alert.present();
     return alert;
   }
 
-  presentToast(msg) {
-    let toast = this.toastCtrl.create({
+  async presentToast(msg) {
+    let toast = await this.toastCtrl.create({
       message: msg,
       duration: 3000,
       position: 'bottom'
     });
-    toast.present();
+    await toast.present();
     return toast;
   }
 
-  presentLoading(msg) {
-    let loader = this.loadingCtrl.create({
+  async presentLoading(msg) {
+    let loader = await this.loadingCtrl.create({
       cssClass: 'desktopViewWidth',
       // dismissOnPageChange: true, // prematurely dismisses loader
-      content: msg
+      message: msg
     });
 
-    loader.onDidDismiss(() => {
-      this.loader = undefined;
-    });
+    loader.onDidDismiss().then(() => this.loader = undefined);
 
-    loader.present();
+    await loader.present();
     this.loader = loader;
     return loader;
   }
@@ -243,7 +241,7 @@ export class EditorPage {
   ionViewWillLeave() {
     this.setFocusMode(false);
     this.setDesktopViewport(false);
-    this.keyboard.close(); // close the keyboard if open
+    this.keyboard.hide();
     this.hideSnap();
     this.subscriptions.forEach(sub => sub.unsubscribe()); // unsubscribe when leaving
     if ( this.loader ) this.loader.dismiss();
@@ -352,7 +350,7 @@ export class EditorPage {
   }
 
   openRoom() {
-    this.navCtrl.push(RoomManagerPage, {});
+    this.navCtrl.navigateForward('/room');
   }
 
   sendStart() {
@@ -365,7 +363,7 @@ export class EditorPage {
 
   // simulates a key press to snap
   simulateKeyPress(key, duration=100) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this.getNbMorph().stage.fireKeyEvent(key);
       // TODO add mousedown and mouseup (touch) event listeners
       setTimeout(() => {

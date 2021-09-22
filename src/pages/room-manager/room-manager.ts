@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ActionSheetController } from 'ionic-angular';
-import { Platform } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
+import { NavController, NavParams } from '@ionic/angular';
+import { ActionSheetController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import common from '../../common';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController } from '@ionic/angular';
 
-@IonicPage()
 @Component({
   selector: 'page-room-manager',
   templateUrl: 'room-manager.html',
@@ -60,14 +59,14 @@ export class RoomManagerPage {
     this.updateRoles();
   }
 
-  showToast(msg) {
-    let toast = this.toastCtrl.create({
+  async showToast(msg) {
+    let toast = await this.toastCtrl.create({
       message: msg,
       duration: 2000,
       position: 'bottom'
     });
 
-    toast.present(toast);
+    toast.present();
   }
 
   getIde() {
@@ -128,9 +127,9 @@ export class RoomManagerPage {
   }
 
   // move to a role
-  goToRole(role) {
-    let alert = this.alertCtrl.create({
-      title: 'Confirm',
+  async goToRole(role) {
+    let alert = await this.alertCtrl.create({
+      header: 'Confirm',
       message: `Move to role ${role.name}?`,
       buttons: [
         {
@@ -142,10 +141,10 @@ export class RoomManagerPage {
         },
         {
           text: 'Move',
-          handler: () => {
+          handler: async () => {
             this.getRoom().moveToRole(role);
             // FIXME moving to role is an async task
-            let loader = this.presentLoading(`loading ${role.name} data..`)
+            let loader = await this.presentLoading(`loading ${role.name} data..`)
             common.snapFrame.addEventListener('projectLoaded', loader.dismiss);
             this.loader = loader;
           }
@@ -156,16 +155,16 @@ export class RoomManagerPage {
   }
 
 
-  presentLoading(msg) {
-    let loader = this.loadingCtrl.create({
-      content: msg
+  async presentLoading(msg) {
+    let loader = await this.loadingCtrl.create({
+      message: msg
     });
     loader.present();
     return loader;
   }
 
 
-  evictUser(user, roleName) {
+  async evictUser(user, roleName) {
     // TODO warn/confirm
     let room = this.getRoom();
     let sucCb = () => {
@@ -175,8 +174,8 @@ export class RoomManagerPage {
     let errCb =(err, lbl) => {
       console.error(err, lbl);
     };
-    let alert = this.alertCtrl.create({
-      title: 'Confirm',
+    let alert = await this.alertCtrl.create({
+      header: 'Confirm',
       message: `Are you sure you want to evict ${user.username}?`,
       buttons: [
         {
@@ -199,10 +198,10 @@ export class RoomManagerPage {
     alert.present();
   }
 
-  presentActions(role) {
+  async presentActions(role) {
     this.invitingTo = undefined;
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Choose an action',
+    let actionSheet = await this.actionSheetCtrl.create({
+      header: 'Choose an action',
       buttons: [
         {
           text: 'Evict User',

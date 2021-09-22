@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-import { LoadingController } from 'ionic-angular';
-import { AppPreferences } from '@ionic-native/app-preferences';
-import { Platform } from 'ionic-angular';
+import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
+import { Platform } from '@ionic/angular';
 import common from './common';
 
 
@@ -19,18 +19,18 @@ export class Utils {
   ) {
   }
 
-  presentAlert(title, msg, buttons=['OK']) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: msg,
+  async presentAlert(title, msg, buttons=['OK']) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      subHeader: msg,
       buttons: buttons
     });
     alert.present();
     return alert;
   }
 
-  presentToast(msg) {
-    let toast = this.toastCtrl.create({
+  async presentToast(msg) {
+    let toast = await this.toastCtrl.create({
       message: msg,
       duration: 3000,
       position: 'bottom'
@@ -39,15 +39,13 @@ export class Utils {
     return toast;
   }
 
-  presentLoading(msg) {
-    let loader = this.loadingCtrl.create({
+  async presentLoading(msg) {
+    let loader = await this.loadingCtrl.create({
       // dismissOnPageChange: true, // prematurely dismisses loader
-      content: msg
+      message: msg
     });
 
-    loader.onDidDismiss(() => {
-    });
-
+    //loader.onDidDismiss()
     loader.present();
     return loader;
   }

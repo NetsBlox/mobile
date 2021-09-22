@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ProjectPage } from '../project/project';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from '@ionic/angular';
 import common from '../../common';
 import { Project, State } from '../../types';
 import axios from 'axios';
 import ta from 'time-ago';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-projects',
   templateUrl: 'projects.html',
@@ -37,7 +37,7 @@ export class ProjectsPage {
   }
 
   itemSelected(project) {
-    this.navCtrl.push(ProjectPage, {project});
+    this.navCtrl.navigateForward('/project', {state:{project}});
   }
 
   // loadPublicProjects() {

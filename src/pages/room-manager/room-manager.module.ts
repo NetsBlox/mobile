@@ -1,12 +1,20 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 import { RoomManagerPage } from './room-manager';
 
 @NgModule({
   declarations: [
+RoomManagerPage
   ],
   imports: [
-    IonicPageModule.forChild(RoomManagerPage),
+    IonicModule,
+    RouterModule.forChild([
+       {
+         path: '/room',
+         component: RoomManagerPage
+       }
+    ]),
   ],
 })
 export class RoomManagerPageModule {}

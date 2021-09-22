@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from '@ionic/angular';
 import { HomePage } from '../home/home';
 import common from '../../common';
 import { Utils } from '../../utils';
 import { State } from '../../types';
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -73,16 +72,16 @@ export class LoginPage {
 
     return common.authenticator.login(this.username, this.password)
       .then(() => common.getUser())
-      .then(() => this.navCtrl.setRoot(HomePage))
+      .then(() => this.navCtrl.navigateRoot('/home.html'))
       .catch(e => {
         this.presentAlert('Login failed', e.request.responseText);
       })
   }
 
-  presentAlert(title, msg) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: msg,
+  async presentAlert(title, msg) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      subHeader: msg,
       buttons:['OK']
     });
     alert.present();

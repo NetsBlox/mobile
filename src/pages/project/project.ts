@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from '@ionic/angular';
 import { Project } from '../../types';
 import common from '../../common';
 import { EditorPage } from '../editor/editor';
-import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 
-@IonicPage()
 @Component({
   selector: 'page-project',
   templateUrl: 'project.html',
@@ -53,6 +52,7 @@ export class ProjectPage {
   }
 
   openProject4() {
-    this.navCtrl.push(EditorPage, {project: this.project})
+    const navOpts = {state: {project: this.project}};
+    this.navCtrl.navigateForward('/editor', navOpts)
   }
 }
